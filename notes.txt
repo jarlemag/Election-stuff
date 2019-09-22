@@ -1,0 +1,154 @@
+Question: Given an election result (vote totals and resulting seat distribution), how to determine the smallest change in voting that would change the seat distribution?
+
+
+Example: 
+
+Vote totals:
+A: 1000
+B: 800
+C: 500
+
+Number of seats: 12
+First divisor: 1
+
+Resulting quotients, descending:
+
+Seat #	Winning Party	Divisor		Quotient		Difference from next larger	Previous seat winner
+1	A		1		1000			
+2	B		1		800			200				A
+3	C		1		500			300				B
+4	A		3		333			167				C
+5	B		3		267			66				A
+6	A		5		200			67				B
+7	C		3		166,67			33				A
+8	B		5		160			7				C
+9	A		7		143			17				B
+10	B		7		114			29				A
+11	C		5		100			14				B
+12	C		7		071			29				C
+
+
+Party:		A	B	C
+#of seats:	4	4	4	
+	
+
+
+The smallest difference between two sucessive seat-winning quotients is 7, between seats #7 (party C) and #8 (party B).
+
+	Knowing the smallest difference between two quotients, how to determine the number of changed or additional votes that would close the gap? 
+	
+		*In this case*, the divisor (5) for the quotient that won seat #8 is higher than the divisor (3) for the quotient that won seat #7.
+		 
+
+		How many more votes would party B need to get to win seat #7, thus changing the winners of at least two seats and possibly the total number of seats awarded to each party? 
+
+		multiplying the difference 7 with the divisor 5, we get 35 votes. 
+		(Note: If we take the difference more precisely as 6,67, we get 6,67 * 5 = 33,35 -> 34 votes necessary) 
+		What would the results look like if party B got 35 more votes?
+
+		
+
+
+Vote totals:
+A: 1000
+B: 835
+C: 500
+
+
+
+Seat #	Winning Party	Divisor		Quotient (previous)		Difference from next larger	Previous seat winner
+1	A		1		1000			
+2	B		1		835 (800)			200				A
+3	C		1		500				300				B
+4	A		3		333				167				C
+5	B		3		278 (267)			66				A
+6	A		5		200				67				B
+7	B (C)		5 (3)		167,00				33				A
+8	C (B)		3 (5)		166,67 (160)			7				C
+9	A		7		143				17				B
+10	B		7		114				29				A
+11	C		5		100				14				B
+12	C		7		071				29				C
+
+
+The winners of the two affected seats were switched. Otherwise, which party wins each seat is unaffacted. 
+
+Party:		A	B	C
+#of seats:	4	4	4
+
+
+*In this case*, the total number of seats won by each party is unaffacted.
+
+Hypothesis: The smallest voting changes that changes the winner of one seat will only affect the total number of seats won for each party if that seat is the last seat to be awarded.
+
+
+What would the results look like in this case if there were 11 seats to be distributed?
+
+With original votes:
+
+
+
+
+Seat #	Winning Party	Divisor		Quotient		Difference from next larger	Previous seat winner
+1	A		1		1000			
+2	B		1		800			200				A
+3	C		1		500			300				B
+4	A		3		333			167				C
+5	B		3		267			66				A
+6	A		5		200			67				B
+7	C		3		166,67			33				A
+8	B		5		160			7				C
+9	A		7		143			17				B
+10	B		7		114			29				A
+11	C		5		100			14				B
+
+
+Party:		A	B	C
+#of seats:	4	4	3
+
+With modified votes:
+
+
+
+Seat #	Winning Party	Divisor		Quotient (previous)		Difference from next larger	Previous seat winner
+1	A		1		1000			
+2	B		1		835 (800)			200				A
+3	C		1		500				300				B
+4	A		3		333				167				C
+5	B		3		278 (267)			66				A
+6	A		5		200				67				B
+7	B (C)		5 (3)		167,00				33				A
+8	C (B)		3 (5)		166,67 (160)			7				C
+9	A		7		143				17				B
+10	B		7		114				29				A
+11	C		5		100				14				B
+
+
+Party:		A	B	C
+#of seats:	4	4	3
+
+
+In order to change the total number of seats won by each party, we need to not only switch the winners of two seats. We need to "Knock one off" the list.
+
+
+
+Seat #	Winning Party	Divisor		Quotient		Difference from next larger	Previous seat winner
+1	A		1		1000			
+2	B		1		800			200				A
+3	C		1		500			300				B
+4	A		3		333			167				C
+5	B		3		267			66				A
+6	A		5		200			67				B
+7	C		3		166,67			33				A
+8	B		5		160			7				C
+9	A		7		143			17				B
+10	B		7		114			29				A
+11	C		5		100			14				B
+12	C		7		071			29				C
+(13)	(A)		9		111,11
+(14)	(B)		9		88,89		
+(15)	(C)		9		55,56
+
+
+(Actually, A whould have won the 11th seat. Need to go back and revise the results!) 
+
