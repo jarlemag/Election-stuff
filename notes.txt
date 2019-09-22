@@ -24,57 +24,105 @@ Seat #	Winning Party	Divisor		Quotient		Difference from next larger	Previous sea
 8	B		5		160			7				C
 9	A		7		143			17				B
 10	B		7		114			29				A
-11	C		5		100			14				B
-12	C		7		071			29				C
+11	A		9		111,11			2,89				B		
+12	C		5		100			11,11				A		
+
+................................................................................................
+				
+(13)	B		9		88,89			11,11				C
 
 
 Party:		A	B	C
-#of seats:	4	4	4	
+#of seats:	5	4	3	
 	
 
 
-The smallest difference between two sucessive seat-winning quotients is 7, between seats #7 (party C) and #8 (party B).
+The smallest difference between two sucessive seat-winning quotients is 2.89 between seats #11 (party A) and #10 (party B).
 
 	Knowing the smallest difference between two quotients, how to determine the number of changed or additional votes that would close the gap? 
 	
-		*In this case*, the divisor (5) for the quotient that won seat #8 is higher than the divisor (3) for the quotient that won seat #7.
+		*In this case*, the divisor (9) for the quotient that won seat #11 is higher than the divisor (7) for the quotient that won seat #10.
 		 
 
-		How many more votes would party B need to get to win seat #7, thus changing the winners of at least two seats and possibly the total number of seats awarded to each party? 
+		How many more votes would party A need to get to win seat #10, thus changing the winners of at least two seats and possibly the total number of seats awarded to each party? 
 
-		multiplying the difference 7 with the divisor 5, we get 35 votes. 
-		(Note: If we take the difference more precisely as 6,67, we get 6,67 * 5 = 33,35 -> 34 votes necessary) 
-		What would the results look like if party B got 35 more votes?
+		multiplying the difference 2,89 with the divisor 9, we get 26,01 votes. 
+		
+		What would the results look like if party A got 26 more votes?
 
 		
 
 
 Vote totals:
-A: 1000
-B: 835
+A: 1026
+B: 800
 C: 500
 
 
 
-Seat #	Winning Party	Divisor		Quotient (previous)		Difference from next larger	Previous seat winner
-1	A		1		1000			
-2	B		1		835 (800)			200				A
-3	C		1		500				300				B
-4	A		3		333				167				C
-5	B		3		278 (267)			66				A
-6	A		5		200				67				B
-7	B (C)		5 (3)		167,00				33				A
-8	C (B)		3 (5)		166,67 (160)			7				C
-9	A		7		143				17				B
-10	B		7		114				29				A
-11	C		5		100				14				B
-12	C		7		071				29				C
+Seat #	Winning Party	Divisor		Quotient		Difference from next larger	Previous seat winner
+1	A		1		1026			
+2	B		1		800			226				A
+3	C		1		500			300				B
+4	A		3		342			158				C
+5	B		3		267			75				A
+6	A		5		205.2			61,8				B
+7	C		3		166.67			38,53				A
+8	B		5		160			6,67				C
+9	A		7		146.57			13.53				B
+10	B		7		114			32.57				A
+11	A		9		114			0				B		
+12	C		5		100			14				A		
+
+................................................................................................
+				
+(13)	B		9		88.89			11.11				C
 
 
-The winners of the two affected seats were switched. Otherwise, which party wins each seat is unaffacted. 
+
+
+
+With 26 additional votes, party A is tied with party B for seat # 10.
+
+
+
+
+With 27 (roof(26.01)) additional votes, party A wins seat # 10:
+
+
+Vote totals:
+A: 1027
+B: 800
+C: 500
+
+
+
+Seat #	Winning Party	Divisor		Quotient		Difference from next larger	Previous seat winner
+1	A		1		1027			
+2	B		1		800			226				A
+3	C		1		500			300				B
+4	A		3		342,33			158				C
+5	B		3		267			75.33				A
+6	A		5		205.4			61.60				B
+7	C		3		166.67			38.73				A
+8	B		5		160			6.67				C
+9	A		7		146.71			13.29				B
+10	A		9		114.11			32.60				A
+11	B		7		114			0.11				A		
+12	C		5		100			14				A		
+
+................................................................................................
+				
+(13)	B		9		88.89			11.11				C
+
+
+
+
+
+The winners of the two affected seats, #10 and #11, were switched. Otherwise, which party wins each seat is unaffacted. 
 
 Party:		A	B	C
-#of seats:	4	4	4
+#of seats:	5	4	3		
 
 
 *In this case*, the total number of seats won by each party is unaffacted.
@@ -100,35 +148,45 @@ Seat #	Winning Party	Divisor		Quotient		Difference from next larger	Previous sea
 8	B		5		160			7				C
 9	A		7		143			17				B
 10	B		7		114			29				A
-11	C		5		100			14				B
+11	A		9		111,11			2,89				B		
+
+
 
 
 Party:		A	B	C
-#of seats:	4	4	3
+#of seats:	5	4	2
+
+
+
+
 
 With modified votes:
 
 
 
-Seat #	Winning Party	Divisor		Quotient (previous)		Difference from next larger	Previous seat winner
-1	A		1		1000			
-2	B		1		835 (800)			200				A
-3	C		1		500				300				B
-4	A		3		333				167				C
-5	B		3		278 (267)			66				A
-6	A		5		200				67				B
-7	B (C)		5 (3)		167,00				33				A
-8	C (B)		3 (5)		166,67 (160)			7				C
-9	A		7		143				17				B
-10	B		7		114				29				A
-11	C		5		100				14				B
+Seat #	Winning Party	Divisor		Quotient		Difference from next larger	Previous seat winner
+1	A		1		1027			
+2	B		1		800			226				A
+3	C		1		500			300				B
+4	A		3		342,33			158				C
+5	B		3		267			75.33				A
+6	A		5		205.4			61.60				B
+7	C		3		166.67			38.73				A
+8	B		5		160			6.67				C
+9	A		7		146.71			13.29				B
+10	A		9		114.11			32.60				A
+11	B		7		114			0.11				A		
+
+
+
+
 
 
 Party:		A	B	C
-#of seats:	4	4	3
+#of seats:	5	4	2
 
 
-In order to change the total number of seats won by each party, we need to not only switch the winners of two seats. We need to "Knock one off" the list.
+Conclusion: In order to change the total number of seats won by each party, we need to not only switch the winners of two seats. We need to knock the winner of the last seat off the list.
 
 
 
@@ -142,13 +200,113 @@ Seat #	Winning Party	Divisor		Quotient		Difference from next larger	Previous sea
 7	C		3		166,67			33				A
 8	B		5		160			7				C
 9	A		7		143			17				B
-10	B		7		114			29				A
-11	C		5		100			14				B
-12	C		7		071			29				C
-(13)	(A)		9		111,11
-(14)	(B)		9		88,89		
-(15)	(C)		9		55,56
+10	B		7		114,29			29				A
+11	A		9		111,11			2,89				B		
+12	C		5		100			11,11				A		
+
+................................................................................................
+				
+(13)	B		9		88,89			11,11				C
+(14)	A		12		83,33	
+(15)	C		7		71,43
 
 
-(Actually, A whould have won the 11th seat. Need to go back and revise the results!) 
+
+
+The difference between the quotient for the last awarded seat and the next largest quotient is 11.11.
+Multiplying the difference 11.11 with the divisor 9 we get 99.99 ~ 100 votes.
+What would the results look like if party B got 100 more votes?
+ 
+
+
+Vote totals:
+A: 1000
+B: 900
+C: 500
+
+
+
+
+
+
+Seat #	Winning Party	Divisor		Quotient		Difference from next larger	Previous seat winner
+1	A		1		1000			
+2	B		1		900			100				A
+3	C		1		500			400				B
+4	A		3		333			167				C
+5	B		3		300			33				A
+6	A		5		200			100				B
+7	B (C)		5 (3)		180   (166.67)		20      (33)			A
+8	C (B)		3 (5)		166.67   (160)		13.33	(7)			B
+9	A		7		143			23.67				C
+10	B		7		128.57			14.43				A
+11	A		9		111.11			17.46				B		
+12	C		5		100			11.11				A		
+
+................................................................................................
+				
+(13)	B		9		100			0				C
+(14)	A		12		83,33	
+(15)	C		7		71,43
+
+
+
+
+
+With 100 additional votes, party B is tied with party C for seat # 12.
+
+
+
+What would the results look like if party B got 101 more votes?
+
+
+
+Vote totals:
+A: 1000
+B: 901
+C: 500
+
+
+Seat #	Winning Party	Divisor		Quotient		Difference from next larger	Previous seat winner
+1	A		1		1000			
+2	B		1		901			99				A
+3	C		1		500			401				B
+4	A		3		333			167				C
+5	B		3		300.33			32.67				A
+6	A		5		200			100.33				B
+7	B (C)		5 (3)		180.2   (166.67)	19.8      (33)			A
+8	C (B)		3 (5)		166.67   (160)		13.53	(7)			B
+9	A		7		143			23.67				C
+10	B		7		128.71			14.29				A
+11	A		9		111.11			17.60				B		
+12	B (C)		9 (5)		100.11 (100)		11.00				A		
+
+................................................................................................
+				
+(13)	C (B)		5 (9)		100			0.11				B
+(14)	A		12		83,33	
+(15)	C		7		71,43
+
+
+With 101 additional votes, party B wins seat # 12. This increases the number of seats won by B by 1, and decreases the number of seats won by C by one.
+
+The final result then becomes:
+
+Party:		A	B	C
+#of seats:	5	5	2
+
+
+Conclusion: The least change in voting necessary to change the election result (total number of seats awarded to each party) is determined by the difference between the quotients for the last awarded seat, and the next largest quotient.
+Thus, it is straightforward to determine the number of votes that need to be changed (removed or added) in order to change the result.
+
+Depending on the current divisors for the relevant parties (i.e, how many seats each party has already won), it seems that the least change in votes required may be achieved either by adding votes to the party that did not win the last seat, or removing votes from the party that did win the last seat.
+
+
+
+
+
+
+
+
+
 
