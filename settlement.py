@@ -111,3 +111,23 @@ distribute_seats(votetotals_ibestad,number_of_seats_ibestad,wait = False)
 
 
 distribute_seats(votetotals_lillestrøm,number_of_seats_lillestrøm,wait = False)
+
+
+
+def leastvotechange(votetotals,number_of_seats):
+    #Find the smallest difference in votes which can lead to a changed election result
+
+    #let "n" be the number of seats to be distributed.
+    #Assume party X wins the last seat, seat n, and party Y would have won seat n +1:    
+    #Calculate the winning quotients for n+1 seats.
+
+    #take the difference in quotients for seats n and n+1 and divide by the divisor for the winning quotient for seat n+1
+    #to determine how many additional votes (not changing any existing votes) party Y would need to win seat n
+        #If seats n and n+1 are won by the same party (party X), find the next seat not won by party X and do the same calculation
+    #take the difference in quotients for seats n and n+1 and divide by the divisor for the winning quotient for seat n
+    #to determine how many votes party X would need to lose (not changing any existing votes) in order to lose seat n
+        #If seats n and n+1 are won by the same party (party X), find the next seat not won by party X and do the same calculation
+
+
+    #Take the smallest amount of votes that party X would have to lose or party Y would have to gain while not changing any other votes, in order for party Y to win seat n.
+    #Divide this number by two to determine the smallest number of votes who could change the result by switching their vote from party X to party Y. (??)
