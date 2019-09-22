@@ -41,7 +41,10 @@ def distribute_seats(votetotals,number_of_seats,first_divisor = 1.4, wait = Fals
     while awardedseats_total < number_of_seats:
         if wait == True:
             print('Ready to award seat #',awardedseats_total+1)
-            userinput = input('Press any key to proceed.')
+            userinput = input('Press Enter to proceed to next seat. Press E + Enter to proceed to end. ')
+            if userinput.lower() == 'e':
+                wait = False
+            print('Input:',userinput)
         
         print('Awarding seat #',awardedseats_total+1,'...')
         #Award the seat to the party with the highest current quotient
