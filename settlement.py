@@ -131,3 +131,4 @@ def leastvotechange(votetotals,number_of_seats):
 
     #Take the smallest amount of votes that party X would have to lose or party Y would have to gain while not changing any other votes, in order for party Y to win seat n.
     #Divide this number by two to determine the smallest number of votes who could change the result by switching their vote from party X to party Y. (??)
+    return
