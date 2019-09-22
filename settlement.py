@@ -8,7 +8,7 @@ votetotals_lillestrøm = {'Arbeiderpartiet':648350,'Høyre':424811,'Senterpartie
 'Kristelig folkeparti':51909,'Pensjonistpartiet':37137,'Helsepartiet':17781,'Demokratene':14081,'Liberalistene':10119}
 number_of_seats_lillestrøm = 55
 
-def distribute_seats(votetotals,number_of_seats,first_divisor = 1.4, wait = False):
+def distribute_seats(votetotals,number_of_seats,first_divisor = 1.4, wait = False,Verbose = False):
 
     print('Calculating election result from vote totals.')
     print('Number of seats to be distributed: ',number_of_seats)
@@ -31,10 +31,12 @@ def distribute_seats(votetotals,number_of_seats,first_divisor = 1.4, wait = Fals
 
     
     #Set the initial divisors
-    print('Setting initial divisors...')
+    if Verbose:
+        print('Setting initial divisors...')
     divisors = dict.fromkeys(votetotals, first_divisor)
-    print('Initial divisors')
-    print(divisors)
+    if Verbose:
+        print('Initial divisors')
+        print(divisors)
     
 
     #Make an (empty) list of awarded seats
@@ -50,32 +52,39 @@ def distribute_seats(votetotals,number_of_seats,first_divisor = 1.4, wait = Fals
             if userinput.lower() == 'e':
                 wait = False
             print('Input:',userinput)
-        
-        print('Awarding seat #',awardedseats_total+1,'...')
+
+        if Verbose:
+            print('Awarding seat #',awardedseats_total+1,'...')
         #Award the seat to the party with the highest current quotient
-        print('Current quotients:',quotients)
+        if Verbose:
+            print('Current quotients:',quotients)
         seatwinner = max(quotients, key=quotients.get)
-        print('Winner of seat #',awardedseats_total+1,': ',seatwinner)
+        if Verbose:
+            print('Winner of seat #',awardedseats_total+1,': ',seatwinner)
 
      
         #Update the list of awarded seats
         seats.append(seatwinner)
-        print('Seats awarded so far:')
-        print(seats)
+        if Verbose:
+            print('Seats awarded so far:')
+            print(seats)
         #Keep track of how many seats won by each party
         party_seats[seatwinner] = party_seats[seatwinner] + 1
         #Set the new divisor for the seatwinner
         divisors[seatwinner] = 2*party_seats[seatwinner] + 1
 
-        print('New divisor for ',seatwinner,':')
-        print(divisors[seatwinner])
+        if Verbose:
+            print('New divisor for ',seatwinner,':')
+            print(divisors[seatwinner])
         #Calculate the new quotient for the seatwinner:
         quotients[seatwinner] = votetotals[seatwinner] / divisors[seatwinner]
-        print('New quotient for ',seatwinner,':')
-        print(quotients[seatwinner])
+        if Verbose:
+            print('New quotient for ',seatwinner,':')
+            print(quotients[seatwinner])
         #Keep track of how many seats have been filled
         awardedseats_total  = len(seats)
-        print('Seats awarded: ',awardedseats_total)
+        if Verbose:
+            print('Seats awarded: ',awardedseats_total)
 
         
     print('SEAT DISTRIBUTION FINISHED.')
