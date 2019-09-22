@@ -19,24 +19,18 @@ def distribute_seats(votetotals,number_of_seats,first_divisor = 1.4, wait = Fals
     #Initialize dictionary for quotients 
     quotients = votetotals.copy() #probably here?
 
-
-    print('DEBUG#0 - Vote totals:')
-    print(votetotals)
       
     #Calculate initial quotients (divide vote total by first divisor)
     for key in quotients:
         quotients[key] = quotients[key] / first_divisor
 
-    #print('DEBUG#1 - Vote totals:')
-    #print(votetotals)
     
     #Set the initial divisors
     print('Setting initial divisors...')
     divisors = dict.fromkeys(votetotals, first_divisor)
     print('Initial divisors')
     print(divisors)
-    #print('DEBUG#2 - Vote totals:')
-    #print(votetotals)
+    
 
     #Make an (empty) list of awarded seats
     seats = []
@@ -52,12 +46,8 @@ def distribute_seats(votetotals,number_of_seats,first_divisor = 1.4, wait = Fals
         print('Awarding seat #',awardedseats_total+1,'...')
         #Award the seat to the party with the highest current quotient
         print('Current quotients:',quotients)
-        #print('DBEUG - Vote totals:')
-        #print(votetotals)
         seatwinner = max(quotients, key=quotients.get)
         print('Winner of seat #',awardedseats_total+1,': ',seatwinner)
-        #print('DBEUG - Vote totals:')
-        #print(votetotals)
 
      
         #Update the list of awarded seats
@@ -72,8 +62,6 @@ def distribute_seats(votetotals,number_of_seats,first_divisor = 1.4, wait = Fals
         print('New divisor for ',seatwinner,':')
         print(divisors[seatwinner])
         #Calculate the new quotient for the seatwinner:
-        #print('DBEUG - Vote totals:')
-        #print(votetotals)
         quotients[seatwinner] = votetotals[seatwinner] / divisors[seatwinner]
         print('New quotient for ',seatwinner,':')
         print(quotients[seatwinner])
