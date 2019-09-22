@@ -46,6 +46,9 @@ def distribute_seats(votetotals,number_of_seats,first_divisor = 1.4, wait = Fals
     #Create dict to keep track of how many seats have been won by each party
     party_seats = dict.fromkeys(votetotals, 0)
       
+    result_table = 'Seat #\tWinning party\tDivisor\tQuotient\n'
+    result_table = result_table.expandtabs(32)
+
     while awardedseats_total < number_of_seats:
         if wait == True:
             print('Ready to award seat #',awardedseats_total+1)
@@ -63,12 +66,20 @@ def distribute_seats(votetotals,number_of_seats,first_divisor = 1.4, wait = Fals
         if Verbose:
             print('Winner of seat #',awardedseats_total+1,': ',seatwinner)
 
-     
         #Update the list of awarded seats
         seats.append(seatwinner)
         if Verbose:
             print('Seats awarded so far:')
             print(seats)
+
+        #Keep track of how many seats have been filled
+        awardedseats_total  = len(seats)
+
+        new_line = str(awardedseats_total)+'\t'+str(seatwinner)+'\t'+str(divisors[seatwinner])+'\t'+'%.3f'%(quotients[seatwinner])+'\n'
+        new_line = new_line.expandtabs(32)
+        result_table = result_table + new_line
+        
+                            
         #Keep track of how many seats won by each party
         party_seats[seatwinner] = party_seats[seatwinner] + 1
         #Set the new divisor for the seatwinner
@@ -82,16 +93,17 @@ def distribute_seats(votetotals,number_of_seats,first_divisor = 1.4, wait = Fals
         if Verbose:
             print('New quotient for ',seatwinner,':')
             print(quotients[seatwinner])
-        #Keep track of how many seats have been filled
-        awardedseats_total  = len(seats)
+        
         if Verbose:
             print('Seats awarded: ',awardedseats_total)
 
-        
+               
     print('SEAT DISTRIBUTION FINISHED.')
     print('Total number of seats awarded:',awardedseats_total)
     print('Seats per party:')
     print(party_seats)
+
+    print(result_table)
     
     return
 
