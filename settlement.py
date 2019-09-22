@@ -23,7 +23,7 @@ def distribute_seats(votetotals,number_of_seats,first_divisor = 1.4, wait = Fals
 
 
     #Initialize dictionary for quotients 
-    quotients = votetotals.copy() #probably here?
+    quotients = votetotals.copy()
 
       
     #Calculate initial quotients (divide vote total by first divisor)
