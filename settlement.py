@@ -1,7 +1,12 @@
 
 #Example data, from Ibestad kommune, 2019 election:
-votetotals = {'Høyre':7876,'Arbeiderpartiet':4562,'Senterpartiet':3028}
-number_of_seats = 19
+votetotals_ibestad = {'Høyre':7876,'Arbeiderpartiet':4562,'Senterpartiet':3028}
+number_of_seats_ibestad = 19
+
+votetotals_lillestrøm = {'Arbeiderpartiet':648350,'Høyre':424811,'Senterpartiet':258324,'Fremskritsspartiet':230864,'Miljøpartiet De grønne':138608,
+'Folkets røst by og bygdeliste':109443,'Sosialistisk venstreparti':107511,'Venstre':62553,'Rødt':56114,
+'Kristelig folkeparti':51909,'Pensjonistpartiet':37137,'Helsepartiet':17781,'Demokratene':14081,'Liberalistene':10119}
+number_of_seats_lillestrøm = 55
 
 def distribute_seats(votetotals,number_of_seats,first_divisor = 1.4, wait = False):
 
@@ -80,4 +85,7 @@ def distribute_seats(votetotals,number_of_seats,first_divisor = 1.4, wait = Fals
     
     return
 
-distribute_seats(votetotals,number_of_seats,wait = True)
+distribute_seats(votetotals_ibestad,number_of_seats_ibestad,wait = False)
+
+
+distribute_seats(votetotals_lillestrøm,number_of_seats_lillestrøm,wait = False)
