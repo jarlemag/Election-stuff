@@ -173,12 +173,12 @@ def leastvotechange(votetotals,number_of_seats):
     required_votes_cast_increase = required_vote_total_increase/number_of_seats
 
     quotient_loss_per_vote_total_transfer = 1 / divisor_seat_n
-    quotient_gain_per_vote_total_transfer = 1 / quotient_seat_n_plus_one
+    quotient_gain_per_vote_total_transfer = 1 / divisor_seat_n_plus_one
     total_quotient_gap_change_per_vote_total_transfer = quotient_loss_per_vote_total_transfer + quotient_gain_per_vote_total_transfer
 
-    print('quotient_loss_per_vote_total_transfer',quotient_loss_per_vote_total_transfer)
-    print('quotient_gain_per_vote_total_transfer',quotient_gain_per_vote_total_transfer)
-    print('total_quotient_gap_change_per_vote_total_transfer:',total_quotient_gap_change_per_vote_total_transfer)
+    print('quotient_loss_per_vote_total_transfer','%.5f'%quotient_loss_per_vote_total_transfer)
+    print('quotient_gain_per_vote_total_transfer','%.5f'%quotient_gain_per_vote_total_transfer)
+    print('total_quotient_gap_change_per_vote_total_transfer:','%.5f'%total_quotient_gap_change_per_vote_total_transfer)
     required_vote_total_transfer = quotient_difference / total_quotient_gap_change_per_vote_total_transfer #Virker ikke riktig.
 
     new_line1 = str(n)+'\t'+str(winner_seat_n)+'\t'+str(divisor_seat_n)+'\t'+'%.3f'%(quotient_seat_n)+'\n'
