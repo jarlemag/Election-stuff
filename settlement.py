@@ -179,7 +179,8 @@ def leastvotechange(votetotals,number_of_seats):
     print('quotient_loss_per_vote_total_transfer','%.5f'%quotient_loss_per_vote_total_transfer)
     print('quotient_gain_per_vote_total_transfer','%.5f'%quotient_gain_per_vote_total_transfer)
     print('total_quotient_gap_change_per_vote_total_transfer:','%.5f'%total_quotient_gap_change_per_vote_total_transfer)
-    required_vote_total_transfer = quotient_difference / total_quotient_gap_change_per_vote_total_transfer #Virker ikke riktig.
+    required_vote_total_transfer = quotient_difference / total_quotient_gap_change_per_vote_total_transfer
+    required_votes_transfer = required_vote_total_transfer/number_of_seats
 
     new_line1 = str(n)+'\t'+str(winner_seat_n)+'\t'+str(divisor_seat_n)+'\t'+'%.3f'%(quotient_seat_n)+'\n'
     new_line1 = new_line1.expandtabs(32)
@@ -201,6 +202,7 @@ def leastvotechange(votetotals,number_of_seats):
    
     print('\n')
     print('Vote total (listestemmetall) transferred from party',winner_seat_n,'to party',winner_seat_n_plus_one,'needed to change election result:','%.3f'%required_vote_total_transfer)
+    print('Votes (stemmer) transferred from party',winner_seat_n,'to party',winner_seat_n_plus_one,'needed to change election result:',math.ceil(required_votes_transfer),',rounded up from','%.3f'%required_votes_transfer)
 
     
     return
