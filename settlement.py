@@ -16,6 +16,13 @@ number_of_seats_lillestrøm = 55
 votetotals_oslo =  {'Alliansen':23736,'Arbeiderpartiet':4315487,'Demokratene':57166,'Feministisk Initiativ':34705,'Folkeaksjonen Nei til mer bompenger':1258733,'Fremskrittspartiet':1137175,'Helsepartiet':50227,'Høyre':5477649,'Kristelig Folkeparti':375020,'Kystpartiet':9411,'Liberalistene':47967,'Miljøpartiet De Grønne':3288756,'Norges Kommunistiske Parti':15697,'Partiet De Kristne':36120,'Pensjonistpartiet':131046,'Piratpartiet':40999,'Rødt':1550902,'Selvstendighetspartiet':33786,'Senterpartiet':471025,'SV - Sosialistisk Venstreparti':1960947,'Venstre':1245999}
 number_of_seats_oslo = 59
 
+#Example data from Drammen kommune, 2019 election.
+votetotals_drammen = {'Alliansen':13714,'Folkestyre':9152,'Helsepartiet':15222,'Høyre':697348,'KrF':61126,'Liberalistene':5474,'Nei til bomring':208012,'Partiet De Kristne':8948,'Rødt':68365,'Senterpartiet':216284,'SV':121984,'Venstre':56860,'Arbeiderpartiet':710950,'Fremskrittspartiet':290897,'Miljøpartiet de grønne':233538}
+number_of_seats_drammen = 57
+
+votetotals_bergen = vote_totals_bergen = {'Partiet De Kristne':74558,'Senterpartiet':534887,'Venstre':387477,'Pensjonistpartiet':150044,'Demokratene':57058,'Norges Kommunistiske Parti':6112,'Liberalistene':20914,'Kristelig Folkeparti':310008,'Piratpartiet':14405,'Folkeaksjonen Nei til mer bompenger':1677902,'SV - Sosialistisk Venstreparti':866352,'Arbeiderpartiet':1992486,'Fremskrittspartiet':469259,'Høyre':2016633,'Miljøpartiet De Grønne':998929,'Rødt':491334}
+number_of_seats_bergen = 67
+
 def distribute_seats(votetotals,number_of_seats,first_divisor = 1.4, wait = False,Verbose = False):
     #Note: The numbers used in votetotals should in most cases be "Stemmelistetall", the number of votes cast multiplied by the number of seats to be distributed,
     #and further modified (subtractions and additions) by personal votes. However, the function will also return correct result if the actual numbers of votes (ballots) cast are used
@@ -219,8 +226,14 @@ def leastvotechange(votetotals,number_of_seats):
 #leastvotechange(votetotals_ibestad,19)
 
 
-distribute_seats(votetotals_oslo,number_of_seats_oslo,wait = False)
-leastvotechange(votetotals_oslo,59)
+#distribute_seats(votetotals_drammen,number_of_seats_drammen,wait = False)
+#leastvotechange(votetotals_drammen,57)
+
+#distribute_seats(votetotals_oslo,number_of_seats_oslo,wait = False)
+#leastvotechange(votetotals_oslo,number_of_seats_oslo)
+
+distribute_seats(votetotals_bergen,number_of_seats_bergen,wait = False)
+leastvotechange(votetotals_bergen,number_of_seats_bergen)
 
  
 def neededvotes(votetotals,number_of_seats,party):
