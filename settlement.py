@@ -12,6 +12,10 @@ votetotals_lillestrøm = {'Arbeiderpartiet':648350,'Høyre':424811,'Senterpartie
 number_of_seats_lillestrøm = 55
 
 
+#Example data from Oslo kommune, 2019 election.
+votetotals_oslo =  {'Alliansen':23736,'Arbeiderpartiet':4315487,'Demokratene':57166,'Feministisk Initiativ':34705,'Folkeaksjonen Nei til mer bompenger':1258733,'Fremskrittspartiet':1137175,'Helsepartiet':50227,'Høyre':5477649,'Kristelig Folkeparti':375020,'Kystpartiet':9411,'Liberalistene':47967,'Miljøpartiet De Grønne':3288756,'Norges Kommunistiske Parti':15697,'Partiet De Kristne':36120,'Pensjonistpartiet':131046,'Piratpartiet':40999,'Rødt':1550902,'Selvstendighetspartiet':33786,'Senterpartiet':471025,'SV - Sosialistisk Venstreparti':1960947,'Venstre':1245999}
+number_of_seats_oslo = 59
+
 def distribute_seats(votetotals,number_of_seats,first_divisor = 1.4, wait = False,Verbose = False):
     #Note: The numbers used in votetotals should in most cases be "Stemmelistetall", the number of votes cast multiplied by the number of seats to be distributed,
     #and further modified (subtractions and additions) by personal votes. However, the function will also return correct result if the actual numbers of votes (ballots) cast are used
@@ -211,8 +215,12 @@ def leastvotechange(votetotals,number_of_seats):
 #distribute_seats(votetotals_lillestrøm,number_of_seats_lillestrøm,wait = False)
 
 #leastvotechange(votetotals_lillestrøm,54)
-leastvotechange(votetotals_lillestrøm,55)
+#leastvotechange(votetotals_lillestrøm,55)
 #leastvotechange(votetotals_ibestad,19)
+
+
+distribute_seats(votetotals_oslo,number_of_seats_oslo,wait = False)
+leastvotechange(votetotals_oslo,59)
 
  
 def neededvotes(votetotals,number_of_seats,party):
