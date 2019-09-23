@@ -42,6 +42,8 @@ def distribute_seats(votetotals,number_of_seats,first_divisor = 1.4, wait = Fals
 
     #Make an (empty) list of awarded seats
     seats = []
+    #Make a list of the winning quotient for each seat
+    winning_quotients = []
 
     #Create dict to keep track of how many seats have been won by each party
     party_seats = dict.fromkeys(votetotals, 0)
@@ -68,6 +70,7 @@ def distribute_seats(votetotals,number_of_seats,first_divisor = 1.4, wait = Fals
 
         #Update the list of awarded seats
         seats.append(seatwinner)
+        winning_quotients.append(quotients[seatwinner])
         if Verbose:
             print('Seats awarded so far:')
             print(seats)
@@ -105,12 +108,16 @@ def distribute_seats(votetotals,number_of_seats,first_divisor = 1.4, wait = Fals
 
     print(result_table)
     
-    return
-
-distribute_seats(votetotals_ibestad,number_of_seats_ibestad,wait = False)
+    return [seats,winning_quotients]
 
 
-distribute_seats(votetotals_lillestrøm,number_of_seats_lillestrøm,wait = False)
+
+ibestad_result = distribute_seats(votetotals_ibestad,number_of_seats_ibestad,wait = False)
+
+print('Valgresultat Ibestad:')
+print(ibestad_result)
+
+#lillestrøm_result = distribute_seats(votetotals_lillestrøm,number_of_seats_lillestrøm,wait = False)
 
 
 
@@ -120,6 +127,9 @@ def leastvotechange(votetotals,number_of_seats):
     #let "n" be the number of seats to be distributed.
     #Assume party X wins the last seat, seat n, and party Y would have won seat n +1:    
     #Calculate the winning quotients for n+1 seats.
+
+
+    
 
     #take the difference in quotients for seats n and n+1 and divide by the divisor for the winning quotient for seat n+1
     #to determine how many additional votes (not changing any existing votes) party Y would need to win seat n
