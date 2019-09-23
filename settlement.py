@@ -6,22 +6,52 @@ votetotals_ibestad = {'Høyre':7876,'Arbeiderpartiet':4562,'Senterpartiet':3028}
 number_of_seats_ibestad = 19
 
 #Example data from Lillestrøm kommune, 2019 election. From election protocol, available at: https://github.com/elections-no/elections-no.github.io/blob/master/docs/2019/Viken/Kommunestyrevalget%20-%20valgstyrets%20møtebok%20Lillestrøm.pdf
-votetotals_lillestrøm = {'Arbeiderpartiet':648350,'Høyre':424811,'Senterpartiet':258324,'Fremskritsspartiet':230864,'Miljøpartiet De grønne':138608,
-'Folkets røst by og bygdeliste':109443,'Sosialistisk venstreparti':107511,'Venstre':62553,'Rødt':56114,
-'Kristelig folkeparti':51909,'Pensjonistpartiet':37137,'Helsepartiet':17781,'Demokratene':14081,'Liberalistene':10119}
+votetotals_lillestrøm = {'Arbeiderpartiet':648350,'Høyre':424811,'Senterpartiet':258324,
+                         'Fremskritsspartiet':230864,'Miljøpartiet De grønne':138608,
+                         'Folkets røst by og bygdeliste':109443,'Sosialistisk venstreparti':107511,'Venstre':62553,'Rødt':56114,
+                         'Kristelig folkeparti':51909,'Pensjonistpartiet':37137,'Helsepartiet':17781,'Demokratene':14081,'Liberalistene':10119}
 number_of_seats_lillestrøm = 55
 
 
-def distribute_seats(votetotals,number_of_seats,first_divisor = 1.4, wait = False,Verbose = False):
+#Example data from Oslo kommune, 2019 election.
+votetotals_oslo =  {'Alliansen':23736,'Arbeiderpartiet':4315487,'Demokratene':57166,'Feministisk Initiativ':34705,'Folkeaksjonen Nei til mer bompenger':1258733,
+                    'Fremskrittspartiet':1137175,'Helsepartiet':50227,'Høyre':5477649,'Kristelig Folkeparti':375020,'Kystpartiet':9411,'Liberalistene':47967,
+                    'Miljøpartiet De Grønne':3288756,'Norges Kommunistiske Parti':15697,'Partiet De Kristne':36120,'Pensjonistpartiet':131046,'Piratpartiet':40999,
+                    'Rødt':1550902,'Selvstendighetspartiet':33786,'Senterpartiet':471025,'SV - Sosialistisk Venstreparti':1960947,'Venstre':1245999}
+number_of_seats_oslo = 59
+
+#Example data from Drammen kommune, 2019 election.
+votetotals_drammen = {'Alliansen':13714,'Folkestyre':9152,'Helsepartiet':15222,'Høyre':697348,'KrF':61126,'Liberalistene':5474,'Nei til bomring':208012,'Partiet De Kristne':8948,'Rødt':68365,'Senterpartiet':216284,'SV':121984,'Venstre':56860,'Arbeiderpartiet':710950,'Fremskrittspartiet':290897,'Miljøpartiet de grønne':233538}
+number_of_seats_drammen = 57
+
+votetotals_bergen = {'Partiet De Kristne':74558,'Senterpartiet':534887,'Venstre':387477,'Pensjonistpartiet':150044,'Demokratene':57058,
+                                          'Norges Kommunistiske Parti':6112,'Liberalistene':20914,'Kristelig Folkeparti':310008,'Piratpartiet':14405,
+                                          'Folkeaksjonen Nei til mer bompenger':1677902,'SV':866352,'Arbeiderpartiet':1992486,'Fremskrittspartiet':469259,
+                                          'Høyre':2016633,'Miljøpartiet De Grønne':998929,'Rødt':491334}
+number_of_seats_bergen = 67
+
+votetotals_bergen_modified = votetotals_bergen.copy()
+votetotals_bergen_modified['SV'] = 838949 
+
+def distribute_seats(votetotals_in,number_of_seats,first_divisor = 1.4, wait = False,Verbose = False,adjustments = {}):
     #Note: The numbers used in votetotals should in most cases be "Stemmelistetall", the number of votes cast multiplied by the number of seats to be distributed,
     #and further modified (subtractions and additions) by personal votes. However, the function will also return correct result if the actual numbers of votes (ballots) cast are used
     #and there are no personal votes considered.
+    votetotals = votetotals_in.copy()
     print('Calculating election result from vote totals.')
     print('Number of seats to be distributed: ',number_of_seats)
     print('First divisor:',first_divisor)
     print('Vote totals:')
     print(votetotals)
 
+
+    #Perform adjustments to vote totals, if any:
+    if adjustments:
+        for key in adjustments:
+            print('Adjusting vote totals for:',key)
+            votetotals[key] =  votetotals[key] + adjustments[key]
+            print('Vote total for',str(key),'adjusted by',str(adjustments[key]))
+            print('New vote total for ',str(key),':',votetotals[key])
 
     #Create variable to keep track of how many seats have been filled
     awardedseats_total = 0
@@ -117,7 +147,7 @@ def distribute_seats(votetotals,number_of_seats,first_divisor = 1.4, wait = Fals
 
     print(result_table)
     
-    return [seats,winning_quotient_divisors,winning_quotients]
+    return [seats,winning_quotient_divisors,winning_quotients,party_seats]
 
 
 
@@ -211,8 +241,42 @@ def leastvotechange(votetotals,number_of_seats):
 #distribute_seats(votetotals_lillestrøm,number_of_seats_lillestrøm,wait = False)
 
 #leastvotechange(votetotals_lillestrøm,54)
-leastvotechange(votetotals_lillestrøm,55)
+#leastvotechange(votetotals_lillestrøm,55)
 #leastvotechange(votetotals_ibestad,19)
+
+
+#distribute_seats(votetotals_drammen,number_of_seats_drammen,wait = False)
+#leastvotechange(votetotals_drammen,57)
+
+#distribute_seats(votetotals_oslo,number_of_seats_oslo,wait = False)
+#leastvotechange(votetotals_oslo,number_of_seats_oslo)
+
+
+print('ready to perform Bergen vote adjustment test.')
+
+
+
+
+print('Bergen #1:')
+print('votetotals_bergen:')
+print(votetotals_bergen)
+distribute_seats(votetotals_bergen,number_of_seats_bergen,wait = False)
+
+print('Bergen #2:')
+print('votetotals_bergen:')
+print(votetotals_bergen)
+distribute_seats(votetotals_bergen_modified,number_of_seats_bergen,wait = False)
+
+print('Bergen #3:')
+print('votetotals_bergen:')
+print(votetotals_bergen)
+distribute_seats(votetotals_bergen,number_of_seats_bergen,wait = False, adjustments = {'SV': -409*number_of_seats_bergen})
+
+
+print('Votetotals_bergen after Bergen #3:')
+print(votetotals_bergen)
+
+#leastvotechange(votetotals_bergen,number_of_seats_bergen)
 
  
 def neededvotes(votetotals,number_of_seats,party):
@@ -224,4 +288,26 @@ def neededvotes(votetotals,number_of_seats,party):
     return
 
 
-    
+def compareresults(result1,result2):
+    #Compare two election results. Determine if the election outcome (number of seats awarded to each party) is different.
+
+    party_seats1 = result1[-1]
+    party_seats2 = result2[-1]
+
+    if party_seats1 == party_seats2:
+        print('Election outcomes are identical.')
+        return True
+    else:
+        print('Election outcomes are different.')
+        return False
+
+print('Create result1 and result2:')
+print('Votetotals_bergen:')
+print(votetotals_bergen)
+result1 = distribute_seats(votetotals_bergen,number_of_seats_bergen,wait = False)
+result2 = distribute_seats(votetotals_bergen,number_of_seats_bergen,wait = False, adjustments = {'SV': -409*number_of_seats_bergen}) #Får SV en plass mindre? Virker som resultatet ikke alltid blir likt. Må sjekke igjen.
+
+print('Compare result1 to result1:')
+compareresults(result1,result1)
+print('Compare result1 to result2:')
+compareresults(result1,result2)
