@@ -1,4 +1,6 @@
 
+import math
+
 #Example data from Ibestad kommune, 2019 election. From election protocol, available at: https://github.com/elections-no/elections-no.github.io/blob/master/docs/2019/Troms_og_Finnmark/Ibestad%20kommune%2C%20Troms%20og%20Finnmark%20fylke%20-%20kommune%2010-09-2019.pdf
 votetotals_ibestad = {'Høyre':7876,'Arbeiderpartiet':4562,'Senterpartiet':3028}
 number_of_seats_ibestad = 19
@@ -9,8 +11,11 @@ votetotals_lillestrøm = {'Arbeiderpartiet':648350,'Høyre':424811,'Senterpartie
 'Kristelig folkeparti':51909,'Pensjonistpartiet':37137,'Helsepartiet':17781,'Demokratene':14081,'Liberalistene':10119}
 number_of_seats_lillestrøm = 55
 
-def distribute_seats(votetotals,number_of_seats,first_divisor = 1.4, wait = False,Verbose = False):
 
+def distribute_seats(votetotals,number_of_seats,first_divisor = 1.4, wait = False,Verbose = False):
+    #Note: The numbers used in votetotals should in most cases be "Stemmelistetall", the number of votes cast multiplied by the number of seats to be distributed,
+    #and further modified (subtractions and additions) by personal votes. However, the function will also return correct result if the actual numbers of votes (ballots) cast are used
+    #and there are no personal votes considered.
     print('Calculating election result from vote totals.')
     print('Number of seats to be distributed: ',number_of_seats)
     print('First divisor:',first_divisor)
@@ -20,17 +25,14 @@ def distribute_seats(votetotals,number_of_seats,first_divisor = 1.4, wait = Fals
 
     #Create variable to keep track of how many seats have been filled
     awardedseats_total = 0
-
-
+    
     #Initialize dictionary for quotients 
     quotients = votetotals.copy()
 
-      
     #Calculate initial quotients (divide vote total by first divisor)
     for key in quotients:
         quotients[key] = quotients[key] / first_divisor
 
-    
     #Set the initial divisors
     if Verbose:
         print('Setting initial divisors...')
@@ -39,15 +41,19 @@ def distribute_seats(votetotals,number_of_seats,first_divisor = 1.4, wait = Fals
         print('Initial divisors')
         print(divisors)
     
-
     #Make an (empty) list of awarded seats
     seats = []
+    
     #Make a list of the winning quotient for each seat
     winning_quotients = []
+    
+    #Make a list of the divisors used to calculate the winning quotient for each seat
+    winning_quotient_divisors = []
 
     #Create dict to keep track of how many seats have been won by each party
     party_seats = dict.fromkeys(votetotals, 0)
-      
+
+    #Create a printable results table  
     result_table = 'Seat #\tWinning party\tDivisor\tQuotient\n'
     result_table = result_table.expandtabs(32)
 
@@ -68,9 +74,11 @@ def distribute_seats(votetotals,number_of_seats,first_divisor = 1.4, wait = Fals
         if Verbose:
             print('Winner of seat #',awardedseats_total+1,': ',seatwinner)
 
-        #Update the list of awarded seats
+        #Update the lists of awarded seats, winning quotients and their divisors
         seats.append(seatwinner)
         winning_quotients.append(quotients[seatwinner])
+        winning_quotient_divisors.append(divisors[seatwinner])
+        
         if Verbose:
             print('Seats awarded so far:')
             print(seats)
@@ -78,13 +86,14 @@ def distribute_seats(votetotals,number_of_seats,first_divisor = 1.4, wait = Fals
         #Keep track of how many seats have been filled
         awardedseats_total  = len(seats)
 
+        #Append the printable results table
         new_line = str(awardedseats_total)+'\t'+str(seatwinner)+'\t'+str(divisors[seatwinner])+'\t'+'%.3f'%(quotients[seatwinner])+'\n'
         new_line = new_line.expandtabs(32)
         result_table = result_table + new_line
-        
-                            
+                             
         #Keep track of how many seats won by each party
         party_seats[seatwinner] = party_seats[seatwinner] + 1
+        
         #Set the new divisor for the seatwinner
         divisors[seatwinner] = 2*party_seats[seatwinner] + 1
 
@@ -108,14 +117,14 @@ def distribute_seats(votetotals,number_of_seats,first_divisor = 1.4, wait = Fals
 
     print(result_table)
     
-    return [seats,winning_quotients]
+    return [seats,winning_quotient_divisors,winning_quotients]
 
 
 
-ibestad_result = distribute_seats(votetotals_ibestad,number_of_seats_ibestad,wait = False)
+#ibestad_result = distribute_seats(votetotals_ibestad,number_of_seats_ibestad,wait = False)
 
-print('Valgresultat Ibestad:')
-print(ibestad_result)
+#print('Valgresultat Ibestad:')
+#print(ibestad_result)
 
 #lillestrøm_result = distribute_seats(votetotals_lillestrøm,number_of_seats_lillestrøm,wait = False)
 
@@ -123,28 +132,87 @@ print(ibestad_result)
 
 def leastvotechange(votetotals,number_of_seats):
     #Find the smallest difference in votes which can lead to a changed election result
-
+    print('Finding smallest change in voting required to change election result.')
     #let "n" be the number of seats to be distributed.
+    n = number_of_seats
     #Assume party X wins the last seat, seat n, and party Y would have won seat n +1:    
-    #Calculate the winning quotients for n+1 seats.
 
+
+    #Calculate the winning quotients for n+1 seats.
+    expanded_result = distribute_seats(votetotals,n + 1)
+
+    print('Final seat awarded:')
+
+    result_table = 'Seat #\tWinning party\tDivisor\tQuotient\n'
+    result_table = result_table.expandtabs(32)
+
+    divisor_seat_n = expanded_result[1][-2]
+    divisor_seat_n_plus_one = expanded_result[1][-1]
+
+    winner_seat_n = expanded_result[0][n-1]
+    winner_seat_n_plus_one = expanded_result[0][n]
+    
+    
+    #Take the difference in quotients for seats n and n+1
+    quotient_seat_n = expanded_result[2][-2]
+    quotient_seat_n_plus_one = expanded_result[2][-1]
+    
+    quotient_difference = quotient_seat_n  - quotient_seat_n_plus_one
+
+    #to determine how many additional votes (not changing any existing votes) party Y would need to win seat n
+    #divide the quotient difference by the divisor for the winning quotient for seat n+1
+    required_vote_total_increase = quotient_difference * divisor_seat_n_plus_one   #should be multiply, not divide?
+    #TODO: If seats n and n+1 are won by the same party (party X), find the next seat not won by party X and do the same calculation
+
+    #to determine how many votes party X would need to lose (not changing any existing votes) in order to lose seat n
+    #divide the quotient difference by the divisor for the winning quotient for seat n
+    required_vote_total_decrease = quotient_difference * divisor_seat_n
+    #TODO: If seats n and n+1 are won by the same party (party X), find the next seat not won by party X and do the same calculation
+
+    required_votes_cast_decrease = required_vote_total_decrease/number_of_seats
+    required_votes_cast_increase = required_vote_total_increase/number_of_seats
+
+    quotient_loss_per_vote_total_transfer = 1 / divisor_seat_n
+    quotient_gain_per_vote_total_transfer = 1 / quotient_seat_n_plus_one
+    total_quotient_gap_change_per_vote_total_transfer = quotient_loss_per_vote_total_transfer + quotient_gain_per_vote_total_transfer
+
+    print('quotient_loss_per_vote_total_transfer',quotient_loss_per_vote_total_transfer)
+    print('quotient_gain_per_vote_total_transfer',quotient_gain_per_vote_total_transfer)
+    print('total_quotient_gap_change_per_vote_total_transfer:',total_quotient_gap_change_per_vote_total_transfer)
+    required_vote_total_transfer = quotient_difference / total_quotient_gap_change_per_vote_total_transfer #Virker ikke riktig.
+
+    new_line1 = str(n)+'\t'+str(winner_seat_n)+'\t'+str(divisor_seat_n)+'\t'+'%.3f'%(quotient_seat_n)+'\n'
+    new_line1 = new_line1.expandtabs(32)
+    new_line2 = str(n+1)+'\t'+str(winner_seat_n_plus_one)+'\t'+str(divisor_seat_n_plus_one)+'\t'+'%.3f'%(quotient_seat_n_plus_one)+'\n'
+    new_line2 = new_line2.expandtabs(32)
+    result_table = result_table + new_line1 + new_line2
+
+    print(result_table)
+ 
+    print('quotient_difference: ','%.3f'%quotient_difference)
+    print('\n')
+    print('Increase in vote total (listestemmetall) (not changing any existing votes) to party',winner_seat_n_plus_one,'needed to change election result:','%.3f'%required_vote_total_increase)
+    print('Increase in votes cast (not changing any existing votes) for party',winner_seat_n_plus_one,'needed to change election result:',math.ceil(required_votes_cast_increase),',rounded up from','%.3f'%required_votes_cast_increase)
+    print('\n')
+    print('Decrease in vote total (listestemmetall) (not changing any existing votes) to party',winner_seat_n,'needed to change election result:','%.3f'%required_vote_total_decrease)
+    print('Decrease in votes cast (not changing any existing votes) for party',winner_seat_n,'needed to change election result:',math.ceil(required_votes_cast_decrease),',rounded up from','%.3f'%required_votes_cast_decrease)
+
+          
+   
+    print('\n')
+    print('Vote total (listestemmetall) transferred from party',winner_seat_n,'to party',winner_seat_n_plus_one,'needed to change election result:','%.3f'%required_vote_total_transfer)
 
     
-
-    #take the difference in quotients for seats n and n+1 and divide by the divisor for the winning quotient for seat n+1
-    #to determine how many additional votes (not changing any existing votes) party Y would need to win seat n
-        #If seats n and n+1 are won by the same party (party X), find the next seat not won by party X and do the same calculation
-    #take the difference in quotients for seats n and n+1 and divide by the divisor for the winning quotient for seat n
-    #to determine how many votes party X would need to lose (not changing any existing votes) in order to lose seat n
-        #If seats n and n+1 are won by the same party (party X), find the next seat not won by party X and do the same calculation
-
-
-    #Take the smallest amount of votes that party X would have to lose or party Y would have to gain while not changing any other votes, in order for party Y to win seat n.
-    #Divide this number by two to determine the smallest number of votes who could change the result by switching their vote from party X to party Y. (??)
     return
 
 
+#distribute_seats(votetotals_lillestrøm,number_of_seats_lillestrøm,wait = False)
 
+#leastvotechange(votetotals_lillestrøm,54)
+leastvotechange(votetotals_lillestrøm,55)
+#leastvotechange(votetotals_ibestad,19)
+
+ 
 def neededvotes(votetotals,number_of_seats,party):
     #find out how many additional votes (not changing any existing votes) a party not currently represented would need in order to win 1 seat.
 
@@ -152,4 +220,6 @@ def neededvotes(votetotals,number_of_seats,party):
     #get the difference between the (initial) quotient for the non-represented party, and the quotient that won the last seat., and divide by the first divisor.
 
     return
+
+
     
