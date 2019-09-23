@@ -135,7 +135,7 @@ def distribute_seats(votetotals,number_of_seats,first_divisor = 1.4, wait = Fals
 
     print(result_table)
     
-    return [seats,winning_quotient_divisors,winning_quotients]
+    return [seats,winning_quotient_divisors,winning_quotients,party_seats]
 
 
 
@@ -254,4 +254,23 @@ def neededvotes(votetotals,number_of_seats,party):
     return
 
 
+def compareresults(result1,result2):
+    #Compare two election results. Determine if the election outcome (number of seats awarded to each party) is different.
+
+    party_seats1 = result1[-1]
+    party_seats2 = result2[-1]
+
+    if party_seats1 == party_seats2:
+        print('Election outcomes are identical.')
+    else:
+        print('Election outcomes are different.')
     
+    
+    return
+
+
+result1 = distribute_seats(votetotals_bergen,number_of_seats_bergen,wait = False)
+result2 = distribute_seats(votetotals_bergen,number_of_seats_bergen,wait = False, adjustments = {'SV': -409*number_of_seats_bergen}) #Får SV en plass mindre? Virker som resultatet ikke alltid blir likt. Må sjekke igjen.
+
+compareresults(result1,result1) 
+compareresults(result1,result2)
