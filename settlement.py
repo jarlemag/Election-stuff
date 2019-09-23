@@ -20,10 +20,10 @@ number_of_seats_oslo = 59
 votetotals_drammen = {'Alliansen':13714,'Folkestyre':9152,'Helsepartiet':15222,'Høyre':697348,'KrF':61126,'Liberalistene':5474,'Nei til bomring':208012,'Partiet De Kristne':8948,'Rødt':68365,'Senterpartiet':216284,'SV':121984,'Venstre':56860,'Arbeiderpartiet':710950,'Fremskrittspartiet':290897,'Miljøpartiet de grønne':233538}
 number_of_seats_drammen = 57
 
-votetotals_bergen = vote_totals_bergen = {'Partiet De Kristne':74558,'Senterpartiet':534887,'Venstre':387477,'Pensjonistpartiet':150044,'Demokratene':57058,'Norges Kommunistiske Parti':6112,'Liberalistene':20914,'Kristelig Folkeparti':310008,'Piratpartiet':14405,'Folkeaksjonen Nei til mer bompenger':1677902,'SV - Sosialistisk Venstreparti':866352,'Arbeiderpartiet':1992486,'Fremskrittspartiet':469259,'Høyre':2016633,'Miljøpartiet De Grønne':998929,'Rødt':491334}
+votetotals_bergen = vote_totals_bergen = {'Partiet De Kristne':74558,'Senterpartiet':534887,'Venstre':387477,'Pensjonistpartiet':150044,'Demokratene':57058,'Norges Kommunistiske Parti':6112,'Liberalistene':20914,'Kristelig Folkeparti':310008,'Piratpartiet':14405,'Folkeaksjonen Nei til mer bompenger':1677902,'SV':866352,'Arbeiderpartiet':1992486,'Fremskrittspartiet':469259,'Høyre':2016633,'Miljøpartiet De Grønne':998929,'Rødt':491334}
 number_of_seats_bergen = 67
 
-def distribute_seats(votetotals,number_of_seats,first_divisor = 1.4, wait = False,Verbose = False):
+def distribute_seats(votetotals,number_of_seats,first_divisor = 1.4, wait = False,Verbose = False,adjustments = {}):
     #Note: The numbers used in votetotals should in most cases be "Stemmelistetall", the number of votes cast multiplied by the number of seats to be distributed,
     #and further modified (subtractions and additions) by personal votes. However, the function will also return correct result if the actual numbers of votes (ballots) cast are used
     #and there are no personal votes considered.
@@ -33,6 +33,13 @@ def distribute_seats(votetotals,number_of_seats,first_divisor = 1.4, wait = Fals
     print('Vote totals:')
     print(votetotals)
 
+
+    #Perform adjustments to vote totals, if any:
+    if adjustments:
+        for key in adjustments:
+            votetotals[key] =  votetotals[key] + adjustments[key]
+            print('Adjusting vote totals for:',key)
+            print('Vote total adjusted by',str(adjustments[key]))
 
     #Create variable to keep track of how many seats have been filled
     awardedseats_total = 0
@@ -233,7 +240,9 @@ def leastvotechange(votetotals,number_of_seats):
 #leastvotechange(votetotals_oslo,number_of_seats_oslo)
 
 distribute_seats(votetotals_bergen,number_of_seats_bergen,wait = False)
-leastvotechange(votetotals_bergen,number_of_seats_bergen)
+distribute_seats(votetotals_bergen,number_of_seats_bergen,wait = False, adjustments = {'SV': -409*number_of_seats_bergen})
+
+#leastvotechange(votetotals_bergen,number_of_seats_bergen)
 
  
 def neededvotes(votetotals,number_of_seats,party):
