@@ -33,11 +33,26 @@ number_of_seats_bergen = 67
 votetotals_bergen_modified = votetotals_bergen.copy()
 votetotals_bergen_modified['SV'] = 838949
 
-
+#Example data from Gjøvik kommune, 2019 election.
 votetotals_gjovik = {'Sp':131218,'KrF':14215,'Ap':194647,'SV':30329,'Liberalistene':1566,'Venstre':16619,'Høyre':110985,'Rødt':36019,'Partiet De Kristne':4181,
                      'MdG':22645,'FrP':22031}
 
+
+
 number_of_seats_gjovik = 41
+
+
+#Example data from Gaustad kommune, 2019 election.
+votetotals_gaustad = {'Bygdalista i Gausdal':6791,'Arbeiderpartiet':26031,'Tverrpolitisk liste for Fremskrittspartiet, Høyre og Venstre':4194,
+                      'Senterpartiet':31602,'Miljøpartiet De Grønne':3004}
+
+number_of_seats_gaustad = 23
+
+#Example data from Evenes kommune, 2019 election.
+
+votetotals_evenes = {'Evenes tverrpolitiske liste':3824,'Fremskrittspartiet':518,'Senterpartiet':2481,'Høyre':3297,'Arbeiderpartiet':3654,'SV':523}
+number_of_seats_evenes = 17
+
 
 def distribute_seats(votetotals_in,number_of_seats,first_divisor = 1.4, wait = False,Verbose = False,adjustments = {}):
     #Note: The numbers used in votetotals should in most cases be "Stemmelistetall", the number of votes cast multiplied by the number of seats to be distributed,
@@ -319,5 +334,9 @@ def compareresults(result1,result2):
 #compareresults(result1,result2)
 
 
-distribute_seats(votetotals_gjovik,number_of_seats_gjovik,wait = False)
-leastvotechange(votetotals_gjovik,number_of_seats_gjovik)
+#distribute_seats(votetotals_gjovik,number_of_seats_gjovik,wait = False)
+#leastvotechange(votetotals_gjovik,number_of_seats_gjovik)
+
+
+distribute_seats(votetotals_evenes,number_of_seats_evenes,wait = False)
+leastvotechange(votetotals_evenes,number_of_seats_evenes)
