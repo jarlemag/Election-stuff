@@ -300,11 +300,25 @@ def leastvotechange(votetotals,number_of_seats):
 #leastvotechange(votetotals_bergen,number_of_seats_bergen)
 
  
-def neededvotes(votetotals,number_of_seats,party):
+def neededvotes(votetotals,number_of_seats,party, divisor = 1.4):
     #find out how many additional votes (not changing any existing votes) a party not currently represented would need in order to win 1 seat.
+    result = distribute_seats(votetotals,number_of_seats, first_divisor = divisor)
+    seats = result[0]
+    winning_quotients = result[2]
+    if party in seats:
+        print(party,'won one or more seats in the election.')
+    else:
+        party_quotient = votetotals[party] / divisor
+        print(party,'quotient:',party_quotient)
+        last_winning_quotient = winning_quotients[-1]
+        print('Last winning quotient:',last_winning_quotient)
+        quotient_difference = last_winning_quotient - party_quotient
+        required_votetotal_increase = quotient_difference * divisor
+        required_vote_increase = required_votetotal_increase / number_of_seats 
 
-    #check that the party is not currently represented
-    #get the difference between the (initial) quotient for the non-represented party, and the quotient that won the last seat., and divide by the first divisor.
+        print(party,'Needs to increase vote total by',required_votetotal_increase,'to win one seat.')
+        print(party,'Needs',math.ceil(required_vote_increase),'additional votes to win one seat.')
+        
 
     return
 
@@ -338,5 +352,7 @@ def compareresults(result1,result2):
 #leastvotechange(votetotals_gjovik,number_of_seats_gjovik)
 
 
-distribute_seats(votetotals_evenes,number_of_seats_evenes,wait = False)
-leastvotechange(votetotals_evenes,number_of_seats_evenes)
+#distribute_seats(votetotals_evenes,number_of_seats_evenes,wait = False)
+#leastvotechange(votetotals_evenes,number_of_seats_evenes)
+
+neededvotes(votetotals_lillestrøm,number_of_seats_lillestrøm,'Helsepartiet')
