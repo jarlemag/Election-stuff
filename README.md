@@ -74,8 +74,8 @@ Two election results (distribute_seats() return values).
 Determines if the election results (number of seats awarded to each party) are identical. Prints the result.
       
 
-## Excel spreadsheets: Calculations and manually determined vote results (seat distributions) for a couple of local elections.
-
+## Excel spreadsheets: 
+Calculations and manually determined vote results (seat distributions) for a couple of local elections.
 
 # TODO:
 Might want to add support for reading data from and to files, for example JSON, or EML (Election Markup Language)?
