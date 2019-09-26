@@ -78,6 +78,7 @@ Determines if the election results (number of seats awarded to each party) are i
 Calculations and manually determined vote results (seat distributions) for a couple of local elections.
 
 # TODO:
-Might want to add support for reading data from and to files, for example JSON, or EML (Election Markup Language)?
-Add function for checking whether personal votes had impact on election result
-Create Ipython/Jupyter notebook for easier/interactive use.
+* Might want to add support for reading data from and to files, for example JSON, or EML (Election Markup Language)?
+* Add function for checking whether personal votes had impact on election result
+* Create Ipython/Jupyter notebook for easier/interactive use.
+* Add support for edge case identical quotients (party with most ballot votes should win. If number of ballots are also identical, winner is chosen randomly (by drawing lots)). Need to take into account/input both number of ballots and total vote count (listestemmer = number of ballots + net personal votes) for this.
