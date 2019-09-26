@@ -79,3 +79,5 @@ Calculations and manually determined vote results (seat distributions) for a cou
 
 # TODO:
 Might want to add support for reading data from and to files, for example JSON, or EML (Election Markup Language)?
+Add function for checking whether personal votes had impact on election result
+Create Ipython/Jupyter notebook for easier/interactive use.
