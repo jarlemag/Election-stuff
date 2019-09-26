@@ -82,3 +82,4 @@ Calculations and manually determined vote results (seat distributions) for a cou
 * Add function for checking whether personal votes had impact on election result
 * Create Ipython/Jupyter notebook for easier/interactive use.
 * Add support for edge case identical quotients (party with most ballot votes should win. If number of ballots are also identical, winner is chosen randomly (by drawing lots)). Need to take into account/input both number of ballots and total vote count (listestemmer = number of ballots + net personal votes) for this.
+* Make the functions available as part of an importable module
