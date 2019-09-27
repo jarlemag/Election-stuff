@@ -1,5 +1,6 @@
 
 import math
+from collections import Counter
 
 #Example data from Ibestad kommune, 2019 election. From election protocol, available at: https://github.com/elections-no/elections-no.github.io/blob/master/docs/2019/Troms_og_Finnmark/Ibestad%20kommune%2C%20Troms%20og%20Finnmark%20fylke%20-%20kommune%2010-09-2019.pdf
 votetotals_ibestad = {'Høyre':7876,'Arbeiderpartiet':4562,'Senterpartiet':3028}
@@ -52,6 +53,105 @@ number_of_seats_gaustad = 23
 
 votetotals_evenes = {'Evenes tverrpolitiske liste':3824,'Fremskrittspartiet':518,'Senterpartiet':2481,'Høyre':3297,'Arbeiderpartiet':3654,'SV':523}
 number_of_seats_evenes = 17
+
+#Example data from Gjesdal kommune, 2019 election.
+
+
+
+#Fra D1.4 Avvik mellom foreløpig og endelig opptelling av forhåndsstemmesedler
+votes_gjesdal_precast_prelim = {'Rødt':21,'Venstre':34,'Krf':230,'Ap':788,'MdG':55,'FrP':229,'SV':87,'Sp':242,'Høyre':251}
+
+
+#Fra D1.4 Avvik mellom foreløpig og endelig opptelling av forhåndsstemmesedler
+votes_gjesdal_precast_final = {'Rødt':21,'Venstre':34,'Krf':233,'Ap':789,'MdG':55,'FrP':228,'SV':86,'Sp':243,'Høyre':249}
+
+
+#Fra D2.4 Avvik mellom foreløpig og endelig opptelling av ordinære valgtingsstemmesedler
+votes_gjesdal_electionday_prelim = {'Rødt':46,'Venstre':48,'Krf':524,'Ap':1270,'MdG':104,'FrP':575,'SV':116,'Sp':528,'Høyre':502}
+
+#Fra D2.4 Avvik mellom foreløpig og endelig opptelling av ordinære valgtingsstemmesedler
+votes_gjesdal_electionday_final = {'Rødt':49,'Venstre':48,'Krf':525,'Ap':1268,'MdG':105,'FrP':576,'SV':116,'Sp':528,'Høyre':500}
+
+
+votes_gjesdal_sum_prelim = Counter(votes_gjesdal_precast_prelim) + Counter(votes_gjesdal_electionday_prelim)
+
+votes_gjesdal_sum_final = Counter(votes_gjesdal_precast_final) + Counter(votes_gjesdal_electionday_final)
+
+
+votetotals_gjesdal_final = {'Rødt':1891,'Venstre':2245,'Krf':20397,'Ap':55532,'MdG':4348,'FrP':21681,'SV':5500,'Sp':20678,'Høyre':20359}
+
+
+number_of_seats_gjesdal = 27
+
+
+#Example data from Øksdal kommune, 2019 election.
+
+votes_øksnes_precast_prelim = {'SV':59,'KrF':28,'Venstre':61,'Sp':274,'Rødt':11,'Ap':184,'FrP':95,'Høyre':56}
+votes_øksnes_precast_final = {'SV':59,'KrF':28,'Venstre':61,'Sp':276,'Rødt':11,'Ap':185,'FrP':95,'Høyre':56}
+
+
+votes_øksnes_electionday_prelim = {'SV':99,'KrF':44,'Venstre':103,'Sp':505,'Rødt':29,'Ap':359,'FrP':128,'Høyre':123}
+
+votes_øksnes_electionday_final = {'SV':99,'KrF':44,'Venstre':103,'Sp':505,'Rødt':29,'Ap':359,'FrP':118,'Høyre':123}
+
+
+votes_øksnes_sum_prelim = Counter(votes_øksnes_precast_prelim) + Counter(votes_øksnes_electionday_prelim)
+
+votes_øksnes_sum_final = Counter(votes_øksnes_precast_final) + Counter(votes_øksnes_electionday_final)
+
+
+votetotals_øksnes_final = {'SV':3331,'KrF':1523,'Venstre':3458,'Sp':16318,'Rødt':846,'Ap':11418,'FrP':4481,'Høyre':3796}
+
+
+
+number_of_seats_øksnes = 21
+
+
+#Example data from Fredrikstad kommune, 2019 election.
+
+#Fra D1.4
+votes_fredrikstad_precast_prelim = {'Ap':4562,'Høyre':1654,'Sp':542,'Bymiljølista':292,'Pensjonistpartiet':615,'Fremskrittsspartiet':1277,
+                                    'Venstre':181,'KrF':401,'Liberalistene':47,'Rødt':643,'MdG':949,'SV':653}
+votes_fredrikstad_precast_final = {'Ap':4550,'Høyre':1649,'Sp':544,'Bymiljølista':341,'Pensjonistpartiet':615,'Fremskrittsspartiet':1280,
+                                    'Venstre':181,'KrF':351,'Liberalistene':48,'Rødt':643,'MdG':950,'SV':652}
+#D2.4
+votes_fredrikstad_electionday_prelim = {'Ap':9054,'Høyre':4069,'Sp':1945,'Bymiljølista':748,'Pensjonistpartiet':1071,'Fremskrittsspartiet':3413,
+                                    'Venstre':368,'KrF':971,'Liberalistene':139,'Rødt':1228,'MdG':1649,'SV':1006}
+
+votes_fredrikstad_electionday_final = {'Ap':9066,'Høyre':4074,'Sp':1947,'Bymiljølista':748,'Pensjonistpartiet':1073,'Fremskrittsspartiet':3418,
+                                    'Venstre':368,'KrF':973,'Liberalistene':139,'Rødt':1229,'MdG':1649,'SV':1009}
+
+
+votes_fredrikstad_sum_prelim = Counter(votes_fredrikstad_precast_prelim) + Counter(votes_fredrikstad_electionday_prelim)
+
+votes_fredrikstad_sum_final = Counter(votes_fredrikstad_precast_final) + Counter(votes_fredrikstad_electionday_final)
+
+votetotals_fredrikstad_final = {'Ap':721382,'Høyre':303560,'Sp':132071,'Bymiljølista':57803,'Pensjonistpartiet':89437,'Fremskrittsspartiet':248909,
+                                    'Venstre':29166,'KrF':70141,'Liberalistene':9917,'Rødt':99288,'MdG':137584,'SV':88083}
+
+
+number_of_seats_fredrikstad = 53
+
+#Example data from Nesseby kommune, 2019 election.
+
+votes_nesseby_precast_prelim = {'Tverrpolitisk liste':25,'SV':26,'Høyre':13,'Arbeiderpartiet':155,'Senterpartiet':55,'Samefolkets pati':16}
+
+votes_nesseby_precast_final = {'Tverrpolitisk liste':25,'SV':26,'Høyre':13,'Arbeiderpartiet':155,'Senterpartiet':55,'Samefolkets pati':16}
+
+
+votes_nesseby_electionday_prelim = {'Tverrpolitisk liste':28,'SV':19,'Høyre':36,'Arbeiderpartiet':114,'Senterpartiet':69,'Samefolkets pati':35}
+
+votes_nesseby_electionday_final = {'Tverrpolitisk liste':28,'SV':19,'Høyre':36,'Arbeiderpartiet':114,'Senterpartiet':69,'Samefolkets pati':35}
+
+
+votes_nesseby_sum_prelim = Counter(votes_nesseby_precast_prelim) + Counter(votes_nesseby_electionday_prelim)
+
+votes_nesseby_sum_final = Counter(votes_nesseby_precast_final) + Counter(votes_nesseby_electionday_final)
+
+votetotals_nesseby_final = {'Tverrpolitisk liste':798,'SV':672,'Høyre':728,'Arbeiderpartiet':4029,'Senterpartiet':1847,'Samefolkets pati':806}
+
+
+number_of_seats_nesseby = 15
 
 
 def distribute_seats(votetotals_in,number_of_seats,first_divisor = 1.4, wait = False,Verbose = False,adjustments = {}):
@@ -355,4 +455,115 @@ def compareresults(result1,result2):
 #distribute_seats(votetotals_evenes,number_of_seats_evenes,wait = False)
 #leastvotechange(votetotals_evenes,number_of_seats_evenes)
 
-neededvotes(votetotals_lillestrøm,number_of_seats_lillestrøm,'Helsepartiet')
+#neededvotes(votetotals_lillestrøm,number_of_seats_lillestrøm,'Helsepartiet')
+
+#GJESDAL
+#print('Calculating results for Gjesdal...')
+
+#print('From preliminary vote counts:')
+#result_gjesdal_prelim = distribute_seats(votes_gjesdal_sum_prelim,number_of_seats_gjesdal)
+#print('From final vote totals (including personal votes):')
+#result_gjesdal_final =  distribute_seats(votetotals_gjesdal_final,number_of_seats_gjesdal)
+#print('From final vote counts (excluding personal votes):')
+#result_gjesdal_final_no_personal_votes = distribute_seats(votes_gjesdal_sum_final,number_of_seats_gjesdal)
+
+#print('Comparing Gjesdal preliminary result to Gjesdal final result:')
+#is_identical = compareresults(result_gjesdal_prelim,result_gjesdal_final)
+
+
+#print('Comparing Gjesdal preliminary result to Gjesdal final result WITHOUT PERSONAL VOTES (votetotal = #of ballots):')
+#is_identical2 = compareresults(result_gjesdal_prelim,result_gjesdal_final_no_personal_votes)
+
+
+#print('\n\n\n\n\nLeast vote change that would change Gjesdal final result:')
+#leastvotechange(votetotals_gjesdal_final,number_of_seats_gjesdal)
+
+#print('\n\n\n\n\nLeast vote change that would change Gjesdal preliminary result:')
+#leastvotechange(votes_gjesdal_sum_prelim,number_of_seats_gjesdal)
+
+
+
+#ØKSNES
+#print('\n\n\n\n\nCalculating results for Øksnes...')
+
+
+#print('From preliminary vote counts:')
+#result_øksnes_prelim = distribute_seats(votes_øksnes_sum_prelim,number_of_seats_øksnes)
+#print('From final vote totals (including personal votes):')
+#result_øksnes_final =  distribute_seats(votetotals_øksnes_final,number_of_seats_øksnes)
+#print('From final vote counts (excluding personal votes):')
+#result_øksnes_final_no_personal_votes = distribute_seats(votes_øksnes_sum_final,number_of_seats_øksnes)
+
+
+#print('Comparing Øksnes preliminary result to Øksnes final result:')
+#is_identical1 = compareresults(result_øksnes_prelim,result_øksnes_final)
+
+
+#print('Comparing Øksnes preliminary result to Øksnes final result WITHOUT PERSONAL VOTES (votetotal = #of ballots):')
+#is_identical2 = compareresults(result_øksnes_prelim,result_øksnes_final_no_personal_votes)
+
+#print('\n\n\n\n\nLeast vote change that would change Øksnes final result:')
+#leastvotechange(votetotals_øksnes_final,number_of_seats_øksnes)
+
+
+#print('\n\n\n\n\nLeast vote change that would change Øksnes preliminary result:')
+#leastvotechange(votes_øksnes_sum_prelim,number_of_seats_øksnes)
+
+
+
+#fredrikstad
+#print('\n\n\n\n\nCalculating results for fredrikstad...')
+
+
+#print('From preliminary vote counts:')
+#result_fredrikstad_prelim = distribute_seats(votes_fredrikstad_sum_prelim,number_of_seats_fredrikstad)
+#print('From final vote totals (including personal votes):')
+#result_fredrikstad_final =  distribute_seats(votetotals_fredrikstad_final,number_of_seats_fredrikstad)
+#print('From final vote counts (excluding personal votes):')
+#result_fredrikstad_final_no_personal_votes = distribute_seats(votes_fredrikstad_sum_final,number_of_seats_fredrikstad)
+
+
+#print('Comparing fredrikstad preliminary result to fredrikstad final result:')
+#is_identical1 = compareresults(result_fredrikstad_prelim,result_fredrikstad_final)
+
+
+#print('Comparing fredrikstad preliminary result to fredrikstad final result WITHOUT PERSONAL VOTES (votetotal = #of ballots):')
+#is_identical2 = compareresults(result_fredrikstad_prelim,result_fredrikstad_final_no_personal_votes)
+
+#print('\n\n\n\n\nLeast vote change that would change fredrikstad final result:')
+#leastvotechange(votetotals_fredrikstad_final,number_of_seats_fredrikstad)
+
+
+#print('\n\n\n\n\nLeast vote change that would change fredrikstad preliminary result:')
+#leastvotechange(votes_fredrikstad_sum_prelim,number_of_seats_fredrikstad)
+
+
+
+
+print('\n\n\n\n\nCalculating results for nesseby...')
+
+
+print('From preliminary vote counts:')
+result_nesseby_prelim = distribute_seats(votes_nesseby_sum_prelim,number_of_seats_nesseby)
+print('From final vote totals (including personal votes):')
+result_nesseby_final =  distribute_seats(votetotals_nesseby_final,number_of_seats_nesseby)
+print('From final vote counts (excluding personal votes):')
+result_nesseby_final_no_personal_votes = distribute_seats(votes_nesseby_sum_final,number_of_seats_nesseby)
+
+
+print('Comparing nesseby preliminary result to nesseby final result:')
+is_identical1 = compareresults(result_nesseby_prelim,result_nesseby_final)
+
+
+print('Comparing nesseby preliminary result to nesseby final result WITHOUT PERSONAL VOTES (votetotal = #of ballots):')
+is_identical2 = compareresults(result_nesseby_prelim,result_nesseby_final_no_personal_votes)
+
+print('\n\n\n\n\nLeast vote change that would change nesseby final result:')
+leastvotechange(votetotals_nesseby_final,number_of_seats_nesseby)
+
+
+print('\n\n\n\n\nLeast vote change that would change nesseby preliminary result:')
+leastvotechange(votes_nesseby_sum_prelim,number_of_seats_nesseby)
+
+
+
