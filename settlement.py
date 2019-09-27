@@ -202,7 +202,7 @@ def distribute_seats(votetotals_in,number_of_seats,first_divisor = 1.4, wait = F
     winning_quotient_divisors = []
 
     #Create dict to keep track of how many seats have been won by each party
-    party_seats = dict.fromkeys(votetotals, 0)
+    party_seats_numbers = dict.fromkeys(votetotals, 0)
 
     #Create a printable results table  
     result_table = 'Seat #\tWinning party\tDivisor\tQuotient\n'
@@ -243,10 +243,10 @@ def distribute_seats(votetotals_in,number_of_seats,first_divisor = 1.4, wait = F
         result_table = result_table + new_line
                              
         #Keep track of how many seats won by each party
-        party_seats[seatwinner] = party_seats[seatwinner] + 1
+        party_seats_numbers[seatwinner] = party_seats_numbers[seatwinner] + 1
         
         #Set the new divisor for the seatwinner
-        divisors[seatwinner] = 2*party_seats[seatwinner] + 1
+        divisors[seatwinner] = 2*party_seats_numbers[seatwinner] + 1
 
         if Verbose:
             print('New divisor for ',seatwinner,':')
@@ -264,11 +264,11 @@ def distribute_seats(votetotals_in,number_of_seats,first_divisor = 1.4, wait = F
     print('SEAT DISTRIBUTION FINISHED.')
     print('Total number of seats awarded:',awardedseats_total)
     print('Seats per party:')
-    print(party_seats)
+    print(party_seats_numbers)
 
     print(result_table)
     
-    return [seats,winning_quotient_divisors,winning_quotients,party_seats]
+    return [seats,winning_quotient_divisors,winning_quotients,party_seats_numbers]
 
 
 
@@ -426,10 +426,10 @@ def neededvotes(votetotals,number_of_seats,party, divisor = 1.4):
 def compareresults(result1,result2):
     #Compare two election results. Determine if the election outcome (number of seats awarded to each party) is different.
 
-    party_seats1 = result1[-1]
-    party_seats2 = result2[-1]
+    party_seats_numbers1 = result1[-1]
+    party_seats_numbers2 = result2[-1]
 
-    if party_seats1 == party_seats2:
+    if party_seats_numbers1 == party_seats_numbers2:
         print('Election outcomes are identical.')
         return True
     else:
