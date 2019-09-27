@@ -413,41 +413,42 @@ def compareresults(result1,result2):
 
 #neededvotes(votetotals_lillestrøm,number_of_seats_lillestrøm,'Helsepartiet')
 
-
-print('Calculating results for Gjesvik...')
+#GJESDAL
+print('Calculating results for Gjesdal...')
 
 print('From preliminary vote counts:')
-result_gjesvik_prelim = distribute_seats(votes_gjesdal_sum_prelim,number_of_seats_gjesdal)
+result_gjesdal_prelim = distribute_seats(votes_gjesdal_sum_prelim,number_of_seats_gjesdal)
 print('From final vote totals (including personal votes):')
-result_gjesvik_final =  distribute_seats(votetotals_gjesdal_final,number_of_seats_gjesdal)
+result_gjesdal_final =  distribute_seats(votetotals_gjesdal_final,number_of_seats_gjesdal)
 print('From final vote counts (excluding personal votes):')
-result_gjesvik_final_no_personal_votes = distribute_seats(votes_gjesdal_sum_final,number_of_seats_gjesdal)
+result_gjesdal_final_no_personal_votes = distribute_seats(votes_gjesdal_sum_final,number_of_seats_gjesdal)
 
-print('Comparing gjesvik preliminary result to gjesvik final result:')
-is_identical = compareresults(result_gjesvik_prelim,result_gjesvik_final)
+print('Comparing Gjesdal preliminary result to Gjesdal final result:')
+is_identical = compareresults(result_gjesdal_prelim,result_gjesdal_final)
 
 
-print('Comparing gjesvik preliminary result to gjesvik final result WITHOUT PERSONAL VOTES (votetotal = #of ballots):')
-is_identical2 = compareresults(result_gjesvik_prelim,result_gjesvik_final_no_personal_votes)
+print('Comparing Gjesdal preliminary result to Gjesdal final result WITHOUT PERSONAL VOTES (votetotal = #of ballots):')
+is_identical2 = compareresults(result_gjesdal_prelim,result_gjesdal_final_no_personal_votes)
 
 #leastvotechange(votetotals_gjesdal_final,number_of_seats_gjesdal)
 
-
-
+#ØKSNES
 print('Calculating results for Øksnes...')
+
+
 print('From preliminary vote counts:')
-result_øksdal_prelim = distribute_seats(votes_gjesdal_sum_prelim,number_of_seats_gjesdal)
+result_øksnes_prelim = distribute_seats(votes_øksnes_sum_prelim,number_of_seats_øksnes)
 print('From final vote totals (including personal votes):')
-result_øksdal_final =  distribute_seats(votetotals_gjesdal_final,number_of_seats_gjesdal)
+result_øksnes_final =  distribute_seats(votetotals_øksnes_final,number_of_seats_øksnes)
 print('From final vote counts (excluding personal votes):')
-result_øksdal_final_no_personal_votes = distribute_seats(votes_gjesdal_sum_final,number_of_seats_gjesdal)
+result_øksnes_final_no_personal_votes = distribute_seats(votes_øksnes_sum_final,number_of_seats_øksnes)
 
 
-print('Comparing Øksnes preliminary result to gjesvik final result:')
-is_identical1 = compareresults(result_øksdal_prelim,result_øksdal_final)
+print('Comparing Øksnes preliminary result to Øksnes final result:')
+is_identical1 = compareresults(result_øksnes_prelim,result_øksnes_final)
 
 
-print('Comparing Øksnes preliminary result to gjesvik final result WITHOUT PERSONAL VOTES (votetotal = #of ballots):')
-is_identical2 = compareresults(result_øksdal_prelim,result_øksdal_final_no_personal_votes)
+print('Comparing Øksnes preliminary result to Øksnes final result WITHOUT PERSONAL VOTES (votetotal = #of ballots):')
+is_identical2 = compareresults(result_øksnes_prelim,result_øksnes_final_no_personal_votes)
 
 #leastvotechange(votetotals_gjesdal_final,number_of_seats_gjesdal)
