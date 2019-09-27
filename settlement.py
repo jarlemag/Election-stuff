@@ -430,10 +430,17 @@ is_identical = compareresults(result_gjesdal_prelim,result_gjesdal_final)
 print('Comparing Gjesdal preliminary result to Gjesdal final result WITHOUT PERSONAL VOTES (votetotal = #of ballots):')
 is_identical2 = compareresults(result_gjesdal_prelim,result_gjesdal_final_no_personal_votes)
 
-#leastvotechange(votetotals_gjesdal_final,number_of_seats_gjesdal)
+
+print('\n\n\n\n\nLeast vote change that would change Gjesdal final result:')
+leastvotechange(votetotals_gjesdal_final,number_of_seats_gjesdal)
+
+print('\n\n\n\n\nLeast vote change that would change Gjesdal preliminary result:')
+leastvotechange(votes_gjesdal_sum_prelim,number_of_seats_gjesdal)
+
+
 
 #ØKSNES
-print('Calculating results for Øksnes...')
+print('\n\n\n\n\nCalculating results for Øksnes...')
 
 
 print('From preliminary vote counts:')
@@ -451,4 +458,10 @@ is_identical1 = compareresults(result_øksnes_prelim,result_øksnes_final)
 print('Comparing Øksnes preliminary result to Øksnes final result WITHOUT PERSONAL VOTES (votetotal = #of ballots):')
 is_identical2 = compareresults(result_øksnes_prelim,result_øksnes_final_no_personal_votes)
 
-#leastvotechange(votetotals_gjesdal_final,number_of_seats_gjesdal)
+print('\n\n\n\n\nLeast vote change that would change Øksnes final result:')
+leastvotechange(votetotals_øksnes_final,number_of_seats_øksnes)
+
+
+print('\n\n\n\n\nLeast vote change that would change Øksnes preliminary result:')
+leastvotechange(votes_øksnes_sum_prelim,number_of_seats_øksnes)
+
