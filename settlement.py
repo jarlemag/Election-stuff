@@ -63,7 +63,7 @@ votes_gjesdal_precast_prelim = {'Rødt':21,'Venstre':34,'Krf':230,'Ap':788,'MdG'
 
 
 #Fra D1.4 Avvik mellom foreløpig og endelig opptelling av forhåndsstemmesedler
-votes_gjesdal_precast_final = {'Rødt':21,'Venstre':34,'Krf':233,'Ap':789,'MdG':55,'FrP':228,'SV':86,'Sp':243,'Høyre':49}
+votes_gjesdal_precast_final = {'Rødt':21,'Venstre':34,'Krf':233,'Ap':789,'MdG':55,'FrP':228,'SV':86,'Sp':243,'Høyre':249}
 
 
 #Fra D2.4 Avvik mellom foreløpig og endelig opptelling av ordinære valgtingsstemmesedler
