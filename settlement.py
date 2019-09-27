@@ -1,5 +1,6 @@
 
 import math
+from collections import Counter
 
 #Example data from Ibestad kommune, 2019 election. From election protocol, available at: https://github.com/elections-no/elections-no.github.io/blob/master/docs/2019/Troms_og_Finnmark/Ibestad%20kommune%2C%20Troms%20og%20Finnmark%20fylke%20-%20kommune%2010-09-2019.pdf
 votetotals_ibestad = {'Høyre':7876,'Arbeiderpartiet':4562,'Senterpartiet':3028}
@@ -52,6 +53,28 @@ number_of_seats_gaustad = 23
 
 votetotals_evenes = {'Evenes tverrpolitiske liste':3824,'Fremskrittspartiet':518,'Senterpartiet':2481,'Høyre':3297,'Arbeiderpartiet':3654,'SV':523}
 number_of_seats_evenes = 17
+
+#Example data from Gjesdal kommune, 2019 election.
+
+
+votes_gjesdal_precast_prelim = {'Rødt':21,'Venstre':34,'Krf':230,'Ap':788,'MdG':55,'FrP':229,'SV':87,'Sp':242,'Høyre':251}
+votes_gjesdal_precast_final = {'Rødt':21,'Venstre':34,'Krf':233,'Ap':789,'MdG':55,'FrP':222,'SV':86,'Sp':243,'Høyre':49}
+
+votes_gjesdal_electionday_prelim = {'Rødt':46,'Venstre':48,'Krf':524,'Ap':1270,'MdG':104,'FrP':575,'SV':116,'Sp':528,'Høyre':502}
+
+votes_gjesdal_electionday_final = {'Rødt':49,'Venstre':48,'Krf':525,'Ap':1268,'MdG':105,'FrP':576,'SV':116,'Sp':528,'Høyre':500}
+
+
+votes_gjesdal_sum_prelim = Counter(votes_gjesdal_precast_prelim) + Counter(votes_gjesdal_electionday_prelim)
+
+votes_gjesdal_sum_final = Counter(votes_gjesdal_precast_final) + Counter(votes_gjesdal_electionday_final)
+
+
+votetotals_gjesdal_final = {'Rødt':1891,'Venstre':2245,'Krf':20397,'Ap':55532,'MdG':4348,'FrP':21681,'SV':5500,'Sp':20678,'Høyre':20359}
+
+
+number_of_seats_gjesdal = 27
+
 
 
 def distribute_seats(votetotals_in,number_of_seats,first_divisor = 1.4, wait = False,Verbose = False,adjustments = {}):
@@ -355,4 +378,16 @@ def compareresults(result1,result2):
 #distribute_seats(votetotals_evenes,number_of_seats_evenes,wait = False)
 #leastvotechange(votetotals_evenes,number_of_seats_evenes)
 
-neededvotes(votetotals_lillestrøm,number_of_seats_lillestrøm,'Helsepartiet')
+#neededvotes(votetotals_lillestrøm,number_of_seats_lillestrøm,'Helsepartiet')
+
+
+
+
+result_gjesvik_prelim = distribute_seats(votes_gjesdal_sum_prelim,number_of_seats_gjesdal)
+
+result_gjesvik_final =  distribute_seats(votetotals_gjesdal_final,number_of_seats_gjesdal)
+
+
+is_identical = compareresults(result_gjesvik_prelim,result_gjesvik_final)
+
+leastvotechange(votetotals_gjesdal_final,number_of_seats_gjesdal)
