@@ -57,11 +57,19 @@ number_of_seats_evenes = 17
 #Example data from Gjesdal kommune, 2019 election.
 
 
-votes_gjesdal_precast_prelim = {'Rødt':21,'Venstre':34,'Krf':230,'Ap':788,'MdG':55,'FrP':229,'SV':87,'Sp':242,'Høyre':251}
-votes_gjesdal_precast_final = {'Rødt':21,'Venstre':34,'Krf':233,'Ap':789,'MdG':55,'FrP':222,'SV':86,'Sp':243,'Høyre':49}
 
+#Fra D1.4 Avvik mellom foreløpig og endelig opptelling av forhåndsstemmesedler
+votes_gjesdal_precast_prelim = {'Rødt':21,'Venstre':34,'Krf':230,'Ap':788,'MdG':55,'FrP':229,'SV':87,'Sp':242,'Høyre':251}
+
+
+#Fra D1.4 Avvik mellom foreløpig og endelig opptelling av forhåndsstemmesedler
+votes_gjesdal_precast_final = {'Rødt':21,'Venstre':34,'Krf':233,'Ap':789,'MdG':55,'FrP':228,'SV':86,'Sp':243,'Høyre':49}
+
+
+#Fra D2.4 Avvik mellom foreløpig og endelig opptelling av ordinære valgtingsstemmesedler
 votes_gjesdal_electionday_prelim = {'Rødt':46,'Venstre':48,'Krf':524,'Ap':1270,'MdG':104,'FrP':575,'SV':116,'Sp':528,'Høyre':502}
 
+#Fra D2.4 Avvik mellom foreløpig og endelig opptelling av ordinære valgtingsstemmesedler
 votes_gjesdal_electionday_final = {'Rødt':49,'Venstre':48,'Krf':525,'Ap':1268,'MdG':105,'FrP':576,'SV':116,'Sp':528,'Høyre':500}
 
 
@@ -74,6 +82,31 @@ votetotals_gjesdal_final = {'Rødt':1891,'Venstre':2245,'Krf':20397,'Ap':55532,'
 
 
 number_of_seats_gjesdal = 27
+
+
+#Example data from Øksdal kommune, 2019 election.
+
+votes_øksnes_precast_prelim = {'SV':59,'KrF':28,'Venstre':61,'Sp':274,'Rødt':11,'Ap':184,'FrP':95,'Høyre':56}
+votes_øksnes_precast_final = {'SV':59,'KrF':28,'Venstre':61,'Sp':276,'Rødt':11,'Ap':185,'FrP':95,'Høyre':56}
+
+
+votes_øksnes_electionday_prelim = {'SV':99,'KrF':44,'Venstre':103,'Sp':505,'Rødt':29,'Ap':359,'FrP':128,'Høyre':123}
+
+votes_øksnes_electionday_final = {'SV':99,'KrF':44,'Venstre':103,'Sp':505,'Rødt':29,'Ap':359,'FrP':118,'Høyre':123}
+
+
+votes_øksnes_sum_prelim = Counter(votes_øksnes_precast_prelim) + Counter(votes_øksnes_electionday_prelim)
+
+votes_øksnes_sum_final = Counter(votes_øksnes_precast_final) + Counter(votes_øksnes_electionday_final)
+
+
+votetotals_øksnes_final = {'SV':3331,'KrF':1523,'Venstre':3458,'Sp':16318,'Rødt':846,'Ap':11418,'FrP':4481,'Høyre':3796}
+
+
+
+number_of_seats_øksnes = 21
+
+
 
 
 
@@ -381,13 +414,40 @@ def compareresults(result1,result2):
 #neededvotes(votetotals_lillestrøm,number_of_seats_lillestrøm,'Helsepartiet')
 
 
+print('Calculating results for Gjesvik...')
 
-
+print('From preliminary vote counts:')
 result_gjesvik_prelim = distribute_seats(votes_gjesdal_sum_prelim,number_of_seats_gjesdal)
-
+print('From final vote totals (including personal votes):')
 result_gjesvik_final =  distribute_seats(votetotals_gjesdal_final,number_of_seats_gjesdal)
+print('From final vote counts (excluding personal votes):')
+result_gjesvik_final_no_personal_votes = distribute_seats(votes_gjesdal_sum_final,number_of_seats_gjesdal)
 
-
+print('Comparing gjesvik preliminary result to gjesvik final result:')
 is_identical = compareresults(result_gjesvik_prelim,result_gjesvik_final)
 
-leastvotechange(votetotals_gjesdal_final,number_of_seats_gjesdal)
+
+print('Comparing gjesvik preliminary result to gjesvik final result WITHOUT PERSONAL VOTES (votetotal = #of ballots):')
+is_identical2 = compareresults(result_gjesvik_prelim,result_gjesvik_final_no_personal_votes)
+
+#leastvotechange(votetotals_gjesdal_final,number_of_seats_gjesdal)
+
+
+
+print('Calculating results for Øksnes...')
+print('From preliminary vote counts:')
+result_øksdal_prelim = distribute_seats(votes_gjesdal_sum_prelim,number_of_seats_gjesdal)
+print('From final vote totals (including personal votes):')
+result_øksdal_final =  distribute_seats(votetotals_gjesdal_final,number_of_seats_gjesdal)
+print('From final vote counts (excluding personal votes):')
+result_øksdal_final_no_personal_votes = distribute_seats(votes_gjesdal_sum_final,number_of_seats_gjesdal)
+
+
+print('Comparing Øksnes preliminary result to gjesvik final result:')
+is_identical1 = compareresults(result_øksdal_prelim,result_øksdal_final)
+
+
+print('Comparing Øksnes preliminary result to gjesvik final result WITHOUT PERSONAL VOTES (votetotal = #of ballots):')
+is_identical2 = compareresults(result_øksdal_prelim,result_øksdal_final_no_personal_votes)
+
+#leastvotechange(votetotals_gjesdal_final,number_of_seats_gjesdal)
