@@ -4,19 +4,11 @@ from collections import Counter
 import io
 import sys
 
-
-class NullWriter(object):
-    def write(self, arg):
-        pass
-
-#nullwriter = NullWriter()
-
-
 #https://bytes.com/topic/python/answers/724534-stopping-fucntion-printing-its-output-screen
 class NullWriter(object):
     def write(self, arg):
         pass
-#nullwriter = NullWriter()
+
 
 #Example data from Ibestad kommune, 2019 election. From election protocol, available at: https://github.com/elections-no/elections-no.github.io/blob/master/docs/2019/Troms_og_Finnmark/Ibestad%20kommune%2C%20Troms%20og%20Finnmark%20fylke%20-%20kommune%2010-09-2019.pdf
 votetotals_ibestad = {'Høyre':7876,'Arbeiderpartiet':4562,'Senterpartiet':3028}
