@@ -1,6 +1,14 @@
 
 import math
 from collections import Counter
+import io
+import sys
+
+#https://bytes.com/topic/python/answers/724534-stopping-fucntion-printing-its-output-screen
+class NullWriter(object):
+    def write(self, arg):
+        pass
+
 
 #Example data from Ibestad kommune, 2019 election. From election protocol, available at: https://github.com/elections-no/elections-no.github.io/blob/master/docs/2019/Troms_og_Finnmark/Ibestad%20kommune%2C%20Troms%20og%20Finnmark%20fylke%20-%20kommune%2010-09-2019.pdf
 votetotals_ibestad = {'Høyre':7876,'Arbeiderpartiet':4562,'Senterpartiet':3028}
@@ -154,25 +162,31 @@ votetotals_nesseby_final = {'Tverrpolitisk liste':798,'SV':672,'Høyre':728,'Arb
 number_of_seats_nesseby = 15
 
 
-def distribute_seats(votetotals_in,number_of_seats,first_divisor = 1.4, wait = False,Verbose = False,adjustments = {}):
+def distribute_seats(votetotals_in,number_of_seats,first_divisor = 1.4, wait = False,Verbose = False,adjustments = {}, silent = False,):
+    if silent:
+        out = NullWriter()
+    else:
+        out = sys.stdout
+    
     #Note: The numbers used in votetotals should in most cases be "Stemmelistetall", the number of votes cast multiplied by the number of seats to be distributed,
     #and further modified (subtractions and additions) by personal votes. However, the function will also return correct result if the actual numbers of votes (ballots) cast are used
     #and there are no personal votes considered.
+    
     votetotals = votetotals_in.copy()
-    print('Calculating election result from vote totals.')
-    print('Number of seats to be distributed: ',number_of_seats)
-    print('First divisor:',first_divisor)
-    print('Vote totals:')
-    print(votetotals)
+    print('Calculating election result from vote totals.',file=out)
+    print('Number of seats to be distributed: ',number_of_seats,file=out)
+    print('First divisor:',first_divisor,file=out)
+    print('Vote totals:',file=out)
+    print(votetotals,file=out)
 
 
     #Perform adjustments to vote totals, if any:
     if adjustments:
         for key in adjustments:
-            print('Adjusting vote totals for:',key)
+            print('Adjusting vote totals for:',key,file=out)
             votetotals[key] =  votetotals[key] + adjustments[key]
-            print('Vote total for',str(key),'adjusted by',str(adjustments[key]))
-            print('New vote total for ',str(key),':',votetotals[key])
+            print('Vote total for',str(key),'adjusted by',str(adjustments[key]),file=out)
+            print('New vote total for ',str(key),':',votetotals[key],file=out)
 
     #Create variable to keep track of how many seats have been filled
     awardedseats_total = 0
@@ -186,10 +200,10 @@ def distribute_seats(votetotals_in,number_of_seats,first_divisor = 1.4, wait = F
 
     #Set the initial divisors
     if Verbose:
-        print('Setting initial divisors...')
+        print('Setting initial divisors...',file=out)
     divisors = dict.fromkeys(votetotals, first_divisor)
     if Verbose:
-        print('Initial divisors')
+        print('Initial divisors',file=out)
         print(divisors)
     
     #Make an (empty) list of awarded seats
@@ -210,20 +224,20 @@ def distribute_seats(votetotals_in,number_of_seats,first_divisor = 1.4, wait = F
 
     while awardedseats_total < number_of_seats:
         if wait == True:
-            print('Ready to award seat #',awardedseats_total+1)
+            print('Ready to award seat #',awardedseats_total+1,)
             userinput = input('Press Enter to proceed to next seat. Press E + Enter to proceed to end. ')
             if userinput.lower() == 'e':
                 wait = False
             print('Input:',userinput)
 
         if Verbose:
-            print('Awarding seat #',awardedseats_total+1,'...')
+            print('Awarding seat #',awardedseats_total+1,'...',file=out)
         #Award the seat to the party with the highest current quotient
         if Verbose:
-            print('Current quotients:',quotients)
+            print('Current quotients:',quotients,file=out)
         seatwinner = max(quotients, key=quotients.get)
         if Verbose:
-            print('Winner of seat #',awardedseats_total+1,': ',seatwinner)
+            print('Winner of seat #',awardedseats_total+1,': ',seatwinner,file=out)
 
         #Update the lists of awarded seats, winning quotients and their divisors
         seats.append(seatwinner)
@@ -231,8 +245,8 @@ def distribute_seats(votetotals_in,number_of_seats,first_divisor = 1.4, wait = F
         winning_quotient_divisors.append(divisors[seatwinner])
         
         if Verbose:
-            print('Seats awarded so far:')
-            print(seats)
+            print('Seats awarded so far:',file=out)
+            print(seats,file=out)
 
         #Keep track of how many seats have been filled
         awardedseats_total  = len(seats)
@@ -249,25 +263,25 @@ def distribute_seats(votetotals_in,number_of_seats,first_divisor = 1.4, wait = F
         divisors[seatwinner] = 2*party_seats_numbers[seatwinner] + 1
 
         if Verbose:
-            print('New divisor for ',seatwinner,':')
-            print(divisors[seatwinner])
+            print('New divisor for ',seatwinner,':',file=out)
+            print(divisors[seatwinner],file=out)
         #Calculate the new quotient for the seatwinner:
         quotients[seatwinner] = votetotals[seatwinner] / divisors[seatwinner]
         if Verbose:
-            print('New quotient for ',seatwinner,':')
-            print(quotients[seatwinner])
+            print('New quotient for ',seatwinner,':',file=out)
+            print(quotients[seatwinner],file=out)
         
         if Verbose:
-            print('Seats awarded: ',awardedseats_total)
+            print('Seats awarded: ',awardedseats_total,file=out)
 
                
-    print('SEAT DISTRIBUTION FINISHED.')
-    print('Total number of seats awarded:',awardedseats_total)
-    print('Seats per party:')
-    print(party_seats_numbers)
+    print('SEAT DISTRIBUTION FINISHED.',file=out)
+    print('Total number of seats awarded:',awardedseats_total,file=out)
+    print('Seats per party:',file=out)
+    print(party_seats_numbers,file=out)
 
-    print(result_table)
-    
+    print(result_table,file=out)
+
     return [seats,winning_quotient_divisors,winning_quotients,party_seats_numbers]
 
 
@@ -359,7 +373,9 @@ def leastvotechange(votetotals,number_of_seats):
     return
 
 
-#distribute_seats(votetotals_lillestrøm,number_of_seats_lillestrøm,wait = False)
+print('test silent')
+silentresult = distribute_seats(votetotals_lillestrøm,number_of_seats_lillestrøm,wait = False, silent = True )
+print('silent function call complete')
 
 #leastvotechange(votetotals_lillestrøm,54)
 #leastvotechange(votetotals_lillestrøm,55)
@@ -540,30 +556,30 @@ def compareresults(result1,result2):
 
 
 
-print('\n\n\n\n\nCalculating results for nesseby...')
+#print('\n\n\n\n\nCalculating results for nesseby...')
 
 
-print('From preliminary vote counts:')
-result_nesseby_prelim = distribute_seats(votes_nesseby_sum_prelim,number_of_seats_nesseby)
-print('From final vote totals (including personal votes):')
-result_nesseby_final =  distribute_seats(votetotals_nesseby_final,number_of_seats_nesseby)
-print('From final vote counts (excluding personal votes):')
-result_nesseby_final_no_personal_votes = distribute_seats(votes_nesseby_sum_final,number_of_seats_nesseby)
+#print('From preliminary vote counts:')
+#result_nesseby_prelim = distribute_seats(votes_nesseby_sum_prelim,number_of_seats_nesseby)
+#print('From final vote totals (including personal votes):')
+#result_nesseby_final =  distribute_seats(votetotals_nesseby_final,number_of_seats_nesseby)
+#print('From final vote counts (excluding personal votes):')
+#result_nesseby_final_no_personal_votes = distribute_seats(votes_nesseby_sum_final,number_of_seats_nesseby)
 
 
-print('Comparing nesseby preliminary result to nesseby final result:')
-is_identical1 = compareresults(result_nesseby_prelim,result_nesseby_final)
+#print('Comparing nesseby preliminary result to nesseby final result:')
+#is_identical1 = compareresults(result_nesseby_prelim,result_nesseby_final)
 
 
-print('Comparing nesseby preliminary result to nesseby final result WITHOUT PERSONAL VOTES (votetotal = #of ballots):')
-is_identical2 = compareresults(result_nesseby_prelim,result_nesseby_final_no_personal_votes)
+#print('Comparing nesseby preliminary result to nesseby final result WITHOUT PERSONAL VOTES (votetotal = #of ballots):')
+#is_identical2 = compareresults(result_nesseby_prelim,result_nesseby_final_no_personal_votes)
 
-print('\n\n\n\n\nLeast vote change that would change nesseby final result:')
-leastvotechange(votetotals_nesseby_final,number_of_seats_nesseby)
+#print('\n\n\n\n\nLeast vote change that would change nesseby final result:')
+#leastvotechange(votetotals_nesseby_final,number_of_seats_nesseby)
 
 
-print('\n\n\n\n\nLeast vote change that would change nesseby preliminary result:')
-leastvotechange(votes_nesseby_sum_prelim,number_of_seats_nesseby)
+#print('\n\n\n\n\nLeast vote change that would change nesseby preliminary result:')
+#leastvotechange(votes_nesseby_sum_prelim,number_of_seats_nesseby)
 
 
 
