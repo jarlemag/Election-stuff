@@ -3,6 +3,12 @@ import math
 from collections import Counter
 import io
 import sys
+import json
+
+
+data_dict = json.load(open('data.json'))
+
+#data_votetotals = data['voteTotals']
 
 #https://bytes.com/topic/python/answers/724534-stopping-fucntion-printing-its-output-screen
 class NullWriter(object):
@@ -10,9 +16,6 @@ class NullWriter(object):
         pass
 
 
-#Example data from Ibestad kommune, 2019 election. From election protocol, available at: https://github.com/elections-no/elections-no.github.io/blob/master/docs/2019/Troms_og_Finnmark/Ibestad%20kommune%2C%20Troms%20og%20Finnmark%20fylke%20-%20kommune%2010-09-2019.pdf
-votetotals_ibestad = {'Høyre':7876,'Arbeiderpartiet':4562,'Senterpartiet':3028}
-number_of_seats_ibestad = 19
 
 #Example data from Lillestrøm kommune, 2019 election. From election protocol, available at: https://github.com/elections-no/elections-no.github.io/blob/master/docs/2019/Viken/Kommunestyrevalget%20-%20valgstyrets%20møtebok%20Lillestrøm.pdf
 votetotals_lillestrøm = {'Arbeiderpartiet':648350,'Høyre':424811,'Senterpartiet':258324,
@@ -21,6 +24,8 @@ votetotals_lillestrøm = {'Arbeiderpartiet':648350,'Høyre':424811,'Senterpartie
                          'Kristelig folkeparti':51909,'Pensjonistpartiet':37137,'Helsepartiet':17781,'Demokratene':14081,'Liberalistene':10119}
 number_of_seats_lillestrøm = 55
 
+lillestrøm_dict = {'voteTotals':votetotals_lillestrøm,'numberOfSeats':number_of_seats_lillestrøm,'contestDescription':'Lillestrøm'}
+data_dict['Lillestrøm'] = lillestrøm_dict 
 
 #Example data from Oslo kommune, 2019 election.
 votetotals_oslo =  {'Alliansen':23736,'Arbeiderpartiet':4315487,'Demokratene':57166,'Feministisk Initiativ':34705,'Folkeaksjonen Nei til mer bompenger':1258733,
@@ -28,6 +33,11 @@ votetotals_oslo =  {'Alliansen':23736,'Arbeiderpartiet':4315487,'Demokratene':57
                     'Miljøpartiet De Grønne':3288756,'Norges Kommunistiske Parti':15697,'Partiet De Kristne':36120,'Pensjonistpartiet':131046,'Piratpartiet':40999,
                     'Rødt':1550902,'Selvstendighetspartiet':33786,'Senterpartiet':471025,'SV - Sosialistisk Venstreparti':1960947,'Venstre':1245999}
 number_of_seats_oslo = 59
+
+oslo_dict = {'voteTotals':votetotals_oslo,'numberOfSeats':number_of_seats_oslo,'contestDescription':'oslo'}
+
+data_dict['Oslo'] = oslo_dict 
+
 
 #Example data from Drammen kommune, 2019 election.
 votetotals_drammen = {'Alliansen':13714,'Folkestyre':9152,'Helsepartiet':15222,'Høyre':697348,'KrF':61126,'Liberalistene':5474,'Nei til bomring':208012,'Partiet De Kristne':8948,'Rødt':68365,'Senterpartiet':216284,'SV':121984,'Venstre':56860,'Arbeiderpartiet':710950,'Fremskrittspartiet':290897,'Miljøpartiet de grønne':233538}
@@ -42,6 +52,10 @@ number_of_seats_bergen = 67
 votetotals_bergen_modified = votetotals_bergen.copy()
 votetotals_bergen_modified['SV'] = 838949
 
+bergen_dict = {'voteTotals':votetotals_bergen,'numberOfSeats':number_of_seats_bergen,'contestDescription':'bergen'}
+data_dict['Bergen'] = bergen_dict 
+
+
 #Example data from Gjøvik kommune, 2019 election.
 votetotals_gjovik = {'Sp':131218,'KrF':14215,'Ap':194647,'SV':30329,'Liberalistene':1566,'Venstre':16619,'Høyre':110985,'Rødt':36019,'Partiet De Kristne':4181,
                      'MdG':22645,'FrP':22031}
@@ -50,6 +64,9 @@ votetotals_gjovik = {'Sp':131218,'KrF':14215,'Ap':194647,'SV':30329,'Liberaliste
 
 number_of_seats_gjovik = 41
 
+gjovik_dict = {'voteTotals':votetotals_gjovik,'numberOfSeats':number_of_seats_gjovik,'contestDescription':'gjovik'}
+data_dict['Gjøvik'] = gjovik_dict 
+
 
 #Example data from Gaustad kommune, 2019 election.
 votetotals_gaustad = {'Bygdalista i Gausdal':6791,'Arbeiderpartiet':26031,'Tverrpolitisk liste for Fremskrittspartiet, Høyre og Venstre':4194,
@@ -57,10 +74,18 @@ votetotals_gaustad = {'Bygdalista i Gausdal':6791,'Arbeiderpartiet':26031,'Tverr
 
 number_of_seats_gaustad = 23
 
+gaustad_dict = {'voteTotals':votetotals_gaustad,'numberOfSeats':number_of_seats_gaustad,'contestDescription':'gaustad'}
+data_dict['Gaustad'] = gaustad_dict 
+
+
 #Example data from Evenes kommune, 2019 election.
 
 votetotals_evenes = {'Evenes tverrpolitiske liste':3824,'Fremskrittspartiet':518,'Senterpartiet':2481,'Høyre':3297,'Arbeiderpartiet':3654,'SV':523}
 number_of_seats_evenes = 17
+
+evenes_dict = {'voteTotals':votetotals_evenes,'numberOfSeats':number_of_seats_evenes,'contestDescription':'evenes'}
+data_dict['Evenes'] = evenes_dict 
+
 
 #Example data from Gjesdal kommune, 2019 election.
 
@@ -91,6 +116,10 @@ votetotals_gjesdal_final = {'Rødt':1891,'Venstre':2245,'Krf':20397,'Ap':55532,'
 
 number_of_seats_gjesdal = 27
 
+gjesdal_dict = {'voteTotals':votetotals_gjesdal_final,'numberOfSeats':number_of_seats_gjesdal,'contestDescription':'gjesdal'}
+data_dict['Gjesdal'] = gjesdal_dict 
+
+
 
 #Example data from Øksdal kommune, 2019 election.
 
@@ -113,6 +142,9 @@ votetotals_øksnes_final = {'SV':3331,'KrF':1523,'Venstre':3458,'Sp':16318,'Rød
 
 
 number_of_seats_øksnes = 21
+
+øksnes_dict = {'voteTotals':votetotals_øksnes_final,'numberOfSeats':number_of_seats_øksnes,'contestDescription':'øksnes'}
+data_dict['Øksnes'] = øksnes_dict 
 
 
 #Example data from Fredrikstad kommune, 2019 election.
@@ -140,6 +172,11 @@ votetotals_fredrikstad_final = {'Ap':721382,'Høyre':303560,'Sp':132071,'Bymilj�
 
 number_of_seats_fredrikstad = 53
 
+
+fredrikstad_dict = {'voteTotals':votetotals_fredrikstad_final,'numberOfSeats':number_of_seats_fredrikstad,'contestDescription':'fredrikstad'}
+data_dict['Fredrikstad'] = fredrikstad_dict 
+
+
 #Example data from Nesseby kommune, 2019 election.
 
 votes_nesseby_precast_prelim = {'Tverrpolitisk liste':25,'SV':26,'Høyre':13,'Arbeiderpartiet':155,'Senterpartiet':55,'Samefolkets pati':16}
@@ -160,6 +197,10 @@ votetotals_nesseby_final = {'Tverrpolitisk liste':798,'SV':672,'Høyre':728,'Arb
 
 
 number_of_seats_nesseby = 15
+
+
+nesseby_dict = {'voteTotals':votetotals_nesseby_final,'numberOfSeats':number_of_seats_nesseby,'contestDescription':'nesseby'}
+data_dict['Nesseby'] = nesseby_dict 
 
 
 def distribute_seats(votetotals_in,number_of_seats,first_divisor = 1.4, wait = False,Verbose = False,adjustments = {}, silent = False,):
