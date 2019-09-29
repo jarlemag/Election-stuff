@@ -1,0 +1,21 @@
+{
+"equal_votetotals_test1": 
+	{"voteTotals": 
+		{"A":74558, 
+		"B":53487, 
+		"C":53487},
+	"stemmer":
+		{"A": 5000,
+		 "B": 2000,
+		 "C": 3000},
+	"numberOfSeats": 10, 
+	"contestDescription": "Test handling of equal vote totals when ballot numbers are included."},
+"equal_votetotals_test2": 
+	{"voteTotals": 
+		{"A": 74558, 
+		"B": 534887, 
+		"C":534887}, 
+	"numberOfSeats": 10, 
+	"contestDescription": "Test handling of equal vote totals when ballot numbers are not included."}
+}
+	 

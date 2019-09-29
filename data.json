@@ -301,6 +301,13 @@
 		"Arbeiderpartiet":114,
 		"Senterpartiet":69,
 		"Samefolkets parti":35},
+	"stemmer":
+		{"Tverrpolitisk liste":53,
+		"SV":45,
+		"Høyre":49,
+		"Arbeiderpartiet":269,
+		"Senterpartiet":124,
+		"Samefolkets parti":52},
 	 "numberOfSeats": 15, 
 	"contestDescription": "nesseby"
 	},
