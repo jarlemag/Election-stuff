@@ -8,133 +8,14 @@ import json
 
 data_dict = json.load(open('data.json'))
 
-#data_votetotals = data['voteTotals']
-
 #https://bytes.com/topic/python/answers/724534-stopping-fucntion-printing-its-output-screen
 class NullWriter(object):
     def write(self, arg):
         pass
 
+#votes_gjesdal_sum_prelim = Counter(votes_gjesdal_precast_prelim) + Counter(votes_gjesdal_electionday_prelim)
 
-
-
-#votetotals_bergen_modified = votetotals_bergen.copy()
-#votetotals_bergen_modified['SV'] = 838949
-
-
-
-#Example data from Gjesdal kommune, 2019 election.
-
-#Fra D1.4 Avvik mellom foreløpig og endelig opptelling av forhåndsstemmesedler
-votes_gjesdal_precast_prelim = {'Rødt':21,'Venstre':34,'Krf':230,'Ap':788,'MdG':55,'FrP':229,'SV':87,'Sp':242,'Høyre':251}
-
-#Fra D1.4 Avvik mellom foreløpig og endelig opptelling av forhåndsstemmesedler
-votes_gjesdal_precast_final = {'Rødt':21,'Venstre':34,'Krf':233,'Ap':789,'MdG':55,'FrP':228,'SV':86,'Sp':243,'Høyre':249}
-
-
-#Fra D2.4 Avvik mellom foreløpig og endelig opptelling av ordinære valgtingsstemmesedler
-votes_gjesdal_electionday_prelim = {'Rødt':46,'Venstre':48,'Krf':524,'Ap':1270,'MdG':104,'FrP':575,'SV':116,'Sp':528,'Høyre':502}
-
-#Fra D2.4 Avvik mellom foreløpig og endelig opptelling av ordinære valgtingsstemmesedler
-votes_gjesdal_electionday_final = {'Rødt':49,'Venstre':48,'Krf':525,'Ap':1268,'MdG':105,'FrP':576,'SV':116,'Sp':528,'Høyre':500}
-
-
-votes_gjesdal_sum_prelim = Counter(votes_gjesdal_precast_prelim) + Counter(votes_gjesdal_electionday_prelim)
-
-votes_gjesdal_sum_final = Counter(votes_gjesdal_precast_final) + Counter(votes_gjesdal_electionday_final)
-
-
-votetotals_gjesdal_final = {'Rødt':1891,'Venstre':2245,'Krf':20397,'Ap':55532,'MdG':4348,'FrP':21681,'SV':5500,'Sp':20678,'Høyre':20359}
-
-
-number_of_seats_gjesdal = 27
-
-gjesdal_dict = {'voteTotals':votetotals_gjesdal_final,'numberOfSeats':number_of_seats_gjesdal,'contestDescription':'gjesdal'}
-data_dict['Gjesdal'] = gjesdal_dict 
-
-
-
-#Example data from Øksdal kommune, 2019 election.
-
-votes_øksnes_precast_prelim = {'SV':59,'KrF':28,'Venstre':61,'Sp':274,'Rødt':11,'Ap':184,'FrP':95,'Høyre':56}
-votes_øksnes_precast_final = {'SV':59,'KrF':28,'Venstre':61,'Sp':276,'Rødt':11,'Ap':185,'FrP':95,'Høyre':56}
-
-
-votes_øksnes_electionday_prelim = {'SV':99,'KrF':44,'Venstre':103,'Sp':505,'Rødt':29,'Ap':359,'FrP':128,'Høyre':123}
-
-votes_øksnes_electionday_final = {'SV':99,'KrF':44,'Venstre':103,'Sp':505,'Rødt':29,'Ap':359,'FrP':118,'Høyre':123}
-
-
-votes_øksnes_sum_prelim = Counter(votes_øksnes_precast_prelim) + Counter(votes_øksnes_electionday_prelim)
-
-votes_øksnes_sum_final = Counter(votes_øksnes_precast_final) + Counter(votes_øksnes_electionday_final)
-
-
-votetotals_øksnes_final = {'SV':3331,'KrF':1523,'Venstre':3458,'Sp':16318,'Rødt':846,'Ap':11418,'FrP':4481,'Høyre':3796}
-
-
-
-number_of_seats_øksnes = 21
-
-øksnes_dict = {'voteTotals':votetotals_øksnes_final,'numberOfSeats':number_of_seats_øksnes,'contestDescription':'øksnes'}
-data_dict['Øksnes'] = øksnes_dict 
-
-
-#Example data from Fredrikstad kommune, 2019 election.
-
-#Fra D1.4
-votes_fredrikstad_precast_prelim = {'Ap':4562,'Høyre':1654,'Sp':542,'Bymiljølista':292,'Pensjonistpartiet':615,'Fremskrittsspartiet':1277,
-                                    'Venstre':181,'KrF':401,'Liberalistene':47,'Rødt':643,'MdG':949,'SV':653}
-votes_fredrikstad_precast_final = {'Ap':4550,'Høyre':1649,'Sp':544,'Bymiljølista':341,'Pensjonistpartiet':615,'Fremskrittsspartiet':1280,
-                                    'Venstre':181,'KrF':351,'Liberalistene':48,'Rødt':643,'MdG':950,'SV':652}
-#D2.4
-votes_fredrikstad_electionday_prelim = {'Ap':9054,'Høyre':4069,'Sp':1945,'Bymiljølista':748,'Pensjonistpartiet':1071,'Fremskrittsspartiet':3413,
-                                    'Venstre':368,'KrF':971,'Liberalistene':139,'Rødt':1228,'MdG':1649,'SV':1006}
-
-votes_fredrikstad_electionday_final = {'Ap':9066,'Høyre':4074,'Sp':1947,'Bymiljølista':748,'Pensjonistpartiet':1073,'Fremskrittsspartiet':3418,
-                                    'Venstre':368,'KrF':973,'Liberalistene':139,'Rødt':1229,'MdG':1649,'SV':1009}
-
-
-votes_fredrikstad_sum_prelim = Counter(votes_fredrikstad_precast_prelim) + Counter(votes_fredrikstad_electionday_prelim)
-
-votes_fredrikstad_sum_final = Counter(votes_fredrikstad_precast_final) + Counter(votes_fredrikstad_electionday_final)
-
-votetotals_fredrikstad_final = {'Ap':721382,'Høyre':303560,'Sp':132071,'Bymiljølista':57803,'Pensjonistpartiet':89437,'Fremskrittsspartiet':248909,
-                                    'Venstre':29166,'KrF':70141,'Liberalistene':9917,'Rødt':99288,'MdG':137584,'SV':88083}
-
-
-number_of_seats_fredrikstad = 53
-
-
-fredrikstad_dict = {'voteTotals':votetotals_fredrikstad_final,'numberOfSeats':number_of_seats_fredrikstad,'contestDescription':'fredrikstad'}
-data_dict['Fredrikstad'] = fredrikstad_dict 
-
-
-#Example data from Nesseby kommune, 2019 election.
-
-votes_nesseby_precast_prelim = {'Tverrpolitisk liste':25,'SV':26,'Høyre':13,'Arbeiderpartiet':155,'Senterpartiet':55,'Samefolkets pati':16}
-
-votes_nesseby_precast_final = {'Tverrpolitisk liste':25,'SV':26,'Høyre':13,'Arbeiderpartiet':155,'Senterpartiet':55,'Samefolkets pati':16}
-
-
-votes_nesseby_electionday_prelim = {'Tverrpolitisk liste':28,'SV':19,'Høyre':36,'Arbeiderpartiet':114,'Senterpartiet':69,'Samefolkets pati':35}
-
-votes_nesseby_electionday_final = {'Tverrpolitisk liste':28,'SV':19,'Høyre':36,'Arbeiderpartiet':114,'Senterpartiet':69,'Samefolkets pati':35}
-
-
-votes_nesseby_sum_prelim = Counter(votes_nesseby_precast_prelim) + Counter(votes_nesseby_electionday_prelim)
-
-votes_nesseby_sum_final = Counter(votes_nesseby_precast_final) + Counter(votes_nesseby_electionday_final)
-
-votetotals_nesseby_final = {'Tverrpolitisk liste':798,'SV':672,'Høyre':728,'Arbeiderpartiet':4029,'Senterpartiet':1847,'Samefolkets pati':806}
-
-
-number_of_seats_nesseby = 15
-
-
-nesseby_dict = {'voteTotals':votetotals_nesseby_final,'numberOfSeats':number_of_seats_nesseby,'contestDescription':'nesseby'}
-data_dict['Nesseby'] = nesseby_dict 
-
+#votes_gjesdal_sum_final = Counter(votes_gjesdal_precast_final) + Counter(votes_gjesdal_electionday_final)
 
 def distribute_seats(data_dictionary,data_dictionary_key,first_divisor = 1.4, wait = False,Verbose = False,adjustments = {}, silent = False,):
     if silent:
