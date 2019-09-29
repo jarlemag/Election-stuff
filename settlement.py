@@ -115,7 +115,37 @@ def distribute_seats(votetotals_in,number_of_seats,ballot_numbers = None,first_d
         #Award the seat to the party with the highest current quotient
         if verbose:
             print('Current quotients:',quotients,file=out)
+
+            
         seatwinner = max(quotients, key=quotients.get)
+        #check if there are multiple parties that have the max quotient:
+        maxquotientkeys = []
+        for key, value in quotients.items():
+            if value == quotients[seatwinner]:
+                maxquotientkeys.append(key)
+
+        #Possible to do more succintly, with a list comprehension, for example the below?
+        #maxkeys = [key for key in quotients.items() if (key == quotients[seatwinner])]
+
+        if len(maxquotientkeys) > 1:
+            print('Multiple identical quotients applicable to the same seat.')
+            if ballot_numbers == None:
+                print('Unable to resolve result, as ballot numbers have not been provided. Aborting!')
+                return None
+            else:
+                seatwinner = max(ballot_numbers, key=ballot_numbers.get)
+                maxballot_numberkeys = []
+                for key, value in ballot_numbers.items():
+                    if value == ballot_numbers[seatwinner]:
+                        maxballot_numberkeys.append(key)
+                if len(maxballot_numberkeys) >1:
+                    print('Unable to resolve result, as ballot numbers are identical. Seat winner must be determined by drawing lots. Aborting!')
+                    return None
+
+                else:
+                    print(seatwinner,'wins the seat by virtue of largest ballot number: ',ballot_numbers[seatwinner],' ballots.')
+                
+                
         if verbose:
             print('Winner of seat #',awardedseats_total+1,': ',seatwinner,file=out)
 
