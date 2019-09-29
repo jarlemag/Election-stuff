@@ -136,7 +136,7 @@ nesseby_dict = {'voteTotals':votetotals_nesseby_final,'numberOfSeats':number_of_
 data_dict['Nesseby'] = nesseby_dict 
 
 
-def distribute_seats(votetotals_in,number_of_seats,first_divisor = 1.4, wait = False,Verbose = False,adjustments = {}, silent = False,):
+def distribute_seats(data_dictionary,data_dictionary_key,first_divisor = 1.4, wait = False,Verbose = False,adjustments = {}, silent = False,):
     if silent:
         out = NullWriter()
     else:
@@ -146,8 +146,10 @@ def distribute_seats(votetotals_in,number_of_seats,first_divisor = 1.4, wait = F
     #and further modified (subtractions and additions) by personal votes. However, the function will also return correct result if the actual numbers of votes (ballots) cast are used
     #and there are no personal votes considered.
     
-    votetotals = votetotals_in.copy()
-    print('Calculating election result from vote totals.',file=out)
+    votetotals = data_dictionary[data_dictionary_key]["voteTotals"].copy()
+    number_of_seats = data_dictionary[data_dictionary_key]["numberOfSeats"]
+    contest_description = data_dictionary[data_dictionary_key]["contestDescription"]
+    print('Calculating election result from vote totals for',contest_description,file=out)
     print('Number of seats to be distributed: ',number_of_seats,file=out)
     print('First divisor:',first_divisor,file=out)
     print('Vote totals:',file=out)
@@ -347,9 +349,6 @@ def leastvotechange(votetotals,number_of_seats):
     return
 
 
-print('test silent')
-silentresult = distribute_seats(votetotals_lillestrøm,number_of_seats_lillestrøm,wait = False, silent = True )
-print('silent function call complete')
 
 #leastvotechange(votetotals_lillestrøm,54)
 #leastvotechange(votetotals_lillestrøm,55)
@@ -555,5 +554,6 @@ def compareresults(result1,result2):
 #print('\n\n\n\n\nLeast vote change that would change nesseby preliminary result:')
 #leastvotechange(votes_nesseby_sum_prelim,number_of_seats_nesseby)
 
+test_result = distribute_seats(data_dict,"Drammen")
 
 
