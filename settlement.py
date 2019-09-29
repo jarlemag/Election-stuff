@@ -202,7 +202,7 @@ def distribute_seats(votetotals_in,number_of_seats,ballot_numbers = None,first_d
     
     summary ={'Election':description,'Seats':seats,'Winning quotient divisors':winning_quotient_divisors,'Winning quotients':winning_quotients,'Party seat numbers':party_seats_numbers}
     with open(output_path, 'w') as outfile:
-        json.dump(summary, outfile)
+        json.dump(summary, outfile,ensure_ascii=False, indent=4, sort_keys=True)
 
 
     return [seats,winning_quotient_divisors,winning_quotients,party_seats_numbers]
@@ -395,17 +395,17 @@ def comparecounts(data_dictionary,data_dictionary_key):
     #leastvotechange(votes_sum_prelim,number_of_seats)
     return
 
-#test_result = distribute_seats_wrapper(data_dict,"Drammen")
+test_result = distribute_seats_wrapper(data_dict,"Drammen")
 
 #comparecounts(data_dict,"Gjesdal")
 
 #comparecounts(data_dict,"Øksnes")
 
 
-test_dict = json.load(open('test_data.json'))
+#test_dict = json.load(open('test_data.json'))
 
-print('TEST1:')
-distribute_seats_wrapper(test_dict,"equal_votetotals_test1",wait=True,verbose=True)
+#print('TEST1:')
+#distribute_seats_wrapper(test_dict,"equal_votetotals_test1",wait=True,verbose=True)
 
-print('TEST2:')
-distribute_seats_wrapper(test_dict,"equal_votetotals_test2")
+#print('TEST2:')
+#distribute_seats_wrapper(test_dict,"equal_votetotals_test2")
