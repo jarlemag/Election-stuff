@@ -1,10 +1,15 @@
 # Election-stuff
-Scripts for verifying/calculating election results, etc.
+Scripts for verifying/calculating election results, etc. for norwegian municipial elections.
 
 
 # Acknowledgements
 * JSON input/output adapted from HNygards fork at https://github.com/HNygard/Election-stuff
 * Much election results data was collected by HNygard: https://github.com/HNygard/valgprotokoller
+
+# References
+
+Lov om valg til Stortinget, fylkesting og kommunestyrer (valgloven): https://lovdata.no/dokument/NL/lov/2002-06-28-57
+Forskrift om valg til Stortinget, fylkesting og kommunestyrer (valgforskriften): https://lovdata.no/dokument/SF/forskrift/2003-01-02-5
 
 # Contents
 This repository currently contains the following:
