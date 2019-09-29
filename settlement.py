@@ -28,15 +28,20 @@ def distribute_seats_wrapper(data_dictionary,data_dictionary_key,first_divisor =
     silent_out = silent
     output_path_out = output_path
 
-    votetotals = data_dictionary[data_dictionary_key]["voteTotals"].copy()
-    number_of_seats = data_dictionary[data_dictionary_key]["numberOfSeats"]
-    description_out = data_dictionary[data_dictionary_key]["contestDescription"]
+    sub_dictionary = data_dictionary[data_dictionary_key]
+    votetotals = sub_dictionary["voteTotals"].copy()
+    number_of_seats = sub_dictionary["numberOfSeats"]
+    description_out = sub_dictionary["contestDescription"]
 
-    return distribute_seats(votetotals,number_of_seats,first_divisor = first_divisor_out, wait = wait_out,verbose = verbose_out,
+    stemmer_out = sub_dictionary.get('stemmer') #Returns None if no ballot numbers included in the data source
+    
+
+    return distribute_seats(votetotals,number_of_seats,ballot_numbers = stemmer_out,first_divisor = first_divisor_out, wait = wait_out,verbose = verbose_out,
                             adjustments = adjustments_out, silent = silent_out,output_path = output_path_out,description = description_out)
     
 
-def distribute_seats(votetotals_in,number_of_seats,first_divisor = 1.4, wait = False,verbose = False,adjustments = {}, silent = False,output_path = "output.json",description = "Unknown"):
+def distribute_seats(votetotals_in,number_of_seats,ballot_numbers = None,first_divisor = 1.4, wait = False,verbose = False,
+                     adjustments = {}, silent = False,output_path = "output.json",description = "Unknown"):
     if silent:
         out = NullWriter()
     else:
