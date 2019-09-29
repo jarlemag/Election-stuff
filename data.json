@@ -34,7 +34,7 @@
 		 "Liberalistene": 10119}, 
 	"numberOfSeats": 55, 
 	"contestDescription": "Lillestr\u00f8m",
-	"datasource": "Example data from Lillestrøm kommune, 2019 election. From election protocol, available at: https://github.com/elections-no/elections-no.github.io/blob/master/docs/2019/Viken/Kommunestyrevalget%20-%20valgstyrets%20møtebok%20Lillestrøm.pdf",
+	"datasource": "Example data from Lillestrøm kommune, 2019 election. From election protocol, available at: https://github.com/elections-no/elections-no.github.io/blob/master/docs/2019/Viken/Kommunestyrevalget%20-%20valgstyrets%20møtebok%20Lillestrøm.pdf"
 	},
  "Oslo": 
 	{"voteTotals": 
@@ -148,21 +148,21 @@
 	},
 "Drammen":
 	{"voteTotals":
-		{'Alliansen':13714,
-		'Folkestyre':9152,
-		'Helsepartiet':15222,
-		'Høyre':697348,
-		'KrF':61126,
-		'Liberalistene':5474,
-		'Nei til bomring':208012,
-		'Partiet De Kristne':8948,
-		'Rødt':68365,
-		'Senterpartiet':216284,
-		'SV':121984,
-		'Venstre':56860,
-		'Arbeiderpartiet':710950,
-		'Fremskrittspartiet':290897,
-		'Miljøpartiet de grønne':233538},
+		{"Alliansen":13714,
+		"Folkestyre":9152,
+		"Helsepartiet":15222,
+		"Høyre":697348,
+		"KrF":61126,
+		"Liberalistene":5474,
+		"Nei til bomring":208012,
+		"Partiet De Kristne":8948,
+		"Rødt":68365,
+		"Senterpartiet":216284,
+		"SV":121984,
+		"Venstre":56860,
+		"Arbeiderpartiet":710950,
+		"Fremskrittspartiet":290897,
+		"Miljøpartiet de grønne":233538},
 	"numberOfSeats":57,
 	"contestDescription": "Drammen"
 	}
