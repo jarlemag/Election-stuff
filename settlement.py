@@ -17,83 +17,16 @@ class NullWriter(object):
 
 
 
-#Example data from Lillestrøm kommune, 2019 election. From election protocol, available at: https://github.com/elections-no/elections-no.github.io/blob/master/docs/2019/Viken/Kommunestyrevalget%20-%20valgstyrets%20møtebok%20Lillestrøm.pdf
-votetotals_lillestrøm = {'Arbeiderpartiet':648350,'Høyre':424811,'Senterpartiet':258324,
-                         'Fremskritsspartiet':230864,'Miljøpartiet De grønne':138608,
-                         'Folkets røst by og bygdeliste':109443,'Sosialistisk venstreparti':107511,'Venstre':62553,'Rødt':56114,
-                         'Kristelig folkeparti':51909,'Pensjonistpartiet':37137,'Helsepartiet':17781,'Demokratene':14081,'Liberalistene':10119}
-number_of_seats_lillestrøm = 55
 
-lillestrøm_dict = {'voteTotals':votetotals_lillestrøm,'numberOfSeats':number_of_seats_lillestrøm,'contestDescription':'Lillestrøm'}
-data_dict['Lillestrøm'] = lillestrøm_dict 
+#votetotals_bergen_modified = votetotals_bergen.copy()
+#votetotals_bergen_modified['SV'] = 838949
 
-#Example data from Oslo kommune, 2019 election.
-votetotals_oslo =  {'Alliansen':23736,'Arbeiderpartiet':4315487,'Demokratene':57166,'Feministisk Initiativ':34705,'Folkeaksjonen Nei til mer bompenger':1258733,
-                    'Fremskrittspartiet':1137175,'Helsepartiet':50227,'Høyre':5477649,'Kristelig Folkeparti':375020,'Kystpartiet':9411,'Liberalistene':47967,
-                    'Miljøpartiet De Grønne':3288756,'Norges Kommunistiske Parti':15697,'Partiet De Kristne':36120,'Pensjonistpartiet':131046,'Piratpartiet':40999,
-                    'Rødt':1550902,'Selvstendighetspartiet':33786,'Senterpartiet':471025,'SV - Sosialistisk Venstreparti':1960947,'Venstre':1245999}
-number_of_seats_oslo = 59
-
-oslo_dict = {'voteTotals':votetotals_oslo,'numberOfSeats':number_of_seats_oslo,'contestDescription':'oslo'}
-
-data_dict['Oslo'] = oslo_dict 
-
-
-#Example data from Drammen kommune, 2019 election.
-votetotals_drammen = {'Alliansen':13714,'Folkestyre':9152,'Helsepartiet':15222,'Høyre':697348,'KrF':61126,'Liberalistene':5474,'Nei til bomring':208012,'Partiet De Kristne':8948,'Rødt':68365,'Senterpartiet':216284,'SV':121984,'Venstre':56860,'Arbeiderpartiet':710950,'Fremskrittspartiet':290897,'Miljøpartiet de grønne':233538}
-number_of_seats_drammen = 57
-
-votetotals_bergen = {'Partiet De Kristne':74558,'Senterpartiet':534887,'Venstre':387477,'Pensjonistpartiet':150044,'Demokratene':57058,
-                                          'Norges Kommunistiske Parti':6112,'Liberalistene':20914,'Kristelig Folkeparti':310008,'Piratpartiet':14405,
-                                          'Folkeaksjonen Nei til mer bompenger':1677902,'SV':866352,'Arbeiderpartiet':1992486,'Fremskrittspartiet':469259,
-                                          'Høyre':2016633,'Miljøpartiet De Grønne':998929,'Rødt':491334}
-number_of_seats_bergen = 67
-
-votetotals_bergen_modified = votetotals_bergen.copy()
-votetotals_bergen_modified['SV'] = 838949
-
-bergen_dict = {'voteTotals':votetotals_bergen,'numberOfSeats':number_of_seats_bergen,'contestDescription':'bergen'}
-data_dict['Bergen'] = bergen_dict 
-
-
-#Example data from Gjøvik kommune, 2019 election.
-votetotals_gjovik = {'Sp':131218,'KrF':14215,'Ap':194647,'SV':30329,'Liberalistene':1566,'Venstre':16619,'Høyre':110985,'Rødt':36019,'Partiet De Kristne':4181,
-                     'MdG':22645,'FrP':22031}
-
-
-
-number_of_seats_gjovik = 41
-
-gjovik_dict = {'voteTotals':votetotals_gjovik,'numberOfSeats':number_of_seats_gjovik,'contestDescription':'gjovik'}
-data_dict['Gjøvik'] = gjovik_dict 
-
-
-#Example data from Gaustad kommune, 2019 election.
-votetotals_gaustad = {'Bygdalista i Gausdal':6791,'Arbeiderpartiet':26031,'Tverrpolitisk liste for Fremskrittspartiet, Høyre og Venstre':4194,
-                      'Senterpartiet':31602,'Miljøpartiet De Grønne':3004}
-
-number_of_seats_gaustad = 23
-
-gaustad_dict = {'voteTotals':votetotals_gaustad,'numberOfSeats':number_of_seats_gaustad,'contestDescription':'gaustad'}
-data_dict['Gaustad'] = gaustad_dict 
-
-
-#Example data from Evenes kommune, 2019 election.
-
-votetotals_evenes = {'Evenes tverrpolitiske liste':3824,'Fremskrittspartiet':518,'Senterpartiet':2481,'Høyre':3297,'Arbeiderpartiet':3654,'SV':523}
-number_of_seats_evenes = 17
-
-evenes_dict = {'voteTotals':votetotals_evenes,'numberOfSeats':number_of_seats_evenes,'contestDescription':'evenes'}
-data_dict['Evenes'] = evenes_dict 
 
 
 #Example data from Gjesdal kommune, 2019 election.
 
-
-
 #Fra D1.4 Avvik mellom foreløpig og endelig opptelling av forhåndsstemmesedler
 votes_gjesdal_precast_prelim = {'Rødt':21,'Venstre':34,'Krf':230,'Ap':788,'MdG':55,'FrP':229,'SV':87,'Sp':242,'Høyre':251}
-
 
 #Fra D1.4 Avvik mellom foreløpig og endelig opptelling av forhåndsstemmesedler
 votes_gjesdal_precast_final = {'Rødt':21,'Venstre':34,'Krf':233,'Ap':789,'MdG':55,'FrP':228,'SV':86,'Sp':243,'Høyre':249}
