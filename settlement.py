@@ -17,7 +17,7 @@ class NullWriter(object):
 
 #votes_gjesdal_sum_final = Counter(votes_gjesdal_precast_final) + Counter(votes_gjesdal_electionday_final)
 
-def distribute_seats(data_dictionary,data_dictionary_key,first_divisor = 1.4, wait = False,Verbose = False,adjustments = {}, silent = False,):
+def distribute_seats(data_dictionary,data_dictionary_key,first_divisor = 1.4, wait = False,Verbose = False,adjustments = {}, silent = False,output_path = "output.json"):
     if silent:
         out = NullWriter()
     else:
@@ -139,17 +139,15 @@ def distribute_seats(data_dictionary,data_dictionary_key,first_divisor = 1.4, wa
 
     print(result_table,file=out)
 
+   
+
+    summary ={'Election':contest_description,'Seats':seats,'Winning quotient divisors':winning_quotient_divisors,'Winning quotients':winning_quotients,'Party seat numbers':party_seats_numbers}
+
+    with open(output_path, 'w') as outfile:
+        json.dump(summary, outfile)
+
+
     return [seats,winning_quotient_divisors,winning_quotients,party_seats_numbers]
-
-
-
-#ibestad_result = distribute_seats(votetotals_ibestad,number_of_seats_ibestad,wait = False)
-
-#print('Valgresultat Ibestad:')
-#print(ibestad_result)
-
-#lillestrøm_result = distribute_seats(votetotals_lillestrøm,number_of_seats_lillestrøm,wait = False)
-
 
 
 def leastvotechange(votetotals,number_of_seats):
@@ -230,19 +228,6 @@ def leastvotechange(votetotals,number_of_seats):
     return
 
 
-
-#leastvotechange(votetotals_lillestrøm,54)
-#leastvotechange(votetotals_lillestrøm,55)
-#leastvotechange(votetotals_ibestad,19)
-
-
-#distribute_seats(votetotals_drammen,number_of_seats_drammen,wait = False)
-#leastvotechange(votetotals_drammen,57)
-
-#distribute_seats(votetotals_oslo,number_of_seats_oslo,wait = False)
-#leastvotechange(votetotals_oslo,number_of_seats_oslo)
-
-
 #print('ready to perform Bergen vote adjustment test.')
 
 
@@ -305,109 +290,6 @@ def compareresults(result1,result2):
     else:
         print('Election outcomes are different.')
         return False
-
-#print('Create result1 and result2:')
-#print('Votetotals_bergen:')
-#print(votetotals_bergen)
-#result1 = distribute_seats(votetotals_bergen,number_of_seats_bergen,wait = False)
-#result2 = distribute_seats(votetotals_bergen,number_of_seats_bergen,wait = False, adjustments = {'SV': -409*number_of_seats_bergen}) #Får SV en plass mindre? Virker som resultatet ikke alltid blir likt. Må sjekke igjen.
-
-#print('Compare result1 to result1:')
-#compareresults(result1,result1)
-#print('Compare result1 to result2:')
-#compareresults(result1,result2)
-
-
-#distribute_seats(votetotals_gjovik,number_of_seats_gjovik,wait = False)
-#leastvotechange(votetotals_gjovik,number_of_seats_gjovik)
-
-
-#distribute_seats(votetotals_evenes,number_of_seats_evenes,wait = False)
-#leastvotechange(votetotals_evenes,number_of_seats_evenes)
-
-#neededvotes(votetotals_lillestrøm,number_of_seats_lillestrøm,'Helsepartiet')
-
-#GJESDAL
-#print('Calculating results for Gjesdal...')
-
-#print('From preliminary vote counts:')
-#result_gjesdal_prelim = distribute_seats(votes_gjesdal_sum_prelim,number_of_seats_gjesdal)
-#print('From final vote totals (including personal votes):')
-#result_gjesdal_final =  distribute_seats(votetotals_gjesdal_final,number_of_seats_gjesdal)
-#print('From final vote counts (excluding personal votes):')
-#result_gjesdal_final_no_personal_votes = distribute_seats(votes_gjesdal_sum_final,number_of_seats_gjesdal)
-
-#print('Comparing Gjesdal preliminary result to Gjesdal final result:')
-#is_identical = compareresults(result_gjesdal_prelim,result_gjesdal_final)
-
-
-#print('Comparing Gjesdal preliminary result to Gjesdal final result WITHOUT PERSONAL VOTES (votetotal = #of ballots):')
-#is_identical2 = compareresults(result_gjesdal_prelim,result_gjesdal_final_no_personal_votes)
-
-
-#print('\n\n\n\n\nLeast vote change that would change Gjesdal final result:')
-#leastvotechange(votetotals_gjesdal_final,number_of_seats_gjesdal)
-
-#print('\n\n\n\n\nLeast vote change that would change Gjesdal preliminary result:')
-#leastvotechange(votes_gjesdal_sum_prelim,number_of_seats_gjesdal)
-
-
-
-#ØKSNES
-#print('\n\n\n\n\nCalculating results for Øksnes...')
-
-
-#print('From preliminary vote counts:')
-#result_øksnes_prelim = distribute_seats(votes_øksnes_sum_prelim,number_of_seats_øksnes)
-#print('From final vote totals (including personal votes):')
-#result_øksnes_final =  distribute_seats(votetotals_øksnes_final,number_of_seats_øksnes)
-#print('From final vote counts (excluding personal votes):')
-#result_øksnes_final_no_personal_votes = distribute_seats(votes_øksnes_sum_final,number_of_seats_øksnes)
-
-
-#print('Comparing Øksnes preliminary result to Øksnes final result:')
-#is_identical1 = compareresults(result_øksnes_prelim,result_øksnes_final)
-
-
-#print('Comparing Øksnes preliminary result to Øksnes final result WITHOUT PERSONAL VOTES (votetotal = #of ballots):')
-#is_identical2 = compareresults(result_øksnes_prelim,result_øksnes_final_no_personal_votes)
-
-#print('\n\n\n\n\nLeast vote change that would change Øksnes final result:')
-#leastvotechange(votetotals_øksnes_final,number_of_seats_øksnes)
-
-
-#print('\n\n\n\n\nLeast vote change that would change Øksnes preliminary result:')
-#leastvotechange(votes_øksnes_sum_prelim,number_of_seats_øksnes)
-
-
-
-#fredrikstad
-#print('\n\n\n\n\nCalculating results for fredrikstad...')
-
-
-#print('From preliminary vote counts:')
-#result_fredrikstad_prelim = distribute_seats(votes_fredrikstad_sum_prelim,number_of_seats_fredrikstad)
-#print('From final vote totals (including personal votes):')
-#result_fredrikstad_final =  distribute_seats(votetotals_fredrikstad_final,number_of_seats_fredrikstad)
-#print('From final vote counts (excluding personal votes):')
-#result_fredrikstad_final_no_personal_votes = distribute_seats(votes_fredrikstad_sum_final,number_of_seats_fredrikstad)
-
-
-#print('Comparing fredrikstad preliminary result to fredrikstad final result:')
-#is_identical1 = compareresults(result_fredrikstad_prelim,result_fredrikstad_final)
-
-
-#print('Comparing fredrikstad preliminary result to fredrikstad final result WITHOUT PERSONAL VOTES (votetotal = #of ballots):')
-#is_identical2 = compareresults(result_fredrikstad_prelim,result_fredrikstad_final_no_personal_votes)
-
-#print('\n\n\n\n\nLeast vote change that would change fredrikstad final result:')
-#leastvotechange(votetotals_fredrikstad_final,number_of_seats_fredrikstad)
-
-
-#print('\n\n\n\n\nLeast vote change that would change fredrikstad preliminary result:')
-#leastvotechange(votes_fredrikstad_sum_prelim,number_of_seats_fredrikstad)
-
-
 
 
 #print('\n\n\n\n\nCalculating results for nesseby...')
