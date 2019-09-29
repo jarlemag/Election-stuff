@@ -9,7 +9,6 @@ Scripts for verifying/calculating election results, etc. for norwegian municipia
 # References
 
 Lov om valg til Stortinget, fylkesting og kommunestyrer (valgloven): https://lovdata.no/dokument/NL/lov/2002-06-28-57
-Forskrift om valg til Stortinget, fylkesting og kommunestyrer (valgforskriften): https://lovdata.no/dokument/SF/forskrift/2003-01-02-5
 
 # Contents
 This repository currently contains the following:
