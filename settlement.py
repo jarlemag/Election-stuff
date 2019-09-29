@@ -135,7 +135,10 @@ def distribute_seats(votetotals_in,number_of_seats,ballot_numbers = None,first_d
                 print(result_table)
                 return None
             else:
-                seatwinner = max(ballot_numbers, key=ballot_numbers.get)
+                competing_ballot_numbers = {}
+                for key in maxquotientkeys:
+                    competing_ballot_numbers[key] = ballot_numbers[key]
+                seatwinner = max(competing_ballot_numbers, key=ballot_numbers.get)
                 maxballot_numberkeys = []
                 for key, value in ballot_numbers.items():
                     if value == ballot_numbers[seatwinner]:
@@ -396,4 +399,13 @@ def comparecounts(data_dictionary,data_dictionary_key):
 
 #comparecounts(data_dict,"Gjesdal")
 
-comparecounts(data_dict,"Øksnes")
+#comparecounts(data_dict,"Øksnes")
+
+
+test_dict = json.load(open('test_data.json'))
+
+print('TEST1:')
+distribute_seats_wrapper(test_dict,"equal_votetotals_test1",wait=True,verbose=True)
+
+print('TEST2:')
+distribute_seats_wrapper(test_dict,"equal_votetotals_test2")
