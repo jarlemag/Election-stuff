@@ -102,6 +102,7 @@ def distribute_seats(votetotals_in,number_of_seats,ballot_numbers = None,first_d
     result_table = 'Seat #\tWinning party\tDivisor\tQuotient\n'
     result_table = result_table.expandtabs(32)
 
+
     while awardedseats_total < number_of_seats:
         if wait == True:
             print('Ready to award seat #',awardedseats_total+1,)
@@ -123,14 +124,15 @@ def distribute_seats(votetotals_in,number_of_seats,ballot_numbers = None,first_d
         for key, value in quotients.items():
             if value == quotients[seatwinner]:
                 maxquotientkeys.append(key)
-
         #Possible to do more succintly, with a list comprehension, for example the below?
         #maxkeys = [key for key in quotients.items() if (key == quotients[seatwinner])]
+
 
         if len(maxquotientkeys) > 1:
             print('Multiple identical quotients applicable to the same seat.')
             if ballot_numbers == None:
                 print('Unable to resolve result, as ballot numbers have not been provided. Aborting!')
+                print(result_table)
                 return None
             else:
                 seatwinner = max(ballot_numbers, key=ballot_numbers.get)
@@ -140,6 +142,7 @@ def distribute_seats(votetotals_in,number_of_seats,ballot_numbers = None,first_d
                         maxballot_numberkeys.append(key)
                 if len(maxballot_numberkeys) >1:
                     print('Unable to resolve result, as ballot numbers are identical. Seat winner must be determined by drawing lots. Aborting!')
+                    print(result_table)
                     return None
 
                 else:
@@ -193,9 +196,8 @@ def distribute_seats(votetotals_in,number_of_seats,ballot_numbers = None,first_d
     print(result_table,file=out)
 
    
-
+    
     summary ={'Election':description,'Seats':seats,'Winning quotient divisors':winning_quotient_divisors,'Winning quotients':winning_quotients,'Party seat numbers':party_seats_numbers}
-
     with open(output_path, 'w') as outfile:
         json.dump(summary, outfile)
 
@@ -335,8 +337,12 @@ def neededvotes(votetotals,number_of_seats,party, divisor = 1.4):
 def compareresults(result1,result2):
     #Compare two election results. Determine if the election outcome (number of seats awarded to each party) is different.
 
-    party_seats_numbers1 = result1[-1]
-    party_seats_numbers2 = result2[-1]
+    try:
+        party_seats_numbers1 = result1[-1]
+        party_seats_numbers2 = result2[-1]
+    except:
+        print('Unable to compare results. Results may be invalid or not existing.')
+        return None
 
     if party_seats_numbers1 == party_seats_numbers2:
         print('Election outcomes are identical.')
@@ -374,7 +380,6 @@ def comparecounts(data_dictionary,data_dictionary_key):
     print('Comparing ',description,'preliminary result to ',description,'final result:')
     is_identical1 = compareresults(result_prelim,result_final)
 
-    
     print('Comparing ',description,'preliminary result to ',description,'final result WITHOUT PERSONAL VOTES (votetotal = #of ballots):')
     is_identical2 = compareresults(result_prelim,result_final_no_personal_votes)
 
