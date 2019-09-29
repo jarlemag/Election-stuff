@@ -13,11 +13,30 @@ class NullWriter(object):
     def write(self, arg):
         pass
 
-#votes_gjesdal_sum_prelim = Counter(votes_gjesdal_precast_prelim) + Counter(votes_gjesdal_electionday_prelim)
 
-#votes_gjesdal_sum_final = Counter(votes_gjesdal_precast_final) + Counter(votes_gjesdal_electionday_final)
 
-def distribute_seats(data_dictionary,data_dictionary_key,first_divisor = 1.4, wait = False,Verbose = False,adjustments = {}, silent = False,output_path = "output.json"):
+
+def distribute_seats_wrapper(data_dictionary,data_dictionary_key,first_divisor = 1.4, wait = False,verbose = False,adjustments = {}, silent = False,output_path = "output.json"):
+    #Wraps the distribut_seats() function in order to allow data to be retrieved from a dictionary
+    #Extracts desired data from a dictionary and passes to the distribute_seats function.
+
+    #Rename the arguments to be passed on in case using e.g "first_divisor = first_divisor" in distribute_seats() function call is a problem
+    first_divisor_out = first_divisor
+    wait_out = wait
+    verbose_out =verbose
+    adjustments_out = adjustments
+    silent_out = silent
+    output_path_out = output_path
+
+    votetotals = data_dictionary[data_dictionary_key]["voteTotals"].copy()
+    number_of_seats = data_dictionary[data_dictionary_key]["numberOfSeats"]
+    description_out = data_dictionary[data_dictionary_key]["contestDescription"]
+
+    return distribute_seats(votetotals,number_of_seats,first_divisor = first_divisor_out, wait = wait_out,verbose = verbose_out,
+                            adjustments = adjustments_out, silent = silent_out,output_path = output_path_out,description = description_out)
+    
+
+def distribute_seats(votetotals_in,number_of_seats,first_divisor = 1.4, wait = False,verbose = False,adjustments = {}, silent = False,output_path = "output.json",description = "Unknown"):
     if silent:
         out = NullWriter()
     else:
@@ -27,10 +46,9 @@ def distribute_seats(data_dictionary,data_dictionary_key,first_divisor = 1.4, wa
     #and further modified (subtractions and additions) by personal votes. However, the function will also return correct result if the actual numbers of votes (ballots) cast are used
     #and there are no personal votes considered.
     
-    votetotals = data_dictionary[data_dictionary_key]["voteTotals"].copy()
-    number_of_seats = data_dictionary[data_dictionary_key]["numberOfSeats"]
-    contest_description = data_dictionary[data_dictionary_key]["contestDescription"]
-    print('Calculating election result from vote totals for',contest_description,file=out)
+    votetotals = votetotals_in.copy()
+   
+    print('Calculating election result from vote totals for',description,file=out)
     print('Number of seats to be distributed: ',number_of_seats,file=out)
     print('First divisor:',first_divisor,file=out)
     print('Vote totals:',file=out)
@@ -56,10 +74,10 @@ def distribute_seats(data_dictionary,data_dictionary_key,first_divisor = 1.4, wa
         quotients[key] = quotients[key] / first_divisor
 
     #Set the initial divisors
-    if Verbose:
+    if verbose:
         print('Setting initial divisors...',file=out)
     divisors = dict.fromkeys(votetotals, first_divisor)
-    if Verbose:
+    if verbose:
         print('Initial divisors',file=out)
         print(divisors)
     
@@ -87,13 +105,13 @@ def distribute_seats(data_dictionary,data_dictionary_key,first_divisor = 1.4, wa
                 wait = False
             print('Input:',userinput)
 
-        if Verbose:
+        if verbose:
             print('Awarding seat #',awardedseats_total+1,'...',file=out)
         #Award the seat to the party with the highest current quotient
-        if Verbose:
+        if verbose:
             print('Current quotients:',quotients,file=out)
         seatwinner = max(quotients, key=quotients.get)
-        if Verbose:
+        if verbose:
             print('Winner of seat #',awardedseats_total+1,': ',seatwinner,file=out)
 
         #Update the lists of awarded seats, winning quotients and their divisors
@@ -101,7 +119,7 @@ def distribute_seats(data_dictionary,data_dictionary_key,first_divisor = 1.4, wa
         winning_quotients.append(quotients[seatwinner])
         winning_quotient_divisors.append(divisors[seatwinner])
         
-        if Verbose:
+        if verbose:
             print('Seats awarded so far:',file=out)
             print(seats,file=out)
 
@@ -119,16 +137,16 @@ def distribute_seats(data_dictionary,data_dictionary_key,first_divisor = 1.4, wa
         #Set the new divisor for the seatwinner
         divisors[seatwinner] = 2*party_seats_numbers[seatwinner] + 1
 
-        if Verbose:
+        if verbose:
             print('New divisor for ',seatwinner,':',file=out)
             print(divisors[seatwinner],file=out)
         #Calculate the new quotient for the seatwinner:
         quotients[seatwinner] = votetotals[seatwinner] / divisors[seatwinner]
-        if Verbose:
+        if verbose:
             print('New quotient for ',seatwinner,':',file=out)
             print(quotients[seatwinner],file=out)
         
-        if Verbose:
+        if verbose:
             print('Seats awarded: ',awardedseats_total,file=out)
 
                
@@ -141,7 +159,7 @@ def distribute_seats(data_dictionary,data_dictionary_key,first_divisor = 1.4, wa
 
    
 
-    summary ={'Election':contest_description,'Seats':seats,'Winning quotient divisors':winning_quotient_divisors,'Winning quotients':winning_quotients,'Party seat numbers':party_seats_numbers}
+    summary ={'Election':description,'Seats':seats,'Winning quotient divisors':winning_quotient_divisors,'Winning quotients':winning_quotients,'Party seat numbers':party_seats_numbers}
 
     with open(output_path, 'w') as outfile:
         json.dump(summary, outfile)
@@ -150,7 +168,14 @@ def distribute_seats(data_dictionary,data_dictionary_key,first_divisor = 1.4, wa
     return [seats,winning_quotient_divisors,winning_quotients,party_seats_numbers]
 
 
-def leastvotechange(votetotals,number_of_seats):
+def leastvotechange(votetotals,number_of_seats,count_type = "listestemmetall"):
+
+    #check that a valid election result type has been specified:
+    valid_count_type = (("listestemmetall" in count_type) or ("stemmer" in count_type))
+    if not valid_count_type:
+        print('Error. Unknown result type. Valid result types are "listestemmetall" (vote totals) and "stemmer" (votes). Aborting.')
+        return
+    
     #Find the smallest difference in votes which can lead to a changed election result
     print('Finding smallest change in voting required to change election result.')
     #let "n" be the number of seats to be distributed.
@@ -189,8 +214,12 @@ def leastvotechange(votetotals,number_of_seats):
     required_vote_total_decrease = quotient_difference * divisor_seat_n
     #TODO: If seats n and n+1 are won by the same party (party X), find the next seat not won by party X and do the same calculation
 
-    required_votes_cast_decrease = required_vote_total_decrease/number_of_seats
-    required_votes_cast_increase = required_vote_total_increase/number_of_seats
+    if count_type == "listestemmetall":
+        required_votes_cast_decrease = required_vote_total_decrease/number_of_seats
+        required_votes_cast_increase = required_vote_total_increase/number_of_seats
+    elif count_type == "stemmer":
+        required_votes_cast_decrease = required_vote_total_decrease
+        required_votes_cast_increase = required_vote_total_increase
 
     quotient_loss_per_vote_total_transfer = 1 / divisor_seat_n
     quotient_gain_per_vote_total_transfer = 1 / divisor_seat_n_plus_one
@@ -200,7 +229,14 @@ def leastvotechange(votetotals,number_of_seats):
     print('quotient_gain_per_vote_total_transfer','%.5f'%quotient_gain_per_vote_total_transfer)
     print('total_quotient_gap_change_per_vote_total_transfer:','%.5f'%total_quotient_gap_change_per_vote_total_transfer)
     required_vote_total_transfer = quotient_difference / total_quotient_gap_change_per_vote_total_transfer
-    required_votes_transfer = required_vote_total_transfer/number_of_seats
+
+    if count_type == "listestemmetall":
+        required_votes_transfer = required_vote_total_transfer/number_of_seats
+    elif count_type == "stemmer":
+        required_votes_transfer = required_vote_total_transfer
+    else:
+        Print('Unknown count type (Valid types are ''listestemmetall'' (vote totals) and ''stemmer'' (votes). Aborting.')
+        return
 
     new_line1 = str(n)+'\t'+str(winner_seat_n)+'\t'+str(divisor_seat_n)+'\t'+'%.3f'%(quotient_seat_n)+'\n'
     new_line1 = new_line1.expandtabs(32)
@@ -212,45 +248,28 @@ def leastvotechange(votetotals,number_of_seats):
  
     print('quotient_difference: ','%.3f'%quotient_difference)
     print('\n')
-    print('Increase in vote total (listestemmetall) (not changing any existing votes) to party',winner_seat_n_plus_one,'needed to change election result:','%.3f'%required_vote_total_increase)
+
+    if count_type == "listestemmetall":
+        print('Increase in vote total (listestemmetall) (not changing any existing votes) to party',winner_seat_n_plus_one,'needed to change election result:','%.3f'%required_vote_total_increase)
     print('Increase in votes cast (not changing any existing votes) for party',winner_seat_n_plus_one,'needed to change election result:',math.ceil(required_votes_cast_increase),',rounded up from','%.3f'%required_votes_cast_increase)
     print('\n')
-    print('Decrease in vote total (listestemmetall) (not changing any existing votes) to party',winner_seat_n,'needed to change election result:','%.3f'%required_vote_total_decrease)
+    if count_type == "listestemmetall":
+        print('Decrease in vote total (listestemmetall) (not changing any existing votes) to party',winner_seat_n,'needed to change election result:','%.3f'%required_vote_total_decrease)
     print('Decrease in votes cast (not changing any existing votes) for party',winner_seat_n,'needed to change election result:',math.ceil(required_votes_cast_decrease),',rounded up from','%.3f'%required_votes_cast_decrease)
 
-          
-   
     print('\n')
-    print('Vote total (listestemmetall) transferred from party',winner_seat_n,'to party',winner_seat_n_plus_one,'needed to change election result:','%.3f'%required_vote_total_transfer)
+    if count_type == "listestemmetall":
+        print('Vote total (listestemmetall) transferred from party',winner_seat_n,'to party',winner_seat_n_plus_one,'needed to change election result:','%.3f'%required_vote_total_transfer)
     print('Votes (stemmer) transferred from party',winner_seat_n,'to party',winner_seat_n_plus_one,'needed to change election result:',math.ceil(required_votes_transfer),',rounded up from','%.3f'%required_votes_transfer)
-
-    
+        
+        
     return
-
-
-#print('ready to perform Bergen vote adjustment test.')
-
-
 
 
 #print('Bergen #1:')
 #print('votetotals_bergen:')
 #print(votetotals_bergen)
 #distribute_seats(votetotals_bergen,number_of_seats_bergen,wait = False)
-
-#print('Bergen #2:')
-#print('votetotals_bergen:')
-#print(votetotals_bergen)
-#distribute_seats(votetotals_bergen_modified,number_of_seats_bergen,wait = False)
-
-#print('Bergen #3:')
-#print('votetotals_bergen:')
-#print(votetotals_bergen)
-#distribute_seats(votetotals_bergen,number_of_seats_bergen,wait = False, adjustments = {'SV': -409*number_of_seats_bergen})
-
-
-#print('Votetotals_bergen after Bergen #3:')
-#print(votetotals_bergen)
 
 #leastvotechange(votetotals_bergen,number_of_seats_bergen)
 
@@ -292,31 +311,49 @@ def compareresults(result1,result2):
         return False
 
 
-#print('\n\n\n\n\nCalculating results for nesseby...')
+
+def comparecounts(data_dictionary,data_dictionary_key):
+
+    sub_dict = data_dictionary[data_dictionary_key]
+    votes_precast_prelim = sub_dict["votesPrecastPrelim"]
+    votes_electionday_prelim = sub_dict["votesElectionDayPrelim"]
+    votes_precast_final =  sub_dict["votesPrecastFinal"]
+    votes_electionday_final =  sub_dict["votesElectionDayFinal"]
+    votes_final = sub_dict["votesElectionDayPrelim"]
+    number_of_seats = sub_dict["numberOfSeats"]
+    votetotals_final = sub_dict["voteTotals"]
+    description = data_dictionary_key
+
+    votes_sum_prelim = Counter(votes_precast_prelim) + Counter(votes_electionday_prelim)
+    votes_sum_final = Counter(votes_precast_final) + Counter(votes_electionday_final)
+
+    print('\n\n\n\n\nCalculating results for ',data_dictionary_key,'.')
+    print('Result from preliminary vote counts:')
+    result_prelim = distribute_seats(votes_sum_prelim,number_of_seats)
+    print('From final vote totals (including personal votes):')
+    result_final =  distribute_seats(votetotals_final,number_of_seats)
+    print('From final vote counts (excluding personal votes):')
+    result_final_no_personal_votes = distribute_seats(votes_sum_final,number_of_seats)
 
 
-#print('From preliminary vote counts:')
-#result_nesseby_prelim = distribute_seats(votes_nesseby_sum_prelim,number_of_seats_nesseby)
-#print('From final vote totals (including personal votes):')
-#result_nesseby_final =  distribute_seats(votetotals_nesseby_final,number_of_seats_nesseby)
-#print('From final vote counts (excluding personal votes):')
-#result_nesseby_final_no_personal_votes = distribute_seats(votes_nesseby_sum_final,number_of_seats_nesseby)
+    print('Comparing ',description,'preliminary result to ',description,'final result:')
+    is_identical1 = compareresults(result_prelim,result_final)
+
+    
+    print('Comparing ',description,'preliminary result to ',description,'final result WITHOUT PERSONAL VOTES (votetotal = #of ballots):')
+    is_identical2 = compareresults(result_prelim,result_final_no_personal_votes)
+
+    print('\n\n\n\n\nLeast vote change that would change ',description,'final result:')
+    leastvotechange(votetotals_final,number_of_seats)
 
 
-#print('Comparing nesseby preliminary result to nesseby final result:')
-#is_identical1 = compareresults(result_nesseby_prelim,result_nesseby_final)
+    print('\n\n\n\n\nLeast vote change that would change ',description,'preliminary result:')
+    leastvotechange(votes_sum_prelim,number_of_seats,count_type = "stemmer")
+    #leastvotechange(votes_sum_prelim,number_of_seats)
+    return
 
+#test_result = distribute_seats_wrapper(data_dict,"Drammen")
 
-#print('Comparing nesseby preliminary result to nesseby final result WITHOUT PERSONAL VOTES (votetotal = #of ballots):')
-#is_identical2 = compareresults(result_nesseby_prelim,result_nesseby_final_no_personal_votes)
+#comparecounts(data_dict,"Gjesdal")
 
-#print('\n\n\n\n\nLeast vote change that would change nesseby final result:')
-#leastvotechange(votetotals_nesseby_final,number_of_seats_nesseby)
-
-
-#print('\n\n\n\n\nLeast vote change that would change nesseby preliminary result:')
-#leastvotechange(votes_nesseby_sum_prelim,number_of_seats_nesseby)
-
-test_result = distribute_seats(data_dict,"Drammen")
-
-
+comparecounts(data_dict,"Øksnes")
