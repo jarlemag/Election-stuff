@@ -303,15 +303,13 @@ def leastvotechange(votetotals,number_of_seats,count_type = "listestemmetall"):
     print('Votes (stemmer) transferred from party',winner_seat_n,'to party',winner_seat_n_plus_one,'needed to change election result:',math.ceil(required_votes_transfer),',rounded up from','%.3f'%required_votes_transfer)
         
         
-    return
+    return [required_vote_total_increase,required_votes_cast_increas,required_vote_total_decrease,required_votes_cast_decrease,required_vote_total_transfer] 
 
 
 #print('Bergen #1:')
 #print('votetotals_bergen:')
 #print(votetotals_bergen)
 #distribute_seats(votetotals_bergen,number_of_seats_bergen,wait = False)
-
-#leastvotechange(votetotals_bergen,number_of_seats_bergen)
 
  
 def neededvotes(votetotals,number_of_seats,party, divisor = 1.4):
