@@ -13,6 +13,14 @@ Lov om valg til Stortinget, fylkesting og kommunestyrer (valgloven): https://lov
 # Contents
 This repository currently contains the following:
 
+## data.json
+
+Results from real local elections. Contains vote totals (listestemmetall) and the number of seats (to be) distributed in each election. Also contains additional data (e.g. preliminary and final vote counts) for some elections. 
+
+## test_data.json 
+
+Fictional data for test use.
+
 ## notes.txt:
 Personal notes and calculations/examples related to the question:
 Given an election result (vote totals and resulting seat distribution), how to determine the smallest change in voting that would change
