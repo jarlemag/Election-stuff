@@ -149,4 +149,3 @@ Calculations and manually determined vote results (seat distributions) for a cou
 # TODO:
 * Add function for checking whether personal votes had impact on election result
 * Create Ipython/Jupyter notebook for easier/interactive use.
-* Make the functions available as part of an importable module
