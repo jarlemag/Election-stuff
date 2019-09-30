@@ -1,5 +1,5 @@
 # Election-stuff
-Scripts for verifying/calculating election results, etc. for norwegian municipial elections.
+Scripts for verifying/calculating election results, etc. for norwegian elections. The functions are designed for use with data for municipial elections (kommunestyrevalg), but may also potentially be applicable to regional (fylkestingsvalg) and parliamentary (stortingsvalg) elections.
 
 
 # Acknowledgements
