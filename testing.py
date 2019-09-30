@@ -46,7 +46,7 @@ class TestDistributeSeats(unittest.TestCase):
         seats_string = str(result[0]).encode('utf-8')
         returned_seats_hash = hashlib.sha256()
         returned_seats_hash.update(seats_string)
-        self.assertEqual(returned_seats_hash.hexdigest(),'20d3f16653c2691b15dfba96538a84a76872317c3dcae094f404d4281af37d6c') #Doesn't work, hash changes every time.
+        self.assertEqual(returned_seats_hash.hexdigest(),'20d3f16653c2691b15dfba96538a84a76872317c3dcae094f404d4281af37d6c')
 
         result[1].sort()
         winning_quotient_divisors_string = str(result[1]).encode('utf-8')
