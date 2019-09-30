@@ -6,7 +6,7 @@ import sys
 import json
 
 
-data_dict = json.load(open('data.json'))
+#data_dict = json.load(open('data.json'))
 
 #https://bytes.com/topic/python/answers/724534-stopping-fucntion-printing-its-output-screen
 class NullWriter(object):
@@ -395,7 +395,7 @@ def comparecounts(data_dictionary,data_dictionary_key):
     #leastvotechange(votes_sum_prelim,number_of_seats)
     return
 
-test_result = distribute_seats_wrapper(data_dict,"Drammen")
+#test_result = distribute_seats_wrapper(data_dict,"Drammen")
 
 #comparecounts(data_dict,"Gjesdal")
 
