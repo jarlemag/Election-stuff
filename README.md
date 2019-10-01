@@ -97,7 +97,10 @@ Optional arguments (default values):
 #### Output:
 Runs distribute_seats() for number_of_seats (n) + 1 seats and determines how many votes must be added/subtracted/changed
 for the winner of the n+1th seat to win the nth (last) seat. Prints the results.
-      
+  
+ Returns: [required_vote_total_increase,required_votes_cast_increase,required_vote_total_decrease,required_votes_cast_decrease,required_vote_total_transfer] 
+ 
+  
 ### neededvotes()
 
 Syntax: 
@@ -120,7 +123,9 @@ Optional arguments (default values):
 
 #### output:
 Prints how many additional votes the party needs to win 1 seat, or a message if the party is already represented.
-      
+
+Returns: [required_votetotal_increase,required_vote_increase]
+
 ### compareresults()
 
 Syntax: 
@@ -137,7 +142,8 @@ Mandatory arguments:
 
 #### Output: 
 Determines if the election results (number of seats awarded to each party) are identical. Returns True if yes, False if no. Prints the result.
-      
+     
+ Returns: None (unable to compare results), True (results are identical) or False (results are not identical).
       
 ### comparecounts()
 
@@ -146,10 +152,20 @@ Syntax:
 comparecounts(data_dictionary,data_dictionary_key)
 ```
 
+#### Input:
+
 Mandatory arguments:
 
 * data_dictionary
 * data_dictionary_key
+
+#### Output:
+
+Returns: [is_identical1,is_identical2]
+
+## testing.py
+
+Test code for automatic testing (unit tests).
 
 ## Excel spreadsheets: 
 Calculations and manually determined vote results (seat distributions) for a couple of local elections.
