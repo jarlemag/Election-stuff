@@ -1,4 +1,18 @@
 
+import settlement
+import json
+import unittest
+import hashlib
+import sys
+
+test_dict = json.load(open('test_data.json'))
+data_dict = json.load(open('data.json'))
+
+votetotals_drammen = data_dict["Drammen"]["voteTotals"].copy()
+test_result = settlement.distribute_seats_wrapper(data_dict,"Drammen",silent = True)
+
+
+
 
 
 class ElectionGroup(object):
@@ -21,9 +35,9 @@ class Kommune(object):
 
 class Candidate(object):
 
-    def __init__(self,name,party)
-    self.name = name
-    self.party = party
+    def __init__(self,name,party):
+        self.name = name
+        self.party = party
     pass
 
 
@@ -42,7 +56,8 @@ class Party(object):
     #Partikode (unik partikode for partiet)
     #Type parti (stortingsparti, landsdekkende parti, lokalt parti)
     #Godkjenning (må være på plass for at et parti skal kunne stille liste i et valg)
-    #Forenklet behandling (har betydning for hvor mange underskrifter som trengs for å godkjenne en liste)
+    #Forenklet behandling (har betydning for hvor mange underskrifter som trengs for å godkjenne en liste)
+
     pass
 
 
@@ -72,15 +87,19 @@ class Contest(object):
     #Kan overskrive en del instillinger på valg, f.eks aldersgrense
     #Maks antall kandidater, stemmegivninger, etc
     #Flagg som angir hvem som utfører endelig telling (kan overstyre verdien satt på valgnivå)
-    #Knyttet til stemmeseddel/partiliste
+    #Knyttet til stemmeseddel/partiliste
+
 
     def __init__(self,area, number_of_seats):
         self.number_of_seats = number_of_seats
         self.area = area
+        self.description = "Unknown"
+        self.votetotals = {}
 
 
-    def perform_settlement(self):
-        self.settlement = Settlement(self)
+    def perform_settlement(self,verbose = False):
+        self.settlement = Settlement(self,self.votetotals)
+        self.result = self.settlement.distributeseats()
 
     pass
 
@@ -103,16 +122,100 @@ class CountResult(object):
 
 class Settlement(object):
 
-    def __init__(self, contest):
+    def __init__(self, contest,votetotals,verbose = False,silent = False):
         self.contest = contest
         self.status = 'Not started'
-    #Valgoppgjør
+        self.votetotals = votetotals
+        self.number_of_seats = contest.number_of_seats
+        self.awardedseats_total = 0
+        self.awardedseats = []
+        self.currentseatwinner = ''
+        self.verbose = verbose
+        self.silent = silent
+        self.first_divisor = 1.4
+        #Set the initial divisors
+        if self.verbose:
+            print('Setting initial divisors...',file=out)
+        self.divisors = dict.fromkeys(votetotals, self.first_divisor)
+        #Initialize dictionary for quotients 
+        self.quotients = votetotals.copy()
+        #self.party_seats_numbers = {}
+        self.party_seats_numbers = dict.fromkeys(self.votetotals, 0)
+
+    def distributeseats(self,wait=False,silent=True,verbose=False):
+
+        votetotals_temp = self.votetotals.copy()
+
+        if self.silent:
+            out = NullWriter()
+        else:
+            out = sys.stdout
+        
+        print('Calculating election result from vote totals for',self.contest.description,file=out)
+        print('Number of seats to be distributed: ',self.number_of_seats,file=out)
+        print('First divisor:',self.first_divisor,file=out)
+        print('Vote totals:',file=out)
+        print(self.votetotals,file=out)
+
+        #Calculate initial quotients (divide vote total by first divisor)
+        for key in self.quotients:
+            self.quotients[key] = self.quotients[key] / self.first_divisor
+
+        
+        if self.verbose:
+            print('Initial divisors',file=out)
+            print(self.divisors)
+
+
+        while self.awardedseats_total < self.number_of_seats:
+            if wait == True:
+                print('Ready to award seat #',self.awardedseats_total+1,)
+                userinput = input('Press Enter to proceed to next seat. Press E + Enter to proceed to end. ')
+                if userinput.lower() == 'e':
+                    wait = False
+                    print('Input:',userinput)
+
+            if self.verbose:
+                print('Awarding seat #',self.awardedseats_total+1,'...',file=out)
+            #Award the seat to the party with the highest current quotient
+            if self.verbose:
+                print('Current quotients:',self.quotients,file=out) 
+
+            #print('DEBUG:self.currentseatwinner',self.currentseatwinner)
+            #print('DEBUG:self.votetotals',self.votetotals)
+            self.currentseatwinner = max(self.quotients, key=self.quotients.get)
+
+            newseat = CandidateSeat(self.currentseatwinner)
+            newseat.winning_quotient = max(self.quotients)
+            self.awardedseats.append(newseat)
+
+            self.awardedseats_total  = len(self.awardedseats)
+
+            #Keep track of how many seats won by each party
+            self.party_seats_numbers[self.currentseatwinner] = self.party_seats_numbers[self.currentseatwinner] + 1
+        
+            #Set the new divisor for the seatwinner
+            self.divisors[self.currentseatwinner] = 2*self.party_seats_numbers[self.currentseatwinner] + 1
+
+        print('SEAT DISTRIBUTION FINISHED.',file=out)
+        self.status = "Complete"
+
+        return [self.awardedseats,self.party_seats_numbers]
+
+                #Valgoppgjør
     pass
 
 class CandidateSeat(object):
     #mandat
-     def __init__(self, settlement,seatwinner):
-         self.settlement = settlement
+     def __init__(self,seatwinner):
+         #self.settlement = settlement
          self.seatwinner = seatwinner
-    
-    pass
+         self.winning_quotient = None
+
+
+
+
+drammenvalg = Contest('Drammen',57)
+drammenvalg.votetotals = votetotals_drammen
+drammenvalg.votetotals
+result = drammenvalg.perform_settlement()
