@@ -1,19 +1,13 @@
-
 import math
 from collections import Counter
 import io
 import sys
 import json
 
-
-#data_dict = json.load(open('data.json'))
-
 #https://bytes.com/topic/python/answers/724534-stopping-fucntion-printing-its-output-screen
 class NullWriter(object):
     def write(self, arg):
         pass
-
-
 
 
 def distribute_seats_wrapper(data_dictionary,data_dictionary_key,first_divisor = 1.4, wait = False,verbose = False,adjustments = {}, silent = False,output_path = "output.json"):
@@ -41,7 +35,7 @@ def distribute_seats_wrapper(data_dictionary,data_dictionary_key,first_divisor =
     
 
 def distribute_seats(votetotals_in,number_of_seats,ballot_numbers = None,first_divisor = 1.4, wait = False,verbose = False,
-                     adjustments = {}, silent = False,output_path = "output.json",description = "Unknown"):
+                     adjustments = {}, silent = True,output_path = "output.json",description = "Unknown"):
     if silent:
         out = NullWriter()
     else:
@@ -224,7 +218,7 @@ def leastvotechange(votetotals,number_of_seats,count_type = "listestemmetall"):
 
 
     #Calculate the winning quotients for n+1 seats.
-    expanded_result = distribute_seats(votetotals,n + 1)
+    expanded_result = distribute_seats(votetotals,n + 1,silent=True)
 
     print('Final seat awarded:')
 
@@ -303,7 +297,7 @@ def leastvotechange(votetotals,number_of_seats,count_type = "listestemmetall"):
     print('Votes (stemmer) transferred from party',winner_seat_n,'to party',winner_seat_n_plus_one,'needed to change election result:',math.ceil(required_votes_transfer),',rounded up from','%.3f'%required_votes_transfer)
         
         
-    return
+    return [required_vote_total_increase,required_votes_cast_increase,required_vote_total_decrease,required_votes_cast_decrease,required_vote_total_transfer] 
 
 
 #print('Bergen #1:')
@@ -311,16 +305,15 @@ def leastvotechange(votetotals,number_of_seats,count_type = "listestemmetall"):
 #print(votetotals_bergen)
 #distribute_seats(votetotals_bergen,number_of_seats_bergen,wait = False)
 
-#leastvotechange(votetotals_bergen,number_of_seats_bergen)
-
  
 def neededvotes(votetotals,number_of_seats,party, divisor = 1.4):
     #find out how many additional votes (not changing any existing votes) a party not currently represented would need in order to win 1 seat.
-    result = distribute_seats(votetotals,number_of_seats, first_divisor = divisor)
+    result = distribute_seats(votetotals,number_of_seats, first_divisor = divisor,silent = True)
     seats = result[0]
     winning_quotients = result[2]
     if party in seats:
         print(party,'won one or more seats in the election.')
+        return None
     else:
         party_quotient = votetotals[party] / divisor
         print(party,'quotient:',party_quotient)
@@ -334,7 +327,7 @@ def neededvotes(votetotals,number_of_seats,party, divisor = 1.4):
         print(party,'Needs',math.ceil(required_vote_increase),'additional votes to win one seat.')
         
 
-    return
+    return [required_votetotal_increase,required_vote_increase]
 
 
 def compareresults(result1,result2):
@@ -356,8 +349,9 @@ def compareresults(result1,result2):
 
 
 
-def comparecounts(data_dictionary,data_dictionary_key):
+def comparecounts(data_dictionary,data_dictionary_key,silent = True):
 
+    silent_out = silent
     sub_dict = data_dictionary[data_dictionary_key]
     votes_precast_prelim = sub_dict["votesPrecastPrelim"]
     votes_electionday_prelim = sub_dict["votesElectionDayPrelim"]
@@ -373,7 +367,7 @@ def comparecounts(data_dictionary,data_dictionary_key):
 
     print('\n\n\n\n\nCalculating results for ',data_dictionary_key,'.')
     print('Result from preliminary vote counts:')
-    result_prelim = distribute_seats(votes_sum_prelim,number_of_seats)
+    result_prelim = distribute_seats(votes_sum_prelim,number_of_seats,silent = silent_out)
     print('From final vote totals (including personal votes):')
     result_final =  distribute_seats(votetotals_final,number_of_seats)
     print('From final vote counts (excluding personal votes):')
@@ -393,19 +387,4 @@ def comparecounts(data_dictionary,data_dictionary_key):
     print('\n\n\n\n\nLeast vote change that would change ',description,'preliminary result:')
     leastvotechange(votes_sum_prelim,number_of_seats,count_type = "stemmer")
     #leastvotechange(votes_sum_prelim,number_of_seats)
-    return
-
-#test_result = distribute_seats_wrapper(data_dict,"Drammen")
-
-#comparecounts(data_dict,"Gjesdal")
-
-#comparecounts(data_dict,"Øksnes")
-
-
-#test_dict = json.load(open('test_data.json'))
-
-#print('TEST1:')
-#distribute_seats_wrapper(test_dict,"equal_votetotals_test1",wait=True,verbose=True)
-
-#print('TEST2:')
-#distribute_seats_wrapper(test_dict,"equal_votetotals_test2")
+    return [is_identical1,is_identical2]
