@@ -197,6 +197,9 @@ class Settlement(object):
             #Set the new divisor for the seatwinner
             self.divisors[self.currentseatwinner] = 2*self.party_seats_numbers[self.currentseatwinner] + 1
 
+            #Calculate the new quotient for the seatwinner:
+            self.quotients[self.currentseatwinner] = self.votetotals[self.currentseatwinner] / self.divisors[self.currentseatwinner]
+
         print('SEAT DISTRIBUTION FINISHED.',file=out)
         self.status = "Complete"
 
