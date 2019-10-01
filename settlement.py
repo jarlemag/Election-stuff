@@ -299,12 +299,6 @@ def leastvotechange(votetotals,number_of_seats,count_type = "listestemmetall"):
         
     return [required_vote_total_increase,required_votes_cast_increase,required_vote_total_decrease,required_votes_cast_decrease,required_vote_total_transfer] 
 
-
-#print('Bergen #1:')
-#print('votetotals_bergen:')
-#print(votetotals_bergen)
-#distribute_seats(votetotals_bergen,number_of_seats_bergen,wait = False)
-
  
 def neededvotes(votetotals,number_of_seats,party, divisor = 1.4):
     #find out how many additional votes (not changing any existing votes) a party not currently represented would need in order to win 1 seat.
