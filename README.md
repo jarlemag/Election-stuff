@@ -167,6 +167,13 @@ Returns: [is_identical1,is_identical2]
 
 Test code for automatic testing (unit tests).
 
+To run tests and generate test coverage report with coverage.py, use the following commands:
+```
+coverage run --include settlement.py testing.py
+coverage report
+coverage html
+```
+
 ## Excel spreadsheets: 
 Calculations and manually determined vote results (seat distributions) for a couple of local elections.
 
