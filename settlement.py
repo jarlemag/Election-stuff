@@ -1,19 +1,13 @@
-
 import math
 from collections import Counter
 import io
 import sys
 import json
 
-
-data_dict = json.load(open('data.json'))
-
 #https://bytes.com/topic/python/answers/724534-stopping-fucntion-printing-its-output-screen
 class NullWriter(object):
     def write(self, arg):
         pass
-
-
 
 
 def distribute_seats_wrapper(data_dictionary,data_dictionary_key,first_divisor = 1.4, wait = False,verbose = False,adjustments = {}, silent = False,output_path = "output.json"):
