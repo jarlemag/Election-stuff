@@ -4,6 +4,7 @@ import json
 import unittest
 import hashlib
 import sys
+import math
 
 test_dict = json.load(open('test_data.json'))
 data_dict = json.load(open('data.json'))
@@ -45,16 +46,12 @@ class Candidate(object):
 class Party(object):
     
     def __init__(self,partinavn,partinummer,partikode,partitype):
-        self.partinavn = partinavn
-        self.partinummer = partinummer
-        self.partikode = partikode
-        self.partitype = partitype
+        self.partinavn = partinavn #Partinavn
+        self.partinummer = partinummer #Partinummer (4-sifre unik identifikator av partiet)
+        self.partikode = partikode #Partikode (unik partikode for partiet)
+        self.partitype = partitype #Type parti (stortingsparti, landsdekkende parti, lokalt parti)
 
-        
-    #Partinavn
-    #Partinummer (4-sifre unik identifikator av partiet)
-    #Partikode (unik partikode for partiet)
-    #Type parti (stortingsparti, landsdekkende parti, lokalt parti)
+    
     #Godkjenning (må være på plass for at et parti skal kunne stille liste i et valg)
     #Forenklet behandling (har betydning for hvor mange underskrifter som trengs for å godkjenne en liste)
 
@@ -63,19 +60,18 @@ class Party(object):
 
 
 class Election(object):
-    #En valgtype, f.eks kommunevalg, bydelsutvalg, fylkestingsvalg, stortingsvalg, sametingsvalg. 
+     
     #Områdenivå for valget (kommune eller fylke)
     #"Single area"-flagg (vanlige valg er "single area", sametingsvalg er det ikke)
     #Renummerering, strykning, tilføyelse (writein)
-    #Aldersgrense
+    
     #Flagg for om kandidater må ha stemmerett
-    #Diverse regler for valgoppgjør (blant annet "first divisor in Sainte-Lague")
     #Flagg som angir hvem som utfører endelig telling (brukes i Sametingsvalget)
 
     def __init__(self,valgtype,year):
         self.first_divisor = 1.4
-        self.age_limit = 18
-        self.valgtype = valgtype
+        self.age_limit = 18 #Aldersgrense
+        self.valgtype = valgtype #En valgtype, f.eks kommunevalg, bydelsutvalg, fylkestingsvalg, stortingsvalg, sametingsvalg.
         self.year = year
     pass
 
@@ -90,15 +86,19 @@ class Contest(object):
     #Knyttet til stemmeseddel/partiliste
 
 
-    def __init__(self,area, number_of_seats):
+    def __init__(self,area, number_of_seats,election = Election('Ukjent',math.nan)):
         self.number_of_seats = number_of_seats
         self.area = area
         self.description = "Unknown"
         self.votetotals = {}
+        self.contestreports = []
+        self.validcontestreport = None
+        self.election = election
+        self.age_limit = self.election.age_limit
 
 
     def perform_settlement(self,verbose = False):
-        self.settlement = Settlement(self,self.votetotals)
+        self.settlement = Settlement(self,self.validcontestreport)
         self.result = self.settlement.distributeseats()
 
     pass
@@ -116,16 +116,43 @@ class PartyList(object):
     pass
 
 
-class CountResult(object):
+class ContestReport(object):
+    #Tilsvarer valgprotokoll del B til D
+    def __init__(self):
+        self.votetotals = {}
+    
     pass
+
+
+
+class ContestFinalReport(object):
+    #Tilsvarer den fullstendige valgprotokollen
+    def __init__(self):
+        self.votetotals = {}
+    
+    pass
+
+class VoteCount(object):
+
+    def __init__(self):
+        pass
+    pass
+
+
+
+class BallotCount(object):
+    def __init__(self):
+        pass
+    pass
+
 
 
 class Settlement(object):
 
-    def __init__(self, contest,votetotals,verbose = False,silent = False):
+    def __init__(self,contest,contestreport,verbose = False,silent = False):
         self.contest = contest
         self.status = 'Not started'
-        self.votetotals = votetotals
+        self.votetotals = contestreport.votetotals
         self.number_of_seats = contest.number_of_seats
         self.awardedseats_total = 0
         self.awardedseats = []
@@ -136,9 +163,9 @@ class Settlement(object):
         #Set the initial divisors
         if self.verbose:
             print('Setting initial divisors...',file=out)
-        self.divisors = dict.fromkeys(votetotals, self.first_divisor)
+        self.divisors = dict.fromkeys(self.votetotals, self.first_divisor)
         #Initialize dictionary for quotients 
-        self.quotients = votetotals.copy()
+        self.quotients = self.votetotals.copy()
         #self.party_seats_numbers = {}
         self.party_seats_numbers = dict.fromkeys(self.votetotals, 0)
 
@@ -208,6 +235,8 @@ class Settlement(object):
                 #Valgoppgjør
     pass
 
+
+
 class CandidateSeat(object):
     #mandat
      def __init__(self,seatwinner):
@@ -216,9 +245,17 @@ class CandidateSeat(object):
          self.winning_quotient = None
 
 
-
+print('DEBUG1')
 
 drammenvalg = Contest('Drammen',57)
-drammenvalg.votetotals = votetotals_drammen
-drammenvalg.votetotals
+#drammenvalg.votetotals = votetotals_drammen
+#drammenvalg.votetotals
+
+print('DEBUG2')
+drammenvalg.validcontestreport = ContestReport()
+drammenvalg.validcontestreport.votetotals = votetotals_drammen
+setattr(drammenvalg.validcontestreport,'votetotals',votetotals_drammen)
+print('DEBUG3')
+
+print('drammenvalg.validcontestreport.votetotals:',drammenvalg.validcontestreport.votetotals)
 result = drammenvalg.perform_settlement()
