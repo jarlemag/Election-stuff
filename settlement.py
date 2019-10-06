@@ -384,6 +384,10 @@ def comparecounts(data_dictionary,data_dictionary_key,silent = True):
     return [is_identical1,is_identical2]
 
 def personalvotesimpact(data_dictionary,data_dictionary_key,silent = True):
+    #There are different questions that can be asked here. For example:
+    #1:What would be the result if *all* personal votes were ignored in (deleted from the result of) this election. I.e, how important were personal votes for the election overall.
+    #2: Would would be the result if the personal votes for *one* party were ignored in (deleted from the result of) this election. I.e, how important were personal votes for *this party*?
+    #This function checks the answer to question #1. Checking question 2 should probably go in a different function.
     
     silent_out = silent
     #Given "votetotals" including slengere, and "slengere":
