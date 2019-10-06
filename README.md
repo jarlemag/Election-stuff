@@ -186,7 +186,7 @@ Returns TRUE if the election result is NOT changed by deleting personal votes (s
 
 ## testing.py
 
-Test code for automatic testing (unit tests).
+Test code for automatic testing (unit tests) of the functions in settlement.py.
 
 To run tests and generate test coverage report with coverage.py, use the following commands:
 ```
@@ -194,6 +194,68 @@ coverage run --include settlement.py testing.py
 coverage report
 coverage html
 ```
+
+## electionclasses.py
+
+Classes and methods to implement (some of) the same functionality in settlement.py
+
+Includes the following classes:
+
+### Contest
+
+Represents a local election, for example "Kommunevalget i Drammen". 
+
+ #### Important attributes
+ 
+ * validcontestreport: The currently valid reported election data (votes).
+ 
+ * number_of_seats: Number of seats (mandates) to be distributed in the election.
+ 
+ #### Important methods
+ 
+ perform_settlement(): Calculates election result based on the current validcontestreport.
+
+### Contestreport
+
+Represents reported election date (votes).
+
+#### Important attributes
+
+votetotals: Dictionary in format {party: votetotal (listestemmetall)}.
+
+### Settlement
+
+Represents and enables calculation of election result (distribution of seats). 
+
+#### Important attributes
+
+* votetotals
+
+* number_of_seats
+
+* awardedseats_total
+
+* awardedseats
+
+* first_divisor
+
+#### Important methods
+
+distributeseats
+
+### Candidateseat
+
+Represents an awarded seat/mandate.
+
+#### Important attributes
+
+* seatwinner
+* winning_quotient
+
+## testing_objects.py
+
+Test code for automatic testing (unit tests) of the classes/methods in electionclasses.py.
+
 
 ## Excel spreadsheets: 
 Calculations and manually determined vote results (seat distributions) for a couple of local elections.
