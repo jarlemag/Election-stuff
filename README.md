@@ -213,15 +213,15 @@ Represents a local election, for example "Kommunevalget i Drammen".
  
  #### Important methods
  
- perform_settlement(): Calculates election result based on the current validcontestreport.
+ * perform_settlement(): Calculates election result based on the current validcontestreport.
 
 ### Contestreport
 
-Represents reported election date (votes).
+Represents reported election data (votes).
 
 #### Important attributes
 
-votetotals: Dictionary in format {party: votetotal (listestemmetall)}.
+* votetotals: Dictionary in format {party: votetotal (listestemmetall)}.
 
 ### Settlement
 
@@ -241,7 +241,7 @@ Represents and enables calculation of election result (distribution of seats).
 
 #### Important methods
 
-distributeseats
+* distributeseats
 
 ### Candidateseat
 
@@ -255,7 +255,6 @@ Represents an awarded seat/mandate.
 ## testing_objects.py
 
 Test code for automatic testing (unit tests) of the classes/methods in electionclasses.py.
-
 
 ## Excel spreadsheets: 
 Calculations and manually determined vote results (seat distributions) for a couple of local elections.
