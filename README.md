@@ -163,6 +163,26 @@ Mandatory arguments:
 
 Returns: [is_identical1,is_identical2]
 
+
+### personalvotesimpact()
+
+Syntax: 
+```
+personalvotesimpact(data_dictionary,data_dictionary_key)
+
+#### Input:
+
+As for distribute_seats_wrapper(), but limited to data_dictionary and data_dictionary_key.
+
+Data_dictionary must contain data for "slengere".
+
+
+#### Output:
+
+
+Returns TRUE if the election result is NOT changed by deleting personal votes (slengere).
+
+
 ## testing.py
 
 Test code for automatic testing (unit tests).
@@ -178,5 +198,4 @@ coverage html
 Calculations and manually determined vote results (seat distributions) for a couple of local elections.
 
 # TODO:
-* Add function for checking whether personal votes had impact on election result
 * Create Ipython/Jupyter notebook for easier/interactive use.
