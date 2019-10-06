@@ -86,7 +86,7 @@
 	"numberOfSeats": 23,
 	 "contestDescription": "gaustad"},
  "Evenes":
-	 {"voteTotals": 
+{	"voteTotals": 
 		{"Evenes tverrpolitiske liste": 3824,
 		 "Fremskrittspartiet": 518,
 		 "Senterpartiet": 2481,
@@ -94,7 +94,29 @@
 		"Arbeiderpartiet": 3654,
 		 "SV": 523},
 	 "numberOfSeats": 17,
-	 "contestDescription": "evenes"},
+	 "contestDescription": "evenes",
+	"slengere":
+		{
+		"Evenes tverrpolitiske liste":
+			{"mottatt":13,
+			"avgitt":14},
+		"Fremskrittspartiet":
+			{"mottatt":27,
+			"avgitt":2},
+		"Senterpartiet":
+			{"mottatt":64,
+			"avgitt":65},
+		"H\u00f8yre":
+			{"mottatt":34,
+			"avgitt":35},
+		"Arbeiderpartiet":
+			{"mottatt":45,
+			"avgitt":97},
+		"SV":
+			{"mottatt":47,
+			"avgitt":17}
+		}
+},
  "Gjesdal": 
 	{"voteTotals":
 		 {"R\u00f8dt": 1891,
