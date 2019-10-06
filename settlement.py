@@ -383,8 +383,9 @@ def comparecounts(data_dictionary,data_dictionary_key,silent = True):
     #leastvotechange(votes_sum_prelim,number_of_seats)
     return [is_identical1,is_identical2]
 
-def personalvotesimpact(data_dictionary,data_dictionary_key):
-
+def personalvotesimpact(data_dictionary,data_dictionary_key,silent = True):
+    
+    silent_out = silent
     #Given "votetotals" including slengere, and "slengere":
     sub_dictionary = data_dictionary[data_dictionary_key]
     votetotals = sub_dictionary["voteTotals"].copy()
@@ -400,12 +401,10 @@ def personalvotesimpact(data_dictionary,data_dictionary_key):
     adjustments_inverse = {key: -1*value for (key,value) in adjustments.items()}
     #print('adjustments inverse:',adjustments_inverse)
 
-    result_with_personal_votes = distribute_seats_wrapper(data_dictionary,data_dictionary_key)
-    result_without_personal_votes = distribute_seats_wrapper(data_dictionary,data_dictionary_key,adjustments = adjustments_inverse)
+    result_with_personal_votes = distribute_seats_wrapper(data_dictionary,data_dictionary_key,silent = silent_out)
+    result_without_personal_votes = distribute_seats_wrapper(data_dictionary,data_dictionary_key,adjustments = adjustments_inverse, silent = silent_out)
 
     
     return compareresults(result_with_personal_votes,result_without_personal_votes)
 
 
-data_dict = json.load(open('data.json'))
-personal_votes_impact_evenes = personalvotesimpact(data_dict,"Evenes")

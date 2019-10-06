@@ -121,8 +121,10 @@ class TestCompareCounts(unittest.TestCase):
 
 class TestPersonalVotesImpact(unittest.TestCase):
 
-    def test_personal_votes_impact(self):
+    def test_personal_votes_impact_evenes(self):
+        personal_votes_impact_evenes = settlement.personalvotesimpact(data_dict,"Evenes")
         pass
+        self.assertEqual(personal_votes_impact_evenes,True)
 
 if (__name__ == '__main__'):
     unittest.main()
