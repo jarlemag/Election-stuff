@@ -382,3 +382,30 @@ def comparecounts(data_dictionary,data_dictionary_key,silent = True):
     leastvotechange(votes_sum_prelim,number_of_seats,count_type = "stemmer")
     #leastvotechange(votes_sum_prelim,number_of_seats)
     return [is_identical1,is_identical2]
+
+def personalvotesimpact(data_dictionary,data_dictionary_key):
+
+    #Given "votetotals" including slengere, and "slengere":
+    sub_dictionary = data_dictionary[data_dictionary_key]
+    votetotals = sub_dictionary["voteTotals"].copy()
+    slengere = sub_dictionary["slengere"].copy()
+    adjustments = {}
+    for parti in slengere:
+        netto_slengere = slengere[parti]["mottatt"] - slengere[parti]["avgitt"]
+        #print("Netto slengere for parti",parti,":",netto_slengere)
+        adjustments[parti] = netto_slengere
+        #netto_slengere =
+    #print('Adjustments:',adjustments)
+    #"adjustments_inverse" is the adjustments that must be applied to the vote total with personal votes taken into account, in order to arrive at the vote total when personal votes are not taken into account
+    adjustments_inverse = {key: -1*value for (key,value) in adjustments.items()}
+    #print('adjustments inverse:',adjustments_inverse)
+
+    result_with_personal_votes = distribute_seats_wrapper(data_dictionary,data_dictionary_key)
+    result_without_personal_votes = distribute_seats_wrapper(data_dictionary,data_dictionary_key,adjustments = adjustments_inverse)
+
+    
+    return compareresults(result_with_personal_votes,result_without_personal_votes)
+
+
+data_dict = json.load(open('data.json'))
+personal_votes_impact_evenes = personalvotesimpact(data_dict,"Evenes")
