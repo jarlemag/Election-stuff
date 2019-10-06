@@ -382,3 +382,33 @@ def comparecounts(data_dictionary,data_dictionary_key,silent = True):
     leastvotechange(votes_sum_prelim,number_of_seats,count_type = "stemmer")
     #leastvotechange(votes_sum_prelim,number_of_seats)
     return [is_identical1,is_identical2]
+
+def personalvotesimpact(data_dictionary,data_dictionary_key,silent = True):
+    #There are different questions that can be asked here. For example:
+    #1:What would be the result if *all* personal votes were ignored in (deleted from the result of) this election. I.e, how important were personal votes for the election overall.
+    #2: Would would be the result if the personal votes for *one* party were ignored in (deleted from the result of) this election. I.e, how important were personal votes for *this party*?
+    #This function checks the answer to question #1. Checking question 2 should probably go in a different function.
+    
+    silent_out = silent
+    #Given "votetotals" including slengere, and "slengere":
+    sub_dictionary = data_dictionary[data_dictionary_key]
+    votetotals = sub_dictionary["voteTotals"].copy()
+    slengere = sub_dictionary["slengere"].copy()
+    adjustments = {}
+    for parti in slengere:
+        netto_slengere = slengere[parti]["mottatt"] - slengere[parti]["avgitt"]
+        #print("Netto slengere for parti",parti,":",netto_slengere)
+        adjustments[parti] = netto_slengere
+        #netto_slengere =
+    #print('Adjustments:',adjustments)
+    #"adjustments_inverse" is the adjustments that must be applied to the vote total with personal votes taken into account, in order to arrive at the vote total when personal votes are not taken into account
+    adjustments_inverse = {key: -1*value for (key,value) in adjustments.items()}
+    #print('adjustments inverse:',adjustments_inverse)
+
+    result_with_personal_votes = distribute_seats_wrapper(data_dictionary,data_dictionary_key,silent = silent_out)
+    result_without_personal_votes = distribute_seats_wrapper(data_dictionary,data_dictionary_key,adjustments = adjustments_inverse, silent = silent_out)
+
+    
+    return compareresults(result_with_personal_votes,result_without_personal_votes)
+
+
