@@ -169,6 +169,7 @@ Returns: [is_identical1,is_identical2]
 Syntax: 
 ```
 personalvotesimpact(data_dictionary,data_dictionary_key)
+```
 
 #### Input:
 
